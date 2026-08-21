@@ -1,18 +1,14 @@
-IINTEGRA ELECTRIC — MOBILE PORTADA V2
+Esta versión ya usa el logo definitivo con la I mayúscula.
 
-Reemplaza en GitHub únicamente:
-index.html
-styles.css
-script.js
+Reemplaza en tu repo:
+- assets/iintegra-electric-logo.jpg
+- assets/apple-touch-icon.png
+- assets/favicon-48.png
+- assets/favicon-96.png
+- assets/favicon-192.png
+- assets/favicon-512.png
+- favicon.ico
+- site.webmanifest
 
-NO cambies assets/ ni images/.
-
-Esta versión:
-- conserva escritorio;
-- usa título en 3 líneas controladas;
-- reduce el título para iPhone;
-- reorganiza header + buscador en móvil;
-- elimina overflow horizontal;
-- hace carrusel 100% responsive;
-- evita que el contador y textos se corten;
-- conserva botones grandes como en la referencia de Mantenimiento Román.
+Opcional:
+- assets/iintegra-emblem.png
