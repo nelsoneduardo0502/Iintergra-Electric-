@@ -1,0 +1,5 @@
+Se reemplazó la identidad visual anterior por Iintegra Electric.
+- Logo completo nuevo en navbar, sección Nosotros y footer.
+- Favicon nuevo creado a partir del isotipo L + rayo.
+- Se actualizaron título/metadatos y referencias visibles de la marca.
+- Se conservaron fondo, estructura, animaciones y demás contenido del sitio.

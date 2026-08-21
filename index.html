@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iintegra Electric | Tableros Eléctricos e Ingeniería</title>
+  <meta name="description" content="Diseño, ingeniería y armado de tableros eléctricos de baja tensión, control de motores, distribución, medición y soporte técnico especializado." />
+  <meta name="theme-color" content="#080A0F" />
+
+  <meta property="og:title" content="Iintegra Electric | Ingeniería en Baja Tensión" />
+  <meta property="og:description" content="Tableros eléctricos, control, distribución, medición e ingeniería especializada." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/iintegra-electric-logo.jpg" />
+
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png" />
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+
+  <link rel="stylesheet" href="styles.css?v=100" />
+</head>
+
+<body>
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+  <div class="tech-grid" aria-hidden="true"></div>
+  <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
+
+  <!-- Marco técnico: se oculta automáticamente en móvil -->
+  <div class="tech-frame" aria-hidden="true">
+    <span class="frame-label frame-top">SECTOR / BAJA TENSIÓN</span>
+    <span class="frame-label frame-bottom-left">HOME / IINTEGRA</span>
+    <span class="frame-label frame-bottom-right">© <span id="frame-year">2026</span></span>
+  </div>
+
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a class="brand" href="#inicio" aria-label="Iintegra Electric">
+        <img src="assets/iintegra-electric-logo.jpg" alt="" />
+        <span>IINTEGRA <b>ELECTRIC</b></span>
+      </a>
+
+      <div class="search-wrap" id="search-wrap">
+        <label class="search-box">
+          <input id="site-search" type="search" placeholder="BUSCAR TABLERO, CCM, MEDIDORES..." autocomplete="off" />
+          <span class="search-symbol" aria-hidden="true"></span>
+        </label>
+        <div class="search-results" id="search-results" aria-live="polite"></div>
+      </div>
+
+      <nav class="nav-links" id="nav-links" aria-label="Navegación principal">
+        <a href="#inicio" class="active">INICIO</a>
+        <a href="#nosotros">NOSOTROS</a>
+        <a href="#servicios">SERVICIOS</a>
+        <a href="#soluciones">TABLEROS</a>
+        <a href="#proceso">PROCESO</a>
+        <button class="nav-catalog" id="open-catalog" type="button">CATÁLOGO</button>
+        <a class="nav-quote" href="#cotizacion">COTIZAR</a>
+      </nav>
+
+      <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="inicio">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="energy-trace" aria-hidden="true"></div>
+
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="hero-eyebrow hero-seq">● INGENIERÍA / BAJA TENSIÓN / CONTINUIDAD</div>
+          <h1 class="hero-seq">CONTINUIDAD <span>OPERATIVA</span> GARANTIZADA.</h1>
+          <p class="hero-seq">
+            Diseño, ingeniería y armado de tableros eléctricos de baja tensión
+            para proyectos que exigen seguridad, confiabilidad y soporte técnico.
+          </p>
+
+          <div class="hero-actions hero-seq">
+            <a class="btn btn-primary" href="#cotizacion">SOLICITAR COTIZACIÓN <span>→</span></a>
+            <a class="btn btn-outline" href="#soluciones">VER TABLEROS <span>↓</span></a>
+          </div>
+
+          <div class="hero-tags hero-seq" aria-label="Áreas clave">
+            <span>BAJA TENSIÓN</span>
+            <span>SEGURIDAD</span>
+            <span>SOPORTE</span>
+          </div>
+        </div>
+
+        <div class="hero-gallery hero-seq">
+          <div class="gallery-top">
+            <span>REFERENCIAS VISUALES</span>
+            <span id="carousel-count">01 / 03</span>
+          </div>
+
+          <div class="carousel" id="carousel">
+            <figure class="carousel-slide active">
+              <img src="images/control-wiring.jpg" alt="Tablero industrial de control y automatización" />
+              <figcaption>CONTROL Y AUTOMATIZACIÓN</figcaption>
+            </figure>
+            <figure class="carousel-slide">
+              <img src="images/panel-modules.jpg" alt="Módulos y componentes de un panel de control" />
+              <figcaption>INTEGRACIÓN DE COMPONENTES</figcaption>
+            </figure>
+            <figure class="carousel-slide">
+              <img src="images/testing.jpg" alt="Pruebas eléctricas en un tablero industrial" />
+              <figcaption>PRUEBAS Y SOPORTE TÉCNICO</figcaption>
+            </figure>
+
+            <button class="carousel-arrow prev" id="carousel-prev" type="button" aria-label="Anterior">‹</button>
+            <button class="carousel-arrow next" id="carousel-next" type="button" aria-label="Siguiente">›</button>
+
+            <div class="carousel-dots" id="carousel-dots">
+              <button class="active" aria-label="Imagen 1"></button>
+              <button aria-label="Imagen 2"></button>
+              <button aria-label="Imagen 3"></button>
+            </div>
+
+            <div class="carousel-progress"><span id="carousel-progress"></span></div>
+          </div>
+
+          <p class="demo-note">IMÁGENES DE REFERENCIA · Se sustituyen por proyectos reales de Iintegra Electric.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- METRICS -->
+    <section class="metrics">
+      <div class="container metrics-grid">
+        <article class="metric scroll-reveal"><strong class="counter" data-target="100" data-prefix="+">0</strong><span>TABLEROS ARMADOS</span></article>
+        <article class="metric scroll-reveal"><strong class="counter" data-target="99.9" data-decimals="1" data-suffix="%">0</strong><span>CONFIABILIDAD</span></article>
+        <article class="metric scroll-reveal"><strong class="counter" data-target="7" data-prefix="+">0</strong><span>AÑOS DE EXPERIENCIA</span></article>
+        <article class="metric scroll-reveal"><strong class="counter" data-target="100" data-suffix="%">0</strong><span>CUMPLIMIENTO NORMATIVO</span></article>
+      </div>
+    </section>
+
+    <!-- MISION / VISION -->
+    <section class="section" id="nosotros">
+      <div class="container">
+        <div class="section-heading scroll-reveal">
+          <div>
+            <span class="kicker">// QUIÉNES SOMOS · IINTEGRA</span>
+            <h2>MISIÓN Y VISIÓN</h2>
+            <div class="yellow-line"></div>
+            <p>Ingeniería eléctrica orientada a soluciones seguras, confiables y diseñadas para mantener la continuidad operativa.</p>
+          </div>
+
+          <div class="section-mark" aria-hidden="true">
+            <img src="assets/iintegra-electric-logo.jpg" alt="" />
+          </div>
+        </div>
+
+        <div class="about-grid">
+          <article class="about-card mission scroll-reveal">
+            <div class="card-head">
+              <span class="card-number">01 / PROPÓSITO ACTUAL</span>
+              <span class="card-icon" aria-hidden="true">◆</span>
+            </div>
+            <div class="card-label">NUESTRA MISIÓN</div>
+            <h3>INGENIERÍA QUE RESUELVE Y MANTIENE TU OPERACIÓN.</h3>
+            <p>
+              Proveer soluciones integrales en baja tensión a través del diseño y armado
+              de tableros eléctricos, la comercialización de material eléctrico de marcas
+              líderes y el soporte técnico especializado. Nuestro objetivo es aportar
+              seguridad, confiabilidad y continuidad operativa a cada proyecto, ayudando
+              a nuestros clientes a optimizar sus instalaciones y tomar mejores decisiones técnicas.
+            </p>
+            <div class="chips"><span>SEGURIDAD</span><span>CONFIABILIDAD</span><span>SOPORTE</span></div>
+          </article>
+
+          <article class="about-card vision scroll-reveal">
+            <div class="card-head">
+              <span class="card-number">02 / DIRECCIÓN FUTURA</span>
+              <span class="card-icon cyan" aria-hidden="true">◇</span>
+            </div>
+            <div class="card-label cyan-text">NUESTRA VISIÓN</div>
+            <h3>SER EL REFERENTE REGIONAL EN SOLUCIONES DE BAJA TENSIÓN.</h3>
+            <p>
+              Ser la empresa líder y referente regional en el diseño, ingeniería y armado
+              de tableros eléctricos de baja tensión, reconocida por entregar soluciones
+              innovadoras, seguras y de máxima confiabilidad que contribuyan a garantizar
+              la continuidad operativa de nuestros clientes. Buscamos crecer mediante
+              alianzas con tecnologías de clase mundial y un compromiso permanente con
+              la calidad, la mejora continua y la sustentabilidad.
+            </p>
+            <div class="chips cyan-chips"><span>INNOVACIÓN</span><span>CALIDAD</span><span>SUSTENTABILIDAD</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section section-alt" id="servicios">
+      <div class="container">
+        <div class="section-heading simple scroll-reveal">
+          <div>
+            <span class="kicker">// CAPACIDADES</span>
+            <h2>NUESTROS SERVICIOS</h2>
+            <div class="yellow-line"></div>
+          </div>
+        </div>
+
+        <div class="services-grid">
+          <article class="service-card scroll-reveal">
+            <div class="service-image"><img src="images/panel-modules.jpg" alt="Ingeniería y diseño de tableros" loading="lazy" /></div>
+            <div class="service-copy"><span>01</span><h3>INGENIERÍA Y DISEÑO</h3><p>Diagramas, selección de componentes, ingeniería de detalle y documentación técnica para soluciones de baja tensión.</p></div>
+          </article>
+
+          <article class="service-card scroll-reveal">
+            <div class="service-image"><img src="images/control-wiring.jpg" alt="Armado de tableros eléctricos" loading="lazy" /></div>
+            <div class="service-copy"><span>02</span><h3>ARMADO DE TABLEROS</h3><p>Integración, cableado y ensamble con enfoque en orden, seguridad, confiabilidad y facilidad de mantenimiento.</p></div>
+          </article>
+
+          <article class="service-card scroll-reveal">
+            <div class="service-image"><img src="images/breakers.jpg" alt="Distribución eléctrica y protecciones" loading="lazy" /></div>
+            <div class="service-copy"><span>03</span><h3>CONTROL Y DISTRIBUCIÓN</h3><p>Soluciones para distribución de energía, circuitos, protecciones y control de cargas y motores.</p></div>
+          </article>
+
+          <article class="service-card scroll-reveal">
+            <div class="service-image"><img src="images/testing.jpg" alt="Soporte técnico eléctrico" loading="lazy" /></div>
+            <div class="service-copy"><span>04</span><h3>SOPORTE TÉCNICO</h3><p>Acompañamiento especializado para selección, revisión, puesta en marcha y seguimiento de requerimientos.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOLUTIONS -->
+    <section class="section" id="soluciones">
+      <div class="container">
+        <div class="section-heading simple scroll-reveal">
+          <div>
+            <span class="kicker">// CONOCE CADA SOLUCIÓN</span>
+            <h2>¿QUÉ HACE CADA TABLERO?</h2>
+            <div class="yellow-line"></div>
+            <p>Explicaciones breves para entender rápidamente qué solución puede adaptarse a tu proyecto.</p>
+          </div>
+        </div>
+
+        <div class="solutions-grid" id="solutions-grid">
+          <article class="solution-card scroll-reveal" data-id="distribucion">
+            <img src="images/breakers.jpg" alt="Tablero de distribución" loading="lazy" />
+            <div><span>DISTRIBUCIÓN</span><h3>TABLERO DE DISTRIBUCIÓN</h3><p>Recibe la energía y la reparte hacia diferentes circuitos o equipos, incorporando elementos de protección y organización eléctrica.</p><button class="text-action quote-solution" data-solution="Tablero de distribución">COTIZAR ESTE TABLERO →</button></div>
+          </article>
+
+          <article class="solution-card scroll-reveal" data-id="ccm">
+            <img src="images/control-wiring.jpg" alt="Centro de control de motores" loading="lazy" />
+            <div><span>CONTROL INDUSTRIAL</span><h3>CENTRO DE CONTROL DE MOTORES / CCM</h3><p>Centraliza el arranque, protección y control de varios motores eléctricos para facilitar la operación y el mantenimiento industrial.</p><button class="text-action quote-solution" data-solution="Centro de Control de Motores CCM">COTIZAR ESTE TABLERO →</button></div>
+          </article>
+
+          <article class="solution-card scroll-reveal" data-id="medidores">
+            <img src="images/panel-modules.jpg" alt="Concentración de medidores" loading="lazy" />
+            <div><span>MEDICIÓN</span><h3>CONCENTRACIÓN DE MEDIDORES</h3><p>Reúne varios puntos de medición en un conjunto organizado para facilitar la lectura, distribución y administración de diferentes servicios eléctricos.</p><button class="text-action quote-solution" data-solution="Concentración de medidores">COTIZAR ESTA SOLUCIÓN →</button></div>
+          </article>
+
+          <article class="solution-card scroll-reveal" data-id="alumbrado">
+            <img src="images/hero-panel.jpg" alt="Tablero de alumbrado" loading="lazy" />
+            <div><span>ALUMBRADO</span><h3>TABLERO DE ALUMBRADO</h3><p>Distribuye y protege los circuitos de iluminación de una instalación, simplificando la operación, identificación y mantenimiento.</p><button class="text-action quote-solution" data-solution="Tablero de alumbrado">COTIZAR ESTE TABLERO →</button></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="section section-alt" id="proceso">
+      <div class="container">
+        <div class="section-heading simple scroll-reveal">
+          <div>
+            <span class="kicker">// METODOLOGÍA</span>
+            <h2>DE LA NECESIDAD A LA ENTREGA</h2>
+            <div class="yellow-line"></div>
+          </div>
+        </div>
+
+        <div class="process" id="process">
+          <div class="process-track"><span id="process-current"></span></div>
+          <article class="process-step scroll-reveal"><b>01</b><span class="process-dot"></span><h3>NECESIDAD</h3><p>Entendemos qué requiere la operación y cuáles son las restricciones del proyecto.</p></article>
+          <article class="process-step scroll-reveal"><b>02</b><span class="process-dot"></span><h3>ANÁLISIS</h3><p>Revisamos cargas, aplicación, espacio, seguridad y condiciones técnicas relevantes.</p></article>
+          <article class="process-step scroll-reveal"><b>03</b><span class="process-dot"></span><h3>DISEÑO</h3><p>Definimos arquitectura, componentes, distribución y documentación necesaria.</p></article>
+          <article class="process-step scroll-reveal"><b>04</b><span class="process-dot"></span><h3>FABRICACIÓN</h3><p>Integramos, cableamos, identificamos y verificamos el ensamble de manera ordenada.</p></article>
+          <article class="process-step scroll-reveal"><b>05</b><span class="process-dot"></span><h3>ENTREGA</h3><p>Validamos el proyecto y brindamos acompañamiento técnico para su implementación.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUOTE -->
+    <section class="quote-section" id="cotizacion">
+      <div class="container quote-grid">
+        <div class="quote-copy scroll-reveal">
+          <span class="kicker">// COTIZACIÓN GUIADA</span>
+          <h2>¿NO SABES QUÉ TABLERO NECESITAS?</h2>
+          <p>Responde unas preguntas y prepara tu solicitud técnica en menos de un minuto. Si ya sabes exactamente qué necesitas, también puedes escribir directamente.</p>
+          <div class="quote-actions">
+            <button class="btn btn-primary" id="open-wizard" type="button">INICIAR COTIZADOR <span>→</span></button>
+            <a class="btn btn-outline" target="_blank" rel="noopener" href="https://wa.me/523319773148?text=Hola%2C%20ya%20s%C3%A9%20qu%C3%A9%20necesito%20y%20quisiera%20solicitar%20una%20cotizaci%C3%B3n%20con%20Litegra%20Soluciones.">YA SÉ QUÉ NECESITO <span>↗</span></a>
+          </div>
+        </div>
+
+        <aside class="contact-panel scroll-reveal">
+          <span class="kicker">// CONTACTO DIRECTO</span>
+          <a href="https://wa.me/523319773148" target="_blank" rel="noopener"><span class="contact-icon">W</span><span><small>WHATSAPP</small><strong>+52 33 1977 3148</strong></span></a>
+          <a href="mailto:proyectos@litegrasoluciones.com"><span class="contact-icon">@</span><span><small>CORREO</small><strong>proyectos@litegrasoluciones.com</strong></span></a>
+          <div><span class="contact-icon">✓</span><span><small>ATENCIÓN</small><strong>Cotizaciones y asesoría vía WhatsApp</strong></span></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="assets/iintegra-electric-logo.jpg" alt="" />
+        <div><strong>IINTEGRA ELECTRIC</strong><p>Ingeniería eléctrica orientada a continuidad operativa.</p></div>
+      </div>
+
+      <div>
+        <h3>CONÓCENOS</h3>
+        <a href="#nosotros">Misión y visión</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#soluciones">Tableros</a>
+      </div>
+
+      <div>
+        <h3>CONTACTO</h3>
+        <a href="https://wa.me/523319773148" target="_blank" rel="noopener">+52 33 1977 3148</a>
+        <a href="mailto:proyectos@litegrasoluciones.com">proyectos@litegrasoluciones.com</a>
+      </div>
+
+      <div>
+        <h3>ATENCIÓN</h3>
+        <p>Cotizaciones y asesoría inicial por WhatsApp.</p>
+        <a class="footer-whatsapp" href="https://wa.me/523319773148" target="_blank" rel="noopener">ABRIR WHATSAPP →</a>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <span>© <span id="footer-year">2026</span> IINTEGRA ELECTRIC</span>
+      <span>BAJA TENSIÓN / INGENIERÍA / SOPORTE</span>
+    </div>
+  </footer>
+
+  <!-- CATALOG MODAL -->
+  <div class="modal" id="catalog-modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card">
+      <div class="modal-head">
+        <div><span class="kicker">// CATÁLOGO TÉCNICO</span><h2>SELECCIONA UNA SOLUCIÓN</h2></div>
+        <button class="modal-close" id="close-catalog" type="button" aria-label="Cerrar">×</button>
+      </div>
+      <div class="catalog-grid" id="catalog-grid"></div>
+    </div>
+  </div>
+
+  <!-- QUOTE WIZARD -->
+  <div class="modal" id="wizard-modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-wizard></div>
+    <div class="modal-card wizard-card">
+      <div class="modal-head">
+        <div><span class="kicker">// COTIZADOR INTELIGENTE</span><h2>CONFIGURA TU SOLICITUD</h2></div>
+        <button class="modal-close" id="close-wizard" type="button" aria-label="Cerrar">×</button>
+      </div>
+
+      <div class="wizard-progress"><span id="wizard-progress"></span></div>
+
+      <form id="wizard-form">
+        <section class="wizard-step active" data-step="1">
+          <h3>1. ¿QUÉ SOLUCIÓN BUSCAS?</h3>
+          <div class="wizard-options">
+            <button type="button" data-value="Tablero de distribución">DISTRIBUCIÓN</button>
+            <button type="button" data-value="Centro de Control de Motores CCM">CCM</button>
+            <button type="button" data-value="Concentración de medidores">MEDICIÓN</button>
+            <button type="button" data-value="Tablero de alumbrado">ALUMBRADO</button>
+            <button type="button" data-value="Necesito asesoría">NO ESTOY SEGURO</button>
+          </div>
+        </section>
+
+        <section class="wizard-step" data-step="2">
+          <h3>2. DATOS GENERALES</h3>
+          <div class="wizard-fields">
+            <input id="wizard-voltage" type="text" placeholder="TENSIÓN (EJ. 220 / 440 V)" />
+            <input id="wizard-current" type="text" placeholder="CORRIENTE / CAPACIDAD (SI LA CONOCES)" />
+            <input id="wizard-quantity" type="number" min="1" value="1" placeholder="CANTIDAD" />
+          </div>
+        </section>
+
+        <section class="wizard-step" data-step="3">
+          <h3>3. CUÉNTANOS SOBRE EL PROYECTO</h3>
+          <textarea id="wizard-details" rows="5" placeholder="Aplicación, cargas, espacio, fecha, requerimientos especiales..."></textarea>
+          <p class="wizard-help">Si tienes un plano, diagrama o fotografía, podrás adjuntarlo manualmente al abrir WhatsApp.</p>
+        </section>
+
+        <section class="wizard-step" data-step="4">
+          <h3>4. DATOS DE CONTACTO</h3>
+          <div class="wizard-fields">
+            <input id="wizard-name" type="text" placeholder="NOMBRE / EMPRESA" required />
+            <input id="wizard-email" type="email" placeholder="CORREO (OPCIONAL)" />
+          </div>
+          <div class="wizard-summary" id="wizard-summary"></div>
+        </section>
+
+        <div class="wizard-controls">
+          <button class="btn btn-outline" id="wizard-prev" type="button">ANTERIOR</button>
+          <button class="btn btn-primary" id="wizard-next" type="button">SIGUIENTE</button>
+          <button class="btn btn-primary hidden" id="wizard-submit" type="submit">ABRIR WHATSAPP ↗</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js?v=100"></script>
+</body>
+</html>

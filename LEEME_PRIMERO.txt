@@ -1,0 +1,25 @@
+LITEGRA SOLUCIONES — CARPETA COMPLETA LISTA
+
+IMPORTANTE:
+NO copies estos archivos encima de la carpeta vieja.
+
+1. Descomprime esta carpeta completa.
+2. Abre ESTA carpeta nueva en VS Code.
+3. Abre index.html.
+4. Inicia Live Preview desde ESTE index.html.
+5. La página ya contiene:
+   - index.html
+   - styles.css
+   - script.js
+   - favicon.ico
+   - site.webmanifest
+   - carpeta assets
+   - carpeta images
+
+No necesita la carpeta assets vieja ni los CSS/JS anteriores.
+
+WhatsApp configurado:
++52 33 1977 3148
+
+Para GitHub Pages:
+sube TODO el contenido de esta carpeta manteniendo exactamente la misma estructura.
