@@ -354,7 +354,7 @@ function initWizard(){
     if (!name){ alert("Agrega tu nombre o empresa."); return; }
 
     const message = [
-      "Hola, deseo solicitar una cotización con Litegra Soluciones.",
+      "Hola, deseo solicitar una cotización con Iintegra Electric.",
       "",
       `Nombre / Empresa: ${name}`,
       `Correo: ${$("#wizard-email").value.trim() || "No indicado"}`,

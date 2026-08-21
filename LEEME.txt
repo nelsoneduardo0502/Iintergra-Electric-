@@ -1,0 +1,17 @@
+IINTEGRA ELECTRIC — MOBILE RESPONSIVE FIX
+
+Reemplaza en GitHub únicamente:
+- index.html
+- styles.css
+- script.js
+
+No borres ni vuelvas a subir las carpetas assets/ e images/.
+
+Cambios:
+- El título del Hero ya no se corta en iPhone.
+- Se evita overflow horizontal en Hero y carrusel.
+- El carrusel se adapta al ancho real del teléfono.
+- La descripción y la nota del carrusel pueden envolver texto.
+- El buscador ocupa el ancho correcto en teléfonos muy pequeños.
+- Escritorio no cambia.
+- Se corrigió en el mensaje del cotizador el nombre a Iintegra Electric.
