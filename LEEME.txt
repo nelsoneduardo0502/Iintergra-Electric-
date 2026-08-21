@@ -1,14 +1,15 @@
-Esta versión ya usa el logo definitivo con la I mayúscula.
+IINTEGRA FIX v103
 
-Reemplaza en tu repo:
-- assets/iintegra-electric-logo.jpg
-- assets/apple-touch-icon.png
-- assets/favicon-48.png
-- assets/favicon-96.png
-- assets/favicon-192.png
-- assets/favicon-512.png
-- favicon.ico
+Este paquete corrige DOS cosas:
+1) El Hero vuelve a: CONTINUIDAD blanca / OPERATIVA amarilla / GARANTIZADA blanca.
+2) El logo usa un nombre NUEVO para evitar que Safari/GitHub siga mostrando la imagen vieja en caché.
+
+En GitHub reemplaza/sube:
+- index.html
+- styles.css
+- script.js
 - site.webmanifest
+- favicon.ico
+- carpeta assets completa de este ZIP
 
-Opcional:
-- assets/iintegra-emblem.png
+IMPORTANTE: no hace falta tocar la carpeta images/.

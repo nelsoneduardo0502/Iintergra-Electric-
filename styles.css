@@ -523,3 +523,20 @@ img{display:block;max-width:100%}
     font-size:.66rem;
   }
 }
+
+
+/* =========================================================
+   FIX v103 — COLORES HERO + LOGO DEFINITIVO
+========================================================= */
+.hero-copy h1 .hero-title-line,
+.hero-title .hero-title-line {
+  color: var(--white) !important;
+}
+
+.hero-copy h1 .hero-title-line.accent,
+.hero-title .hero-title-line.accent {
+  color: var(--yellow) !important;
+}
+
+/* Mantener exactamente la jerarquía original:
+   CONTINUIDAD = blanco / OPERATIVA = amarillo / GARANTIZADA = blanco */
