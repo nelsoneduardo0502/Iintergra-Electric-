@@ -26,6 +26,18 @@ const catalog = [
     name: "TABLERO DE ALUMBRADO",
     description: "Distribuye y protege circuitos de iluminación para simplificar operación e identificación.",
     keywords: ["alumbrado", "iluminacion", "circuitos", "tablero"]
+  },
+  {
+    id: "automatizacion",
+    name: "CONTROL Y AUTOMATIZACIÓN",
+    description: "Integra elementos de control, PLC, relevadores y señalización para automatización industrial.",
+    keywords: ["automatizacion", "plc", "control", "relevadores", "industrial"]
+  },
+  {
+    id: "pruebas",
+    name: "PRUEBAS Y DIAGNÓSTICO",
+    description: "Validación eléctrica, continuidad, aislamiento y diagnóstico funcional de tableros.",
+    keywords: ["pruebas", "diagnostico", "aislamiento", "continuidad", "soporte"]
   }
 ];
 
@@ -45,6 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initCursor();
   initWizard();
   initSolutionButtons();
+  initProjectsCarousel();
+  initImageLightbox();
 });
 
 function initYear(){
@@ -81,11 +95,47 @@ function initNavbar(){
 function initMenu(){
   const button = $("#menu-toggle");
   const nav = $("#nav-links");
+  const catalogButton = $(".nav-catalog", nav);
+
+  if (!button || !nav) return;
+
+  const closeMenu = () => {
+    nav.classList.remove("open");
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-label", "Abrir menú");
+    document.body.classList.remove("menu-open");
+  };
+
+  const openMenu = () => {
+    nav.classList.add("open");
+    button.setAttribute("aria-expanded", "true");
+    button.setAttribute("aria-label", "Cerrar menú");
+    document.body.classList.add("menu-open");
+  };
+
   button.addEventListener("click", () => {
-    const open = nav.classList.toggle("open");
-    button.setAttribute("aria-expanded", String(open));
+    nav.classList.contains("open") ? closeMenu() : openMenu();
   });
-  $$(".nav-links a").forEach(link => link.addEventListener("click", () => nav.classList.remove("open")));
+
+  $$(".nav-links a").forEach(link => {
+    link.addEventListener("click", closeMenu);
+  });
+
+  if (catalogButton) {
+    catalogButton.addEventListener("click", closeMenu);
+  }
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && nav.classList.contains("open")) {
+      closeMenu();
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 900 && nav.classList.contains("open")) {
+      closeMenu();
+    }
+  });
 }
 
 function normalize(text=""){
@@ -181,37 +231,106 @@ function initCarousel(){
   const prev = $("#carousel-prev");
   const next = $("#carousel-next");
   const carousel = $("#carousel");
+
+  if (!slides.length || !carousel) return;
+
   let current = 0;
-  let timer;
+  let timer = null;
+  let startedAt = 0;
+  let remaining = 4000;
   const duration = 4000;
+  let paused = false;
+
+  const setProgress = (ms, fromFraction = 0) => {
+    const from = Math.max(0, Math.min(1, fromFraction));
+    progress.style.animation = "none";
+    progress.style.width = `${from * 100}%`;
+    progress.offsetHeight;
+
+    const styleName = `carouselProgress-${Math.round(from * 1000)}`;
+    const style = document.createElement("style");
+    style.dataset.carouselTemp = "true";
+    style.textContent = `@keyframes ${styleName}{from{width:${from * 100}%}to{width:100%}}`;
+    document.head.appendChild(style);
+
+    progress.style.animation = `${styleName} ${ms}ms linear forwards`;
+
+    setTimeout(() => {
+      style.remove();
+    }, ms + 100);
+  };
 
   const show = index => {
     current = (index + slides.length) % slides.length;
     slides.forEach((slide,i) => slide.classList.toggle("active", i === current));
     dots.forEach((dot,i) => dot.classList.toggle("active", i === current));
     count.textContent = `${String(current+1).padStart(2,"0")} / ${String(slides.length).padStart(2,"0")}`;
+  };
+
+  const schedule = (ms = duration, fraction = 0) => {
+    clearTimeout(timer);
+    remaining = ms;
+    startedAt = performance.now();
+    setProgress(ms, fraction);
+
+    timer = setTimeout(() => {
+      show(current + 1);
+      schedule(duration, 0);
+    }, ms);
+  };
+
+  const pause = () => {
+    if (paused) return;
+    paused = true;
+    clearTimeout(timer);
+
+    const elapsed = performance.now() - startedAt;
+    remaining = Math.max(0, remaining - elapsed);
+
+    const computed = getComputedStyle(progress).width;
     progress.style.animation = "none";
-    progress.offsetHeight;
-    progress.style.animation = `carouselProgress ${duration}ms linear`;
+    progress.style.width = computed;
   };
 
-  const start = () => {
-    clearInterval(timer);
-    timer = setInterval(() => show(current+1), duration);
-    show(current);
+  const resume = () => {
+    if (!paused) return;
+    paused = false;
+
+    const fraction = 1 - (remaining / duration);
+    schedule(Math.max(remaining, 60), fraction);
   };
 
-  const restart = index => { show(index); start(); };
-  prev.addEventListener("click", () => restart(current-1));
-  next.addEventListener("click", () => restart(current+1));
-  dots.forEach((dot,i) => dot.addEventListener("click", () => restart(i)));
-  carousel.addEventListener("mouseenter", () => clearInterval(timer));
-  carousel.addEventListener("mouseleave", start);
+  const jump = index => {
+    paused = false;
+    show(index);
+    schedule(duration, 0);
+  };
 
-  const style = document.createElement("style");
-  style.textContent = `@keyframes carouselProgress{from{width:0}to{width:100%}}`;
-  document.head.appendChild(style);
-  start();
+  prev?.addEventListener("click", event => {
+    event.stopPropagation();
+    jump(current - 1);
+  });
+
+  next?.addEventListener("click", event => {
+    event.stopPropagation();
+    jump(current + 1);
+  });
+
+  dots.forEach((dot,i) => dot.addEventListener("click", event => {
+    event.stopPropagation();
+    jump(i);
+  }));
+
+  carousel.addEventListener("mouseenter", pause);
+  carousel.addEventListener("mouseleave", resume);
+
+  // En móvil no hay hover; visibilidad de pestaña sí pausa de forma correcta.
+  document.addEventListener("visibilitychange", () => {
+    document.hidden ? pause() : resume();
+  });
+
+  show(0);
+  schedule(duration, 0);
 }
 
 function initCounters(){
@@ -387,4 +506,172 @@ function setWizardStep(step){
       Cantidad: ${$("#wizard-quantity").value || "1"}
     `;
   }
+}
+
+
+function initProjectsCarousel(){
+  const slides = $$(".project-slide");
+  const dots = $$("#projects-dots button");
+  const prev = $("#projects-prev");
+  const next = $("#projects-next");
+
+  if (!slides.length || !prev || !next) return;
+
+  let current = 0;
+  let timer;
+  const duration = 6500;
+
+  const show = index => {
+    current = (index + slides.length) % slides.length;
+    slides.forEach((slide, i) => slide.classList.toggle("active", i === current));
+    dots.forEach((dot, i) => dot.classList.toggle("active", i === current));
+  };
+
+  const start = () => {
+    clearInterval(timer);
+    timer = setInterval(() => show(current + 1), duration);
+  };
+
+  prev.addEventListener("click", () => {
+    show(current - 1);
+    start();
+  });
+
+  next.addEventListener("click", () => {
+    show(current + 1);
+    start();
+  });
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener("click", () => {
+      show(index);
+      start();
+    });
+  });
+
+  const carousel = $("#projects-carousel");
+  carousel?.addEventListener("mouseenter", () => clearInterval(timer));
+  carousel?.addEventListener("mouseleave", start);
+
+  show(0);
+  start();
+}
+
+
+function initImageLightbox(){
+  const lightbox = $("#image-lightbox");
+  const image = $("#image-lightbox-img");
+  const caption = $("#image-lightbox-caption");
+  const close = $("#image-lightbox-close");
+  const backdrop = $("#image-lightbox-backdrop");
+  const prev = $("#image-lightbox-prev");
+  const next = $("#image-lightbox-next");
+  const zoomIn = $("#zoom-in");
+  const zoomOut = $("#zoom-out");
+  const zoomReset = $("#zoom-reset");
+  const zoomLevel = $("#zoom-level");
+  const stage = $("#image-zoom-stage");
+  const slides = $$(".carousel-slide");
+
+  if (!lightbox || !slides.length) return;
+
+  let current = 0;
+  let scale = 1;
+
+  const updateZoom = () => {
+    image.style.transform = `scale(${scale})`;
+    zoomLevel.textContent = `${Math.round(scale * 100)}%`;
+  };
+
+  const resetZoom = () => {
+    scale = 1;
+    stage.scrollTop = 0;
+    stage.scrollLeft = 0;
+    updateZoom();
+  };
+
+  const loadSlide = index => {
+    current = (index + slides.length) % slides.length;
+    const source = $("img", slides[current]);
+    const text = $("figcaption", slides[current]);
+
+    image.src = source.currentSrc || source.src;
+    image.alt = source.alt || "";
+    caption.textContent = text?.textContent || "";
+    resetZoom();
+  };
+
+  const open = index => {
+    loadSlide(index);
+    lightbox.classList.add("open");
+    lightbox.setAttribute("aria-hidden", "false");
+    document.body.classList.add("lightbox-open");
+    close.focus();
+  };
+
+  const closeBox = () => {
+    lightbox.classList.remove("open");
+    lightbox.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("lightbox-open");
+    resetZoom();
+  };
+
+  slides.forEach((slide, index) => {
+    slide.addEventListener("click", event => {
+      if (event.target.closest(".carousel-arrow, .carousel-dots")) return;
+      open(index);
+    });
+
+    slide.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        open(index);
+      }
+    });
+  });
+
+  close?.addEventListener("click", closeBox);
+  backdrop?.addEventListener("click", closeBox);
+  prev?.addEventListener("click", () => loadSlide(current - 1));
+  next?.addEventListener("click", () => loadSlide(current + 1));
+
+  zoomIn?.addEventListener("click", () => {
+    scale = Math.min(3, +(scale + .25).toFixed(2));
+    updateZoom();
+  });
+
+  zoomOut?.addEventListener("click", () => {
+    scale = Math.max(1, +(scale - .25).toFixed(2));
+    updateZoom();
+  });
+
+  zoomReset?.addEventListener("click", resetZoom);
+
+  image.addEventListener("dblclick", () => {
+    scale = scale === 1 ? 2 : 1;
+    updateZoom();
+  });
+
+  stage?.addEventListener("wheel", event => {
+    if (!lightbox.classList.contains("open")) return;
+    event.preventDefault();
+    scale = Math.max(1, Math.min(3, scale + (event.deltaY < 0 ? .15 : -.15)));
+    updateZoom();
+  }, {passive:false});
+
+  document.addEventListener("keydown", event => {
+    if (!lightbox.classList.contains("open")) return;
+
+    if (event.key === "Escape") closeBox();
+    if (event.key === "ArrowLeft") loadSlide(current - 1);
+    if (event.key === "ArrowRight") loadSlide(current + 1);
+    if (event.key === "+") {
+      scale = Math.min(3, scale + .25);
+      updateZoom();
+    }
+    if (event.key === "-") {
+      scale = Math.max(1, scale - .25);
+      updateZoom();
+    }
+  });
 }

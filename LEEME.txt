@@ -1,15 +1,20 @@
-IINTEGRA FIX v103
+IINTEGRA ELECTRIC — V104 MOBILE PRO
 
-Este paquete corrige DOS cosas:
-1) El Hero vuelve a: CONTINUIDAD blanca / OPERATIVA amarilla / GARANTIZADA blanca.
-2) El logo usa un nombre NUEVO para evitar que Safari/GitHub siga mostrando la imagen vieja en caché.
+Cambios:
+- Logo definitivo con fondo transparente: ya no parece una foto pegada.
+- Menú hamburguesa móvil rehecho como panel profesional.
+- El fondo de la página ya no se mezcla con el menú.
+- Hamburguesa se transforma en X.
+- Se bloquea el scroll cuando el menú está abierto.
+- Enlaces con entrada sutil y mejor jerarquía.
+- Catálogo y Cotizar se diferencian como CTAs.
+- Métricas móviles ligeramente más compactas.
+- Escritorio permanece sin cambios de diseño.
 
-En GitHub reemplaza/sube:
-- index.html
-- styles.css
-- script.js
-- site.webmanifest
-- favicon.ico
-- carpeta assets completa de este ZIP
+Para actualizar GitHub:
+1) Reemplaza index.html
+2) Reemplaza styles.css
+3) Reemplaza script.js
+4) Sube assets/iintegra-logo-transparent.png
 
-IMPORTANTE: no hace falta tocar la carpeta images/.
+No necesitas tocar la carpeta images/.

@@ -1,0 +1,32 @@
+IINTEGRA ELECTRIC — V105 FOTOS REALES
+
+Esta carpeta parte de la versión más reciente de la web y conserva:
+- responsive móvil
+- menú móvil profesional
+- logo transparente
+- favicon
+- cotizador
+- buscador
+- animaciones
+- fondo de portada actual
+
+CAMBIOS NUEVOS:
+1. Carrusel de portada con 6 fotografías reales.
+2. Servicios con fotografías reales.
+3. Soluciones/tableros con fotografías reales.
+4. Se agregaron Control y Automatización + Pruebas y Diagnóstico.
+5. Nueva sección TRABAJOS REALIZADOS con carrusel de 6 proyectos.
+6. Todas las fotografías nuevas están optimizadas en WebP.
+7. loading="lazy" y decoding="async" donde corresponde.
+
+PARA GITHUB:
+Puedes reemplazar la carpeta completa por esta versión.
+
+Si prefieres actualizar solo lo necesario:
+- index.html
+- styles.css
+- script.js
+- subir la carpeta images/real/
+
+IMPORTANTE:
+No borres la imagen de fondo actual de la portada; esta versión sigue usándola.

@@ -1,0 +1,25 @@
+IINTEGRA ELECTRIC — V106
+
+Cambios:
+1. Se restauró explícitamente la imagen original de fondo de la portada:
+   images/tablero-fondo-original.jpg
+2. El título del carrusel ahora dice TRABAJOS REALIZADOS.
+3. El carrusel sigue pausándose al poner el cursor encima, pero ahora:
+   - conserva el tiempo restante;
+   - NO reinicia los 4 segundos al salir;
+   - evita el bucle molesto al pasar accidentalmente el cursor.
+4. Puedes ampliar las imágenes del carrusel:
+   - clic en la imagen;
+   - botones + / -;
+   - doble clic alterna 100% / 200%;
+   - rueda del mouse hace zoom;
+   - flechas izquierda/derecha navegan entre imágenes;
+   - en teléfono también funciona el visor.
+5. CSS/JS usan ?v=106 para evitar caché vieja.
+
+Para GitHub puedes reemplazar la carpeta completa.
+Si actualizas solo código:
+- index.html
+- styles.css
+- script.js
+No borres images/ ni assets/.

@@ -1,0 +1,14 @@
+IINTEGRA ELECTRIC — V107
+
+CORRECCIÓN:
+- La portada ahora usa EXACTAMENTE la imagen que acabas de enviar.
+- Archivo: images/hero-portada-original.png
+- Se añadió un override final con !important para evitar que alguna regla anterior la reemplace.
+- En móvil se ajustó background-position para conservar mejor la zona del tablero.
+- CSS/JS usan v=107 para evitar caché vieja.
+
+Se mantienen todos los cambios de V106:
+- 'TRABAJOS REALIZADOS'
+- pausa del carrusel sin reinicio
+- zoom/lightbox
+- fotos reales optimizadas

@@ -1,0 +1,12 @@
+IINTEGRA ELECTRIC — V108
+
+CORRECCIÓN DEL ZOOM:
+- Al abrir una imagen, ahora se muestra COMPLETA dentro del visor.
+- 100% significa que la foto cabe completa en el espacio disponible.
+- RESTABLECER vuelve exactamente a esa vista completa.
+- El usuario puede acercar después con +, rueda del mouse o doble clic.
+- Se redujo ligeramente el tamaño máximo del visor en escritorio para que no se vea exagerado.
+- En móvil también abre ajustada completamente.
+- Se conserva la portada correcta y todos los cambios anteriores.
+
+CSS/JS: v108 para evitar caché.
