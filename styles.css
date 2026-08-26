@@ -1287,3 +1287,389 @@ body.lightbox-open{
     height:78vh !important;
   }
 }
+
+
+/* =========================================================
+   V110 — NAVBAR GENERAL: EVITAR ENCIMADOS EN ESCRITORIO Y MÓVIL
+========================================================= */
+
+/* Escritorio */
+@media (min-width: 901px){
+  .navbar{
+    position:relative;
+    z-index:1200;
+  }
+
+  .navbar-inner{
+    display:grid !important;
+    grid-template-columns:auto minmax(220px, 1fr) auto !important;
+    align-items:center !important;
+    gap:24px !important;
+  }
+
+  .brand{
+    min-width:0 !important;
+    overflow:hidden !important;
+  }
+
+  .brand img{
+    display:block;
+    max-width:100%;
+    height:auto;
+  }
+
+  .brand-copy{
+    min-width:0 !important;
+    overflow:hidden !important;
+  }
+
+  .brand-copy strong,
+  .brand-copy span{
+    display:block;
+    max-width:100%;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+  }
+
+  .search-wrap{
+    min-width:0 !important;
+    width:100% !important;
+    max-width:460px !important;
+    justify-self:center !important;
+  }
+
+  .nav-links{
+    position:relative !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+    gap:10px !important;
+    min-width:max-content !important;
+    z-index:2 !important;
+  }
+
+  .nav-links a,
+  .nav-links button{
+    position:relative;
+    z-index:3;
+    flex:0 0 auto !important;
+    white-space:nowrap !important;
+  }
+
+  .nav-catalog,
+  .nav-quote{
+    min-width:120px !important;
+    height:54px !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+  }
+
+  /* Ningún texto decorativo o secundario del header puede atravesar los botones */
+  .mobile-menu-brand,
+  .mobile-menu-caption,
+  .mobile-menu-contact{
+    display:none !important;
+  }
+}
+
+/* Resoluciones intermedias de laptop */
+@media (min-width: 901px) and (max-width: 1180px){
+  .navbar-inner{
+    grid-template-columns:auto 1fr auto !important;
+    gap:14px !important;
+  }
+
+  .search-wrap{
+    max-width:320px !important;
+  }
+
+  .nav-links{
+    gap:7px !important;
+  }
+
+  .nav-links a{
+    font-size:.72rem !important;
+  }
+
+  .nav-catalog,
+  .nav-quote{
+    min-width:108px !important;
+    padding-left:14px !important;
+    padding-right:14px !important;
+  }
+}
+
+/* Móvil: mantener también el arreglo anterior */
+@media (max-width: 900px){
+  .navbar{
+    z-index:1300 !important;
+  }
+
+  .nav-links{
+    z-index:1250 !important;
+    justify-content:flex-start !important;
+    padding-top:104px !important;
+    background:#07090e !important;
+    isolation:isolate;
+  }
+
+  .nav-links::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    background:
+      linear-gradient(rgba(255,230,0,.022) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,230,0,.022) 1px, transparent 1px),
+      #07090e;
+    background-size:54px 54px,54px 54px,auto;
+    pointer-events:none;
+  }
+
+  .nav-links > .nav-catalog{
+    margin-top:20px !important;
+    min-height:54px !important;
+  }
+
+  .nav-links > .nav-quote{
+    margin-top:10px !important;
+    min-height:56px !important;
+  }
+
+  body.menu-open .hero,
+  body.menu-open .metrics{
+    pointer-events:none;
+  }
+
+  body.menu-open .hero-copy,
+  body.menu-open .hero-gallery,
+  body.menu-open .metrics-grid{
+    visibility:hidden;
+  }
+}
+
+@media (max-width: 430px){
+  .nav-links{
+    padding-top:92px !important;
+    padding-left:20px !important;
+    padding-right:20px !important;
+  }
+
+  .nav-links > .nav-catalog,
+  .nav-links > .nav-quote{
+    width:100% !important;
+  }
+}
+
+
+/* =========================================================
+   V111 — MENÚ MÓVIL FULL SCREEN
+   Abre como panel completo, no como pestaña pequeña.
+========================================================= */
+@media (max-width: 900px){
+
+  .navbar{
+    position:relative !important;
+    z-index:1500 !important;
+  }
+
+  .nav-links{
+    position:fixed !important;
+    inset:0 !important;
+    top:0 !important;
+    left:0 !important;
+    right:0 !important;
+    bottom:0 !important;
+
+    width:100vw !important;
+    max-width:none !important;
+    height:100dvh !important;
+    min-height:100vh !important;
+
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    justify-content:flex-start !important;
+
+    padding:
+      max(104px, env(safe-area-inset-top))
+      22px
+      max(28px, env(safe-area-inset-bottom))
+      22px !important;
+
+    margin:0 !important;
+    overflow-y:auto !important;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+
+    background:
+      linear-gradient(rgba(255,230,0,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,230,0,.025) 1px, transparent 1px),
+      radial-gradient(circle at 80% 10%, rgba(255,230,0,.07), transparent 28%),
+      #07090e !important;
+    background-size:52px 52px,52px 52px,auto,auto !important;
+
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+
+    opacity:0 !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+    transform:translateX(100%) !important;
+    transition:
+      transform .42s cubic-bezier(.22,.61,.36,1),
+      opacity .24s ease,
+      visibility .24s ease !important;
+
+    z-index:1450 !important;
+  }
+
+  .nav-links.open{
+    opacity:1 !important;
+    visibility:visible !important;
+    pointer-events:auto !important;
+    transform:translateX(0) !important;
+  }
+
+  /* El botón hamburguesa queda arriba del panel para poder cerrarlo */
+  .menu-toggle{
+    position:relative !important;
+    z-index:1550 !important;
+  }
+
+  /* Marca dentro del menú */
+  .mobile-menu-brand{
+    display:flex !important;
+    align-items:center !important;
+    gap:12px !important;
+    padding:0 0 18px !important;
+    margin:0 0 8px !important;
+    border-bottom:1px solid rgba(255,230,0,.18) !important;
+  }
+
+  .mobile-menu-brand img{
+    width:62px !important;
+    height:44px !important;
+    object-fit:contain !important;
+    flex:0 0 auto !important;
+  }
+
+  .mobile-menu-brand strong{
+    display:block !important;
+    color:#fff !important;
+    font-size:.78rem !important;
+    letter-spacing:.05em !important;
+  }
+
+  .mobile-menu-brand span{
+    display:block !important;
+    margin-top:3px !important;
+    color:rgba(255,255,255,.48) !important;
+    font-size:.55rem !important;
+    letter-spacing:.08em !important;
+  }
+
+  .mobile-menu-caption{
+    display:block !important;
+    margin:10px 0 8px !important;
+    color:var(--yellow) !important;
+    font:800 .56rem var(--font-mono) !important;
+    letter-spacing:.12em !important;
+  }
+
+  /* Links del menú: filas limpias, grandes pero no exageradas */
+  .nav-links > a{
+    width:100% !important;
+    min-height:52px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    padding:0 4px !important;
+    margin:0 !important;
+    border-bottom:1px solid rgba(255,255,255,.075) !important;
+    color:#f5f6f8 !important;
+    font-size:.9rem !important;
+    letter-spacing:.035em !important;
+    text-decoration:none !important;
+  }
+
+  .nav-links > a::after{
+    content:"↗";
+    color:rgba(255,230,0,.72);
+    font-size:.72rem;
+  }
+
+  .nav-links > a:hover,
+  .nav-links > a:focus-visible{
+    color:var(--yellow) !important;
+  }
+
+  /* CTAs */
+  .nav-links > .nav-catalog,
+  .nav-links > .nav-quote{
+    width:100% !important;
+    min-height:54px !important;
+    margin:12px 0 0 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    flex:0 0 auto !important;
+  }
+
+  .nav-links > .nav-catalog{
+    margin-top:20px !important;
+  }
+
+  .mobile-menu-contact{
+    display:flex !important;
+    flex-direction:column !important;
+    gap:7px !important;
+    margin-top:auto !important;
+    padding-top:24px !important;
+    border-top:1px solid rgba(255,230,0,.18) !important;
+  }
+
+  .mobile-menu-contact span{
+    color:rgba(255,255,255,.42) !important;
+    font:700 .52rem var(--font-mono) !important;
+    letter-spacing:.09em !important;
+  }
+
+  .mobile-menu-contact a{
+    color:var(--yellow) !important;
+    font:800 .72rem var(--font-mono) !important;
+    text-decoration:none !important;
+  }
+
+  body.menu-open{
+    overflow:hidden !important;
+    touch-action:none !important;
+  }
+
+  /* Nada del contenido de fondo compite visualmente con el menú */
+  body.menu-open .hero,
+  body.menu-open .metrics,
+  body.menu-open main{
+    pointer-events:none !important;
+  }
+}
+
+@media (max-width: 430px){
+  .nav-links{
+    padding-left:18px !important;
+    padding-right:18px !important;
+  }
+
+  .nav-links > a{
+    min-height:49px !important;
+    font-size:.84rem !important;
+  }
+
+  .mobile-menu-brand img{
+    width:56px !important;
+    height:40px !important;
+  }
+}
