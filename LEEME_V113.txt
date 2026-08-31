@@ -1,0 +1,16 @@
+IINTEGRA ELECTRIC — V113
+
+Cambios realizados sobre la versión anterior, sin rediseñar lo que ya estaba bien:
+
+- CCM: 2 fotos nuevas en carrusel.
+- Tableros de distribución: 2 fotos nuevas en carrusel.
+- Se eliminó "Concentración de medidores" y ahora aparece "Medidores digitales", con 2 fotos en carrusel.
+- Tableros de alumbrado: 2 fotos nuevas en carrusel.
+- Nueva solución "Transferencias automáticas", con 2 fotos en carrusel.
+- Leyendas de producto más cortas y claras.
+- Correo actualizado a Iintegra.ventas@gmail.com con enlace mailto funcional.
+- Se eliminó la barra de progreso superior de la página.
+- Fotografías nuevas convertidas a WebP y optimizadas.
+- Fotografías visibles del sitio procesadas para ocultar logotipos/placas de datos prominentes.
+- Se conserva el Hero, menú móvil fullscreen, zoom, cotizador, buscador y demás comportamiento previo.
+- V113 fuerza recarga de CSS/JS para evitar caché antigua.

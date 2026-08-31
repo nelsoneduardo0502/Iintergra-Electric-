@@ -6,37 +6,43 @@ const catalog = [
   {
     id: "distribucion",
     name: "TABLERO DE DISTRIBUCIÓN",
-    description: "Recibe y distribuye energía hacia circuitos o equipos con elementos de protección y organización eléctrica.",
+    description: "Recibe una alimentación principal y la reparte de forma protegida hacia circuitos y cargas.",
     keywords: ["tablero", "distribucion", "baja tension", "proteccion", "energia"]
   },
   {
     id: "ccm",
     name: "CENTRO DE CONTROL DE MOTORES / CCM",
-    description: "Centraliza el arranque, protección y control de motores para aplicaciones industriales.",
-    keywords: ["ccm", "motores", "control", "industrial", "arranque"]
+    description: "Agrupa maniobra, protección y control de motores en un solo tablero para operación industrial.",
+    keywords: ["ccm", "motores", "control", "industrial", "arranque", "variadores"]
   },
   {
     id: "medidores",
-    name: "CONCENTRACIÓN DE MEDIDORES",
-    description: "Organiza múltiples puntos de medición para facilitar lectura, distribución y administración eléctrica.",
-    keywords: ["medidores", "medicion", "concentracion", "modular"]
+    name: "MEDIDORES DIGITALES",
+    description: "Supervisan energía, tensión, corriente y otras variables eléctricas para facilitar control y diagnóstico.",
+    keywords: ["medidores", "digitales", "medicion", "energia", "kwh", "monitoreo"]
   },
   {
     id: "alumbrado",
     name: "TABLERO DE ALUMBRADO",
-    description: "Distribuye y protege circuitos de iluminación para simplificar operación e identificación.",
+    description: "Distribuye y protege circuitos de iluminación para una operación ordenada, segura y fácil de mantener.",
     keywords: ["alumbrado", "iluminacion", "circuitos", "tablero"]
+  },
+  {
+    id: "transferencias",
+    name: "TRANSFERENCIAS AUTOMÁTICAS",
+    description: "Conmutan entre la red normal y una fuente de respaldo para mantener el suministro ante una falla.",
+    keywords: ["transferencia", "transferencias", "ats", "generador", "respaldo", "continuidad"]
   },
   {
     id: "automatizacion",
     name: "CONTROL Y AUTOMATIZACIÓN",
-    description: "Integra elementos de control, PLC, relevadores y señalización para automatización industrial.",
+    description: "Integra PLC, relevadores y señales para controlar procesos y equipos de forma automatizada.",
     keywords: ["automatizacion", "plc", "control", "relevadores", "industrial"]
   },
   {
     id: "pruebas",
     name: "PRUEBAS Y DIAGNÓSTICO",
-    description: "Validación eléctrica, continuidad, aislamiento y diagnóstico funcional de tableros.",
+    description: "Verifica continuidad, aislamiento y funcionamiento antes de energizar o entregar el tablero.",
     keywords: ["pruebas", "diagnostico", "aislamiento", "continuidad", "soporte"]
   }
 ];
@@ -59,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initSolutionButtons();
   initProjectsCarousel();
   initImageLightbox();
+  initProductCarousels();
 });
 
 function initYear(){
@@ -69,14 +76,11 @@ function initYear(){
 
 function initNavbar(){
   const nav = $("#navbar");
-  const progress = $("#scroll-progress");
   const links = $$(".nav-links a[href^='#']");
   const sections = $$("main section[id]");
 
   const update = () => {
     nav.classList.toggle("scrolled", scrollY > 35);
-    const max = document.documentElement.scrollHeight - innerHeight;
-    progress.style.width = `${max > 0 ? (scrollY / max) * 100 : 0}%`;
   };
   addEventListener("scroll", update, {passive:true});
   update();
@@ -95,22 +99,48 @@ function initNavbar(){
 function initMenu(){
   const button = $("#menu-toggle");
   const nav = $("#nav-links");
+  const headerContainer = $(".nav-container");
   const catalogButton = $(".nav-catalog", nav);
 
-  if (!button || !nav) return;
+  if (!button || !nav || !headerContainer) return;
+
+  let placeholder = document.createComment("nav-links-placeholder");
+  let isPortaled = false;
+
+  const portalToBody = () => {
+    if (window.innerWidth <= 900 && !isPortaled) {
+      nav.parentNode.insertBefore(placeholder, nav);
+      document.body.appendChild(nav);
+      nav.classList.add("mobile-nav-portal");
+      isPortaled = true;
+    }
+  };
+
+  const restoreToHeader = () => {
+    if (window.innerWidth > 900 && isPortaled) {
+      placeholder.parentNode.insertBefore(nav, placeholder);
+      placeholder.remove();
+      placeholder = document.createComment("nav-links-placeholder");
+      nav.classList.remove("mobile-nav-portal");
+      isPortaled = false;
+    }
+  };
 
   const closeMenu = () => {
     nav.classList.remove("open");
     button.setAttribute("aria-expanded", "false");
     button.setAttribute("aria-label", "Abrir menú");
-    document.body.classList.remove("menu-open");
+    document.body.classList.remove("menu-open", "mobile-menu-active");
+    document.documentElement.classList.remove("mobile-menu-active");
   };
 
   const openMenu = () => {
+    portalToBody();
     nav.classList.add("open");
     button.setAttribute("aria-expanded", "true");
     button.setAttribute("aria-label", "Cerrar menú");
-    document.body.classList.add("menu-open");
+    document.body.classList.add("menu-open", "mobile-menu-active");
+    document.documentElement.classList.add("mobile-menu-active");
   };
 
   button.addEventListener("click", () => {
@@ -132,10 +162,15 @@ function initMenu(){
   });
 
   window.addEventListener("resize", () => {
-    if (window.innerWidth > 900 && nav.classList.contains("open")) {
+    if (window.innerWidth > 900) {
       closeMenu();
+      restoreToHeader();
+    } else {
+      portalToBody();
     }
   });
+
+  portalToBody();
 }
 
 function normalize(text=""){
@@ -150,7 +185,7 @@ function initSearch(){
   const render = items => {
     box.innerHTML = "";
     if (!items.length){
-      box.innerHTML = `<div class="search-result"><strong>SIN COINCIDENCIAS</strong><small>Prueba con “CCM”, “medidores”, “alumbrado” o “distribución”.</small></div>`;
+      box.innerHTML = `<div class="search-result"><strong>SIN COINCIDENCIAS</strong><small>Prueba con “CCM”, “medidores”, “transferencias”, “alumbrado” o “distribución”.</small></div>`;
       box.classList.add("open");
       return;
     }
@@ -673,5 +708,46 @@ function initImageLightbox(){
       scale = Math.max(1, scale - .25);
       updateZoom();
     }
+  });
+}
+
+
+function initProductCarousels(){
+  $$("[data-product-carousel]").forEach(carousel => {
+    const slides = $$(".product-slide", carousel);
+    const dots = $$(".product-dots button", carousel);
+    const prev = $(".product-arrow.prev", carousel);
+    const next = $(".product-arrow.next", carousel);
+    if (slides.length < 2) return;
+
+    let current = 0;
+
+    const show = index => {
+      current = (index + slides.length) % slides.length;
+      slides.forEach((slide, i) => slide.classList.toggle("active", i === current));
+      dots.forEach((dot, i) => dot.classList.toggle("active", i === current));
+    };
+
+    prev?.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopPropagation();
+      show(current - 1);
+    });
+
+    next?.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopPropagation();
+      show(current + 1);
+    });
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener("click", event => {
+        event.preventDefault();
+        event.stopPropagation();
+        show(i);
+      });
+    });
+
+    show(0);
   });
 }

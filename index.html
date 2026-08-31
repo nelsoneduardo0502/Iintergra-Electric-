@@ -18,12 +18,11 @@
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=103" />
   <link rel="manifest" href="site.webmanifest" />
 
-  <link rel="stylesheet" href="styles.css?v=111" />
+  <link rel="stylesheet" href="styles.css?v=113" />
 </head>
 
 <body>
-  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
-  <div class="tech-grid" aria-hidden="true"></div>
+<div class="tech-grid" aria-hidden="true"></div>
   <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
 
   <!-- Marco técnico: se oculta automáticamente en móvil -->
@@ -42,7 +41,7 @@
 
       <div class="search-wrap" id="search-wrap">
         <label class="search-box">
-          <input id="site-search" type="search" placeholder="BUSCAR TABLERO, CCM, MEDIDORES..." autocomplete="off" />
+          <input id="site-search" type="search" placeholder="BUSCAR TABLERO, CCM, MEDIDORES, TRANSFERENCIAS..." autocomplete="off" />
           <span class="search-symbol" aria-hidden="true"></span>
         </label>
         <div class="search-results" id="search-results" aria-live="polite"></div>
@@ -115,7 +114,7 @@
 
           <div class="carousel" id="carousel">
             <figure class="carousel-slide active zoomable-slide" tabindex="0" role="button" aria-label="Ampliar imagen">
-              <img src="images/real/distribucion.webp" alt="Tablero de distribución Siemens ensamblado" fetchpriority="high" decoding="async" />
+              <img src="images/real/distribucion.webp" alt="Tablero de distribución ensamblado" fetchpriority="high" decoding="async" />
               <figcaption>TABLERO DE DISTRIBUCIÓN</figcaption>
             </figure>
             <figure class="carousel-slide zoomable-slide" tabindex="0" role="button" aria-label="Ampliar imagen">
@@ -123,11 +122,11 @@
               <figcaption>CENTRO DE CONTROL DE MOTORES / CCM</figcaption>
             </figure>
             <figure class="carousel-slide zoomable-slide" tabindex="0" role="button" aria-label="Ampliar imagen">
-              <img src="images/real/medidores.webp" alt="Concentración de medidores ABB identificados" loading="lazy" decoding="async" />
-              <figcaption>CONCENTRACIÓN DE MEDIDORES</figcaption>
+              <img src="images/real/medidores.webp" alt="Medidores digitales identificados" loading="lazy" decoding="async" />
+              <figcaption>MEDIDORES DIGITALES</figcaption>
             </figure>
             <figure class="carousel-slide zoomable-slide" tabindex="0" role="button" aria-label="Ampliar imagen">
-              <img src="images/real/automatizacion.webp" alt="Control y automatización con componentes ABB" loading="lazy" decoding="async" />
+              <img src="images/real/automatizacion.webp" alt="Control y automatización industrial" loading="lazy" decoding="async" />
               <figcaption>CONTROL Y AUTOMATIZACIÓN</figcaption>
             </figure>
             <figure class="carousel-slide zoomable-slide" tabindex="0" role="button" aria-label="Ampliar imagen">
@@ -135,7 +134,7 @@
               <figcaption>PRUEBAS DE GABINETE</figcaption>
             </figure>
             <figure class="carousel-slide zoomable-slide" tabindex="0" role="button" aria-label="Ampliar imagen">
-              <img src="images/real/diagnostico-control.webp" alt="Prueba y diagnóstico de interruptor Siemens CubicleBUS" loading="lazy" decoding="async" />
+              <img src="images/real/diagnostico-control.webp" alt="Prueba y diagnóstico de interruptor industrial" loading="lazy" decoding="async" />
               <figcaption>PRUEBAS Y DIAGNÓSTICO DE CONTROL</figcaption>
             </figure>
 
@@ -242,7 +241,7 @@
           </article>
 
           <article class="service-card scroll-reveal">
-            <div class="service-image"><img src="images/real/plc-siemens.webp" alt="Integración de PLC Siemens y cableado de control" loading="lazy" /></div>
+            <div class="service-image"><img src="images/real/plc-siemens.webp" alt="Integración de PLC y cableado de control" loading="lazy" /></div>
             <div class="service-copy"><span>02</span><h3>ARMADO DE TABLEROS</h3><p>Integración, cableado y ensamble con enfoque en orden, seguridad, confiabilidad y facilidad de mantenimiento.</p></div>
           </article>
 
@@ -272,35 +271,83 @@
         </div>
 
         <div class="solutions-grid" id="solutions-grid">
+
           <article class="solution-card scroll-reveal" data-id="distribucion">
-            <img src="images/real/distribucion.webp" alt="Tablero de distribución Siemens" loading="lazy" />
-            <div><span>DISTRIBUCIÓN</span><h3>TABLERO DE DISTRIBUCIÓN</h3><p>Recibe la energía y la reparte hacia diferentes circuitos o equipos, incorporando elementos de protección y organización eléctrica.</p><button class="text-action quote-solution" data-solution="Tablero de distribución">COTIZAR ESTE TABLERO →</button></div>
+            <div class="product-media" data-product-carousel>
+              <div class="product-slides">
+                <img class="product-slide active" src="images/products/distribucion-01.webp" alt="Tablero de distribución de baja tensión" loading="lazy" decoding="async" />
+                <img class="product-slide" src="images/products/distribucion-02.webp" alt="Interior de tablero de distribución" loading="lazy" decoding="async" />
+              </div>
+              <button class="product-arrow prev" type="button" aria-label="Imagen anterior">‹</button>
+              <button class="product-arrow next" type="button" aria-label="Imagen siguiente">›</button>
+              <div class="product-dots"><button class="active" type="button" aria-label="Imagen 1"></button><button type="button" aria-label="Imagen 2"></button></div>
+            </div>
+            <div class="solution-copy"><span>DISTRIBUCIÓN</span><h3>TABLERO DE DISTRIBUCIÓN</h3><p>Recibe una alimentación principal y la reparte de forma protegida hacia circuitos y cargas.</p><button class="text-action quote-solution" data-solution="Tablero de distribución">COTIZAR ESTE TABLERO →</button></div>
           </article>
 
           <article class="solution-card scroll-reveal" data-id="ccm">
-            <img src="images/real/ccm.webp" alt="Centro de control de motores" loading="lazy" />
-            <div><span>CONTROL INDUSTRIAL</span><h3>CENTRO DE CONTROL DE MOTORES / CCM</h3><p>Centraliza el arranque, protección y control de varios motores eléctricos para facilitar la operación y el mantenimiento industrial.</p><button class="text-action quote-solution" data-solution="Centro de Control de Motores CCM">COTIZAR ESTE TABLERO →</button></div>
+            <div class="product-media" data-product-carousel>
+              <div class="product-slides">
+                <img class="product-slide active" src="images/products/ccm-01.webp" alt="Centro de control de motores con elementos de maniobra" loading="lazy" decoding="async" />
+                <img class="product-slide" src="images/products/ccm-02.webp" alt="Centro de control de motores con variadores" loading="lazy" decoding="async" />
+              </div>
+              <button class="product-arrow prev" type="button" aria-label="Imagen anterior">‹</button>
+              <button class="product-arrow next" type="button" aria-label="Imagen siguiente">›</button>
+              <div class="product-dots"><button class="active" type="button" aria-label="Imagen 1"></button><button type="button" aria-label="Imagen 2"></button></div>
+            </div>
+            <div class="solution-copy"><span>CONTROL INDUSTRIAL</span><h3>CENTRO DE CONTROL DE MOTORES / CCM</h3><p>Agrupa maniobra, protección y control de motores en un solo tablero para operación industrial.</p><button class="text-action quote-solution" data-solution="Centro de Control de Motores CCM">COTIZAR ESTE TABLERO →</button></div>
           </article>
 
           <article class="solution-card scroll-reveal" data-id="medidores">
-            <img src="images/real/medidores.webp" alt="Concentración de medidores ABB" loading="lazy" />
-            <div><span>MEDICIÓN</span><h3>CONCENTRACIÓN DE MEDIDORES</h3><p>Reúne varios puntos de medición en un conjunto organizado para facilitar la lectura, distribución y administración de diferentes servicios eléctricos.</p><button class="text-action quote-solution" data-solution="Concentración de medidores">COTIZAR ESTA SOLUCIÓN →</button></div>
+            <div class="product-media" data-product-carousel>
+              <div class="product-slides">
+                <img class="product-slide active" src="images/products/medidores-digitales-01.webp" alt="Medidores digitales instalados en gabinete" loading="lazy" decoding="async" />
+                <img class="product-slide" src="images/products/medidores-digitales-02.webp" alt="Lectura de medidores digitales" loading="lazy" decoding="async" />
+              </div>
+              <button class="product-arrow prev" type="button" aria-label="Imagen anterior">‹</button>
+              <button class="product-arrow next" type="button" aria-label="Imagen siguiente">›</button>
+              <div class="product-dots"><button class="active" type="button" aria-label="Imagen 1"></button><button type="button" aria-label="Imagen 2"></button></div>
+            </div>
+            <div class="solution-copy"><span>MEDICIÓN</span><h3>MEDIDORES DIGITALES</h3><p>Supervisan energía, tensión, corriente y otras variables eléctricas para facilitar control y diagnóstico.</p><button class="text-action quote-solution" data-solution="Medidores digitales">COTIZAR ESTA SOLUCIÓN →</button></div>
           </article>
 
           <article class="solution-card scroll-reveal" data-id="alumbrado">
-            <img src="images/real/matriz-breakers.webp" alt="Tablero de alumbrado y distribución modular" loading="lazy" />
-            <div><span>ALUMBRADO</span><h3>TABLERO DE ALUMBRADO</h3><p>Distribuye y protege los circuitos de iluminación de una instalación, simplificando la operación, identificación y mantenimiento.</p><button class="text-action quote-solution" data-solution="Tablero de alumbrado">COTIZAR ESTE TABLERO →</button></div>
+            <div class="product-media" data-product-carousel>
+              <div class="product-slides">
+                <img class="product-slide active" src="images/products/alumbrado-01.webp" alt="Tablero de alumbrado con interruptores derivados" loading="lazy" decoding="async" />
+                <img class="product-slide" src="images/products/alumbrado-02.webp" alt="Frente de tablero de alumbrado" loading="lazy" decoding="async" />
+              </div>
+              <button class="product-arrow prev" type="button" aria-label="Imagen anterior">‹</button>
+              <button class="product-arrow next" type="button" aria-label="Imagen siguiente">›</button>
+              <div class="product-dots"><button class="active" type="button" aria-label="Imagen 1"></button><button type="button" aria-label="Imagen 2"></button></div>
+            </div>
+            <div class="solution-copy"><span>ALUMBRADO</span><h3>TABLERO DE ALUMBRADO</h3><p>Distribuye y protege circuitos de iluminación para una operación ordenada, segura y fácil de mantener.</p><button class="text-action quote-solution" data-solution="Tablero de alumbrado">COTIZAR ESTE TABLERO →</button></div>
+          </article>
+
+          <article class="solution-card scroll-reveal" data-id="transferencias">
+            <div class="product-media" data-product-carousel>
+              <div class="product-slides">
+                <img class="product-slide active" src="images/products/transferencias-01.webp" alt="Control de transferencia automática" loading="lazy" decoding="async" />
+                <img class="product-slide" src="images/products/transferencias-02.webp" alt="Prueba de tablero de transferencia automática" loading="lazy" decoding="async" />
+              </div>
+              <button class="product-arrow prev" type="button" aria-label="Imagen anterior">‹</button>
+              <button class="product-arrow next" type="button" aria-label="Imagen siguiente">›</button>
+              <div class="product-dots"><button class="active" type="button" aria-label="Imagen 1"></button><button type="button" aria-label="Imagen 2"></button></div>
+            </div>
+            <div class="solution-copy"><span>CONTINUIDAD</span><h3>TRANSFERENCIAS AUTOMÁTICAS</h3><p>Conmutan entre la red normal y una fuente de respaldo para mantener el suministro ante una falla.</p><button class="text-action quote-solution" data-solution="Transferencias automáticas">COTIZAR ESTA SOLUCIÓN →</button></div>
           </article>
 
           <article class="solution-card scroll-reveal" data-id="automatizacion">
             <img src="images/real/automatizacion.webp" alt="Tablero de control y automatización" loading="lazy" decoding="async" />
-            <div><span>AUTOMATIZACIÓN</span><h3>CONTROL Y AUTOMATIZACIÓN</h3><p>Integra relevadores, temporizadores, PLC, borneras y elementos de mando para automatizar procesos y facilitar el diagnóstico.</p><button class="text-action quote-solution" data-solution="Control y automatización">COTIZAR ESTA SOLUCIÓN →</button></div>
+            <div class="solution-copy"><span>AUTOMATIZACIÓN</span><h3>CONTROL Y AUTOMATIZACIÓN</h3><p>Integra PLC, relevadores y señales para controlar procesos y equipos de forma automatizada.</p><button class="text-action quote-solution" data-solution="Control y automatización">COTIZAR ESTA SOLUCIÓN →</button></div>
           </article>
 
           <article class="solution-card scroll-reveal" data-id="pruebas">
             <img src="images/real/pruebas-gabinete.webp" alt="Pruebas eléctricas y diagnóstico de gabinete" loading="lazy" decoding="async" />
-            <div><span>VALIDACIÓN</span><h3>PRUEBAS Y DIAGNÓSTICO</h3><p>Verificación de continuidad, aislamiento, señales y funcionamiento de los elementos del tablero antes de su entrega o puesta en servicio.</p><button class="text-action quote-solution" data-solution="Pruebas y diagnóstico eléctrico">SOLICITAR SOPORTE →</button></div>
+            <div class="solution-copy"><span>VALIDACIÓN</span><h3>PRUEBAS Y DIAGNÓSTICO</h3><p>Verifica continuidad, aislamiento y funcionamiento antes de energizar o entregar el tablero.</p><button class="text-action quote-solution" data-solution="Pruebas y diagnóstico eléctrico">SOLICITAR SOPORTE →</button></div>
           </article>
+
+        </div>
         </div>
       </div>
     </section>
@@ -320,12 +367,12 @@
         <div class="projects-carousel scroll-reveal" id="projects-carousel">
           <div class="projects-stage">
             <figure class="project-slide active">
-              <img src="images/real/proyecto-finalizado.webp" alt="Tablero Siemens finalizado en área de pruebas" loading="lazy" decoding="async" />
+              <img src="images/real/proyecto-finalizado.webp" alt="Tablero finalizado en área de pruebas" loading="lazy" decoding="async" />
               <figcaption><span>01 / ENTREGA FINAL</span><strong>TABLERO FINALIZADO</strong><p>Proyecto ensamblado y preparado para validación antes de entrega.</p></figcaption>
             </figure>
             <figure class="project-slide">
-              <img src="images/real/plc-siemens.webp" alt="PLC Siemens S7-1200 integrado en gabinete" loading="lazy" decoding="async" />
-              <figcaption><span>02 / AUTOMATIZACIÓN</span><strong>CONTROL PLC SIEMENS</strong><p>Integración de PLC, fuente SITOP, comunicaciones y cableado identificado.</p></figcaption>
+              <img src="images/real/plc-siemens.webp" alt="PLC industrial integrado en gabinete" loading="lazy" decoding="async" />
+              <figcaption><span>02 / AUTOMATIZACIÓN</span><strong>CONTROL PLC INDUSTRIAL</strong><p>Integración de PLC, fuente SITOP, comunicaciones y cableado identificado.</p></figcaption>
             </figure>
             <figure class="project-slide">
               <img src="images/real/prueba-aislamiento.webp" alt="Prueba de aislamiento con equipo de medición" loading="lazy" decoding="async" />
@@ -399,7 +446,7 @@
         <aside class="contact-panel scroll-reveal">
           <span class="kicker">// CONTACTO DIRECTO</span>
           <a href="https://wa.me/523319773148" target="_blank" rel="noopener"><span class="contact-icon">W</span><span><small>WHATSAPP</small><strong>+52 33 1977 3148</strong></span></a>
-          <a href="mailto:proyectos@litegrasoluciones.com"><span class="contact-icon">@</span><span><small>CORREO</small><strong>proyectos@litegrasoluciones.com</strong></span></a>
+          <a href="mailto:Iintegra.ventas@gmail.com?subject=Cotizaci%C3%B3n%20IINTEGRA%20ELECTRIC"><span class="contact-icon">@</span><span><small>CORREO</small><strong>Iintegra.ventas@gmail.com</strong></span></a>
           <div><span class="contact-icon">✓</span><span><small>ATENCIÓN</small><strong>Cotizaciones y asesoría vía WhatsApp</strong></span></div>
         </aside>
       </div>
@@ -424,7 +471,7 @@
       <div>
         <h3>CONTACTO</h3>
         <a href="https://wa.me/523319773148" target="_blank" rel="noopener">+52 33 1977 3148</a>
-        <a href="mailto:proyectos@litegrasoluciones.com">proyectos@litegrasoluciones.com</a>
+        <a href="mailto:Iintegra.ventas@gmail.com?subject=Cotizaci%C3%B3n%20IINTEGRA%20ELECTRIC">Iintegra.ventas@gmail.com</a>
       </div>
 
       <div>
@@ -469,7 +516,8 @@
           <div class="wizard-options">
             <button type="button" data-value="Tablero de distribución">DISTRIBUCIÓN</button>
             <button type="button" data-value="Centro de Control de Motores CCM">CCM</button>
-            <button type="button" data-value="Concentración de medidores">MEDICIÓN</button>
+            <button type="button" data-value="Medidores digitales">MEDIDORES DIGITALES</button>
+            <button type="button" data-value="Transferencias automáticas">TRANSFERENCIAS</button>
             <button type="button" data-value="Tablero de alumbrado">ALUMBRADO</button>
             <button type="button" data-value="Necesito asesoría">NO ESTOY SEGURO</button>
           </div>
@@ -508,7 +556,7 @@
     </div>
   </div>
 
-  <script src="script.js?v=108"></script>
+  <script src="script.js?v=113"></script>
 
   <!-- LIGHTBOX / ZOOM DE TRABAJOS -->
   <div class="image-lightbox" id="image-lightbox" aria-hidden="true">
