@@ -1,0 +1,13 @@
+IINTEGRA ELECTRIC — GITHUB V120
+
+Esta versión conserva todos los cambios de V119 e incorpora las 10 fotografías sanitizadas con bloques sólidos/opacos en lugar de blur o distorsión.
+
+PARA ACTUALIZAR GITHUB PAGES:
+1. Descomprime este ZIP.
+2. Entra al repositorio de IINTEGRA ELECTRIC en GitHub.
+3. Sube TODO el contenido de esta carpeta a la raíz del repositorio, reemplazando los archivos existentes.
+4. Confirma el commit.
+5. Espera a que termine Pages build and deployment.
+6. Recarga la web con Ctrl+F5.
+
+IMPORTANTE: se conservaron los mismos nombres de las imágenes para SOBRESCRIBIR las versiones anteriores, y además el HTML usa v=120 para evitar que el navegador muestre caché vieja.
