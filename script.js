@@ -6,43 +6,43 @@ const catalog = [
   {
     id: "distribucion",
     name: "TABLERO DE DISTRIBUCIÓN",
-    description: "Recibe una alimentación principal y la reparte de forma protegida hacia circuitos y cargas.",
+    description: "Distribuye la alimentación principal hacia circuitos y cargas con protección eléctrica.",
     keywords: ["tablero", "distribucion", "baja tension", "proteccion", "energia"]
   },
   {
     id: "ccm",
     name: "CENTRO DE CONTROL DE MOTORES / CCM",
-    description: "Agrupa maniobra, protección y control de motores en un solo tablero para operación industrial.",
+    description: "Centraliza protección, maniobra y control de motores para procesos industriales.",
     keywords: ["ccm", "motores", "control", "industrial", "arranque", "variadores"]
   },
   {
     id: "medidores",
     name: "MEDIDORES DIGITALES",
-    description: "Supervisan energía, tensión, corriente y otras variables eléctricas para facilitar control y diagnóstico.",
+    description: "Monitorean consumo, tensión, corriente y variables eléctricas para control y diagnóstico.",
     keywords: ["medidores", "digitales", "medicion", "energia", "kwh", "monitoreo"]
   },
   {
     id: "alumbrado",
     name: "TABLERO DE ALUMBRADO",
-    description: "Distribuye y protege circuitos de iluminación para una operación ordenada, segura y fácil de mantener.",
+    description: "Protege y distribuye circuitos de iluminación con operación y mantenimiento sencillos.",
     keywords: ["alumbrado", "iluminacion", "circuitos", "tablero"]
   },
   {
     id: "transferencias",
     name: "TRANSFERENCIAS AUTOMÁTICAS",
-    description: "Conmutan entre la red normal y una fuente de respaldo para mantener el suministro ante una falla.",
+    description: "Cambian automáticamente entre la red normal y una fuente de respaldo para mantener el suministro.",
     keywords: ["transferencia", "transferencias", "ats", "generador", "respaldo", "continuidad"]
   },
   {
     id: "automatizacion",
     name: "CONTROL Y AUTOMATIZACIÓN",
-    description: "Integra PLC, relevadores y señales para controlar procesos y equipos de forma automatizada.",
+    description: "Integra PLC, relevadores y señales para automatizar equipos y procesos.",
     keywords: ["automatizacion", "plc", "control", "relevadores", "industrial"]
   },
   {
     id: "pruebas",
     name: "PRUEBAS Y DIAGNÓSTICO",
-    description: "Verifica continuidad, aislamiento y funcionamiento antes de energizar o entregar el tablero.",
+    description: "Comprueba continuidad, aislamiento y funcionamiento antes de energizar o entregar el tablero.",
     keywords: ["pruebas", "diagnostico", "aislamiento", "continuidad", "soporte"]
   }
 ];
@@ -50,7 +50,59 @@ const catalog = [
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
 
+
+const WIZARD_STORAGE_KEY = "iintegra_quote_draft_v1";
+
+function getFocusableElements(container){
+  if (!container) return [];
+  return $$('a[href],button:not([disabled]),input:not([disabled]),textarea:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])',container)
+    .filter(el => {
+      const style=getComputedStyle(el);
+      return style.display!=="none" && style.visibility!=="hidden" && !el.closest("[inert]");
+    });
+}
+
+function trapFocusInDialog(container,event){
+  if (event.key!=="Tab") return;
+  const focusable=getFocusableElements(container);
+  if (!focusable.length){event.preventDefault();container.focus?.();return}
+  const first=focusable[0], last=focusable[focusable.length-1];
+  if (event.shiftKey && document.activeElement===first){event.preventDefault();last.focus()}
+  else if (!event.shiftKey && document.activeElement===last){event.preventDefault();first.focus()}
+}
+
+const dialogReturnFocus=new WeakMap();
+function setDialogAccessibility(modal,isOpen,initialFocus=null){
+  if (!modal) return;
+  modal.setAttribute("aria-hidden",isOpen?"false":"true");
+  if (isOpen){
+    if (!dialogReturnFocus.has(modal)) dialogReturnFocus.set(modal,document.activeElement);
+    modal.removeAttribute("inert"); modal.inert=false;
+    requestAnimationFrame(()=>{(initialFocus||getFocusableElements(modal)[0])?.focus?.()});
+  }else{
+    modal.setAttribute("inert",""); modal.inert=true;
+    const prev=dialogReturnFocus.get(modal); dialogReturnFocus.delete(modal);
+    if (prev?.isConnected) setTimeout(()=>{try{prev.focus({preventScroll:true})}catch(_){}},0);
+  }
+}
+
+function readWizardDraft(){
+  try{
+    const raw=localStorage.getItem(WIZARD_STORAGE_KEY);
+    if (!raw) return null;
+    const data=JSON.parse(raw);
+    if (!data || typeof data!=="object") return null;
+    if (data.savedAt && Date.now()-data.savedAt>7*24*60*60*1000){
+      localStorage.removeItem(WIZARD_STORAGE_KEY); return null;
+    }
+    return data;
+  }catch(_){return null}
+}
+function clearWizardDraft(){try{localStorage.removeItem(WIZARD_STORAGE_KEY)}catch(_){}}
+
+
 document.addEventListener("DOMContentLoaded", () => {
+  initIntro();
   initYear();
   initNavbar();
   initMenu();
@@ -66,12 +118,83 @@ document.addEventListener("DOMContentLoaded", () => {
   initProjectsCarousel();
   initImageLightbox();
   initProductCarousels();
+  initDeepLinks();
+  initBackToTop();
+  initInteractiveFeedback();
+  initCardPreview();
 });
+
+
+function initIntro(){
+  const intro = $("#site-intro");
+  if (!intro){
+    document.body.classList.remove("intro-active");
+    document.body.classList.add("intro-complete");
+    return;
+  }
+
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const finish = () => {
+    document.body.classList.remove("intro-active");
+    document.body.classList.add("intro-complete");
+    window.dispatchEvent(new CustomEvent("iintegra:intro-complete"));
+    setTimeout(() => intro.remove(), reduced ? 0 : 920);
+  };
+
+  if (reduced){
+    finish();
+    return;
+  }
+
+  // V116: dos tiempos — promesa de marca y después IINTEGRA ELECTRIC.
+  setTimeout(finish, 4550);
+}
+
+function focusProduct(id, {updateHash=true, openPreview=true} = {}){
+  const card = document.querySelector(`[data-id="${id}"]`);
+  if (!card) return;
+
+  const doFocus = () => {
+    card.scrollIntoView({behavior:"smooth", block:"center"});
+    card.classList.remove("product-focus");
+    void card.offsetWidth;
+    card.classList.add("product-focus");
+    setTimeout(() => card.classList.remove("product-focus"), 1700);
+
+    const carousel = $("[data-product-carousel]", card);
+    if (carousel?.productCarouselShow) carousel.productCarouselShow(0);
+    if (carousel?.productCarouselRestart) carousel.productCarouselRestart();
+
+    setTimeout(() => {
+      try { card.focus({preventScroll:true}); } catch (_) {}
+    }, 520);
+
+    if (openPreview){
+      setTimeout(() => openCardPreview(card), 760);
+    }
+  };
+
+  if (updateHash && history.replaceState){
+    history.replaceState(null, "", `#${id}`);
+  }
+
+  if (document.body.classList.contains("intro-active")){
+    window.addEventListener("iintegra:intro-complete", doFocus, {once:true});
+  } else {
+    doFocus();
+  }
+}
+
+function initDeepLinks(){
+  const id = location.hash.replace(/^#/, "");
+  if (!id || !catalog.some(item => item.id === id)) return;
+  focusProduct(id, {updateHash:false, openPreview:false});
+}
 
 function initYear(){
   const year = new Date().getFullYear();
-  $("#footer-year").textContent = year;
-  $("#frame-year").textContent = year;
+  const footerYear = $("#footer-year");
+  if (footerYear) footerYear.textContent = year;
 }
 
 function initNavbar(){
@@ -197,7 +320,7 @@ function initSearch(){
       button.addEventListener("click", () => {
         box.classList.remove("open");
         input.value = item.name;
-        document.querySelector(`[data-id="${item.id}"]`)?.scrollIntoView({behavior:"smooth", block:"center"});
+        focusProduct(item.id);
       });
       box.appendChild(button);
     });
@@ -225,37 +348,33 @@ function initSearch(){
 }
 
 function initCatalog(){
-  const modal = $("#catalog-modal");
-  const grid = $("#catalog-grid");
-  const open = $("#open-catalog");
-  const close = $("#close-catalog");
+  const modal=$("#catalog-modal"), grid=$("#catalog-grid"), open=$("#open-catalog"), close=$("#close-catalog");
+  if (!modal||!grid||!open||!close) return;
 
-  catalog.forEach(item => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "catalog-item";
-    button.innerHTML = `<strong>${item.name}</strong><p>${item.description}</p>`;
-    button.addEventListener("click", () => {
-      closeModal();
-      document.querySelector(`[data-id="${item.id}"]`)?.scrollIntoView({behavior:"smooth", block:"center"});
-    });
+  catalog.forEach(item=>{
+    const button=document.createElement("button");
+    button.type="button";button.className="catalog-item";
+    button.innerHTML=`<strong>${item.name}</strong><p>${item.description}</p>`;
+    button.addEventListener("click",()=>{closeModal();focusProduct(item.id)});
     grid.appendChild(button);
   });
 
-  const openModal = () => {
-    modal.classList.add("open");
-    modal.setAttribute("aria-hidden","false");
-    document.body.classList.add("modal-open");
+  const openModal=()=>{
+    modal.classList.add("open");document.body.classList.add("modal-open");
+    setDialogAccessibility(modal,true,close);
   };
-  const closeModal = () => {
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden","true");
-    document.body.classList.remove("modal-open");
+  const closeModal=()=>{
+    modal.classList.remove("open");document.body.classList.remove("modal-open");
+    setDialogAccessibility(modal,false);
   };
-  open.addEventListener("click", openModal);
-  close.addEventListener("click", closeModal);
-  $$("[data-close-modal]").forEach(el => el.addEventListener("click", closeModal));
-  document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+  open.addEventListener("click",openModal);
+  close.addEventListener("click",closeModal);
+  $$("[data-close-modal]").forEach(el=>el.addEventListener("click",closeModal));
+  modal.addEventListener("keydown",event=>{
+    trapFocusInDialog(modal,event);
+    if (event.key==="Escape") closeModal();
+  });
 }
 
 function initCarousel(){
@@ -459,86 +578,140 @@ let wizardSolution = "";
 let wizardStep = 1;
 
 function initWizard(){
-  const modal = $("#wizard-modal");
-  const open = $("#open-wizard");
-  const close = $("#close-wizard");
-  const prev = $("#wizard-prev");
-  const next = $("#wizard-next");
-  const submit = $("#wizard-submit");
-  const form = $("#wizard-form");
+  const modal=$("#wizard-modal"), open=$("#open-wizard"), close=$("#close-wizard");
+  const prev=$("#wizard-prev"), next=$("#wizard-next"), form=$("#wizard-form"), error=$("#wizard-error");
+  const voltage=$("#wizard-voltage"), current=$("#wizard-current"), quantity=$("#wizard-quantity");
+  const details=$("#wizard-details"), name=$("#wizard-name"), email=$("#wizard-email");
+  const step2Help=$("#wizard-step2-help");
+  if (!modal||!open||!close||!form) return;
 
-  window.openWizard = solution => {
-    wizardSolution = solution || "";
-    $$(".wizard-options button").forEach(btn => btn.classList.toggle("selected", btn.dataset.value === wizardSolution));
-    modal.classList.add("open");
-    modal.setAttribute("aria-hidden","false");
-    document.body.classList.add("modal-open");
-    setWizardStep(1);
-  };
+  const voltageRequiredSolutions=new Set([
+    "Tablero de distribución","Centro de Control de Motores CCM","Medidores digitales",
+    "Transferencias automáticas","Tablero de alumbrado","Control y automatización"
+  ]);
 
-  const closeWizard = () => {
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden","true");
-    document.body.classList.remove("modal-open");
-  };
-
-  open.addEventListener("click", () => openWizard(""));
-  close.addEventListener("click", closeWizard);
-  $$("[data-close-wizard]").forEach(el => el.addEventListener("click", closeWizard));
-
-  $$(".wizard-options button").forEach(btn => {
-    btn.addEventListener("click", () => {
-      wizardSolution = btn.dataset.value;
-      $$(".wizard-options button").forEach(b => b.classList.toggle("selected", b === btn));
+  const clearErrors=()=>{
+    if (error) error.textContent="";
+    [voltage,current,quantity,details,name,email].forEach(field=>{
+      field?.classList.remove("wizard-invalid");field?.removeAttribute("aria-invalid");
     });
+  };
+  const fail=(message,field=null)=>{
+    if (error) error.textContent=message;
+    if (field){field.classList.add("wizard-invalid");field.setAttribute("aria-invalid","true");field.focus({preventScroll:true})}
+    return false;
+  };
+  const applyDynamicRequirements=()=>{
+    const req=voltageRequiredSolutions.has(wizardSolution);
+    voltage.required=req;
+    if (step2Help) step2Help.textContent=req
+      ?"Para esta solución necesitamos conocer la tensión del proyecto. La corriente/capacidad puede quedar por definir si aún no la conoces."
+      :"Agrega los datos técnicos que conozcas. Si todavía no los tienes, puedes continuar y describir la necesidad en el siguiente paso.";
+  };
+  const collectDraft=()=>({
+    savedAt:Date.now(),solution:wizardSolution,step:wizardStep,
+    voltage:voltage.value.trim(),current:current.value.trim(),quantity:quantity.value||"1",
+    details:details.value.trim(),name:name.value.trim(),email:email.value.trim()
   });
-
-  prev.addEventListener("click", () => setWizardStep(wizardStep-1));
-  next.addEventListener("click", () => {
-    if (wizardStep === 1 && !wizardSolution){
-      alert("Selecciona una solución o elige “No estoy seguro”.");
-      return;
+  const saveDraft=()=>{try{localStorage.setItem(WIZARD_STORAGE_KEY,JSON.stringify(collectDraft()))}catch(_){}};
+  const restoreDraft=preferredSolution=>{
+    const draft=readWizardDraft();
+    if (draft){
+      voltage.value=draft.voltage||"";current.value=draft.current||"";quantity.value=draft.quantity||"1";
+      details.value=draft.details||"";name.value=draft.name||"";email.value=draft.email||"";
     }
-    setWizardStep(wizardStep+1);
+    wizardSolution=preferredSolution||draft?.solution||"";
+    $$(".wizard-options button").forEach(btn=>btn.classList.toggle("selected",btn.dataset.value===wizardSolution));
+    applyDynamicRequirements();
+  };
+  const validateStep=step=>{
+    clearErrors();
+    if (step===1 && !wizardSolution) return fail("Selecciona una solución o elige “NO ESTOY SEGURO”.");
+    if (step===2){
+      if (!quantity.value||Number(quantity.value)<1) return fail("Indica una cantidad válida de 1 o más.",quantity);
+      if (voltage.required&&!voltage.value.trim()) return fail("Para esta solución necesitamos la tensión del proyecto (por ejemplo 220 V o 440 V).",voltage);
+    }
+    if (step===3 && details.value.trim().length<10) return fail("Describe brevemente el proyecto con al menos 10 caracteres para poder orientarte mejor.",details);
+    if (step===4){
+      if (!name.value.trim()) return fail("Agrega tu nombre o el nombre de la empresa.",name);
+      if (email.value&&!email.checkValidity()) return fail("Revisa el formato del correo electrónico.",email);
+    }
+    return true;
+  };
+
+  window.openWizard=solution=>{
+    restoreDraft(solution||"");
+    modal.classList.add("open");document.body.classList.add("modal-open");
+    setDialogAccessibility(modal,true,close);
+    setWizardStep(1);saveDraft();
+  };
+  const closeWizard=()=>{
+    saveDraft();modal.classList.remove("open");document.body.classList.remove("modal-open");
+    setDialogAccessibility(modal,false);
+  };
+
+  open.addEventListener("click",()=>{
+    const preselect=open.dataset.preselect||"";delete open.dataset.preselect;openWizard(preselect);
+  });
+  close.addEventListener("click",closeWizard);
+  $$("[data-close-wizard]").forEach(el=>el.addEventListener("click",closeWizard));
+
+  $$(".wizard-options button").forEach(btn=>btn.addEventListener("click",()=>{
+    wizardSolution=btn.dataset.value;
+    $$(".wizard-options button").forEach(b=>b.classList.toggle("selected",b===btn));
+    applyDynamicRequirements();clearErrors();saveDraft();
+  }));
+
+  [voltage,current,quantity,details,name,email].forEach(field=>{
+    field?.addEventListener("input",()=>{
+      field.classList.remove("wizard-invalid");field.removeAttribute("aria-invalid");
+      if (error) error.textContent="";saveDraft();
+    });
+    field?.addEventListener("change",saveDraft);
   });
 
-  form.addEventListener("submit", e => {
+  prev.addEventListener("click",()=>{clearErrors();setWizardStep(wizardStep-1);saveDraft()});
+  next.addEventListener("click",()=>{if (!validateStep(wizardStep)) return;setWizardStep(wizardStep+1);saveDraft()});
+
+  form.addEventListener("submit",e=>{
     e.preventDefault();
-    const name = $("#wizard-name").value.trim();
-    if (!name){ alert("Agrega tu nombre o empresa."); return; }
-
-    const message = [
-      "Hola, deseo solicitar una cotización con Iintegra Electric.",
-      "",
-      `Nombre / Empresa: ${name}`,
-      `Correo: ${$("#wizard-email").value.trim() || "No indicado"}`,
+    for (const step of [1,2,3,4]){
+      if (!validateStep(step)){setWizardStep(step);return}
+    }
+    const message=[
+      "Hola, deseo solicitar una cotización con Iintegra Electric.","",
+      `Nombre / Empresa: ${name.value.trim()}`,
+      `Correo: ${email.value.trim()||"No indicado"}`,
       `Solución: ${wizardSolution}`,
-      `Tensión: ${$("#wizard-voltage").value.trim() || "Por definir"}`,
-      `Corriente / capacidad: ${$("#wizard-current").value.trim() || "Por definir"}`,
-      `Cantidad: ${$("#wizard-quantity").value || "1"}`,
-      "",
-      "Detalles:",
-      $("#wizard-details").value.trim() || "Sin detalles adicionales"
-    ].join("\n");
-
-    window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+      `Tensión: ${voltage.value.trim()||"Por definir"}`,
+      `Corriente / capacidad: ${current.value.trim()||"Por definir"}`,
+      `Cantidad: ${quantity.value||"1"}`,"","Detalles:",details.value.trim()
+    ].join("\\n");
+    clearWizardDraft();
+    window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`,"_blank","noopener,noreferrer");
   });
+
+  modal.addEventListener("keydown",event=>{
+    trapFocusInDialog(modal,event);
+    if (event.key==="Escape") closeWizard();
+  });
+  restoreDraft("");
 }
 
 function setWizardStep(step){
-  wizardStep = Math.max(1,Math.min(4,step));
-  $$(".wizard-step").forEach(s => s.classList.toggle("active", Number(s.dataset.step) === wizardStep));
-  $("#wizard-progress").style.width = `${wizardStep*25}%`;
-  $("#wizard-prev").style.visibility = wizardStep === 1 ? "hidden" : "visible";
-  $("#wizard-next").classList.toggle("hidden", wizardStep === 4);
-  $("#wizard-submit").classList.toggle("hidden", wizardStep !== 4);
-
-  if (wizardStep === 4){
-    $("#wizard-summary").innerHTML = `
-      <strong>${wizardSolution || "Solución por definir"}</strong><br>
-      Tensión: ${$("#wizard-voltage").value || "Por definir"}<br>
-      Corriente/capacidad: ${$("#wizard-current").value || "Por definir"}<br>
-      Cantidad: ${$("#wizard-quantity").value || "1"}
+  wizardStep=Math.max(1,Math.min(4,step));
+  $$(".wizard-step").forEach(s=>s.classList.toggle("active",Number(s.dataset.step)===wizardStep));
+  $("#wizard-progress").style.width=`${wizardStep*25}%`;
+  $("#wizard-prev").style.visibility=wizardStep===1?"hidden":"visible";
+  $("#wizard-next").classList.toggle("hidden",wizardStep===4);
+  $("#wizard-submit").classList.toggle("hidden",wizardStep!==4);
+  const error=$("#wizard-error");if (error) error.textContent="";
+  if (wizardStep===4){
+    $("#wizard-summary").innerHTML=`
+      <strong>${wizardSolution||"Solución por definir"}</strong><br>
+      Tensión: ${$("#wizard-voltage").value||"Por definir"}<br>
+      Corriente/capacidad: ${$("#wizard-current").value||"Por definir"}<br>
+      Cantidad: ${$("#wizard-quantity").value||"1"}
     `;
   }
 }
@@ -639,15 +812,14 @@ function initImageLightbox(){
   const open = index => {
     loadSlide(index);
     lightbox.classList.add("open");
-    lightbox.setAttribute("aria-hidden", "false");
     document.body.classList.add("lightbox-open");
-    close.focus();
+    setDialogAccessibility(lightbox,true,close);
   };
 
   const closeBox = () => {
     lightbox.classList.remove("open");
-    lightbox.setAttribute("aria-hidden", "true");
     document.body.classList.remove("lightbox-open");
+    setDialogAccessibility(lightbox,false);
     resetZoom();
   };
 
@@ -694,9 +866,10 @@ function initImageLightbox(){
     updateZoom();
   }, {passive:false});
 
-  document.addEventListener("keydown", event => {
+  lightbox.addEventListener("keydown", event => {
     if (!lightbox.classList.contains("open")) return;
 
+    trapFocusInDialog(lightbox,event);
     if (event.key === "Escape") closeBox();
     if (event.key === "ArrowLeft") loadSlide(current - 1);
     if (event.key === "ArrowRight") loadSlide(current + 1);
@@ -713,6 +886,8 @@ function initImageLightbox(){
 
 
 function initProductCarousels(){
+  const duration = 4800;
+
   $$("[data-product-carousel]").forEach(carousel => {
     const slides = $$(".product-slide", carousel);
     const dots = $$(".product-dots button", carousel);
@@ -721,6 +896,10 @@ function initProductCarousels(){
     if (slides.length < 2) return;
 
     let current = 0;
+    let timer = null;
+    let startedAt = 0;
+    let remaining = duration;
+    let paused = false;
 
     const show = index => {
       current = (index + slides.length) % slides.length;
@@ -728,26 +907,231 @@ function initProductCarousels(){
       dots.forEach((dot, i) => dot.classList.toggle("active", i === current));
     };
 
+    const schedule = (ms = duration) => {
+      clearTimeout(timer);
+      remaining = ms;
+      startedAt = performance.now();
+      timer = setTimeout(() => {
+        show(current + 1);
+        schedule(duration);
+      }, ms);
+    };
+
+    const pause = () => {
+      if (paused) return;
+      paused = true;
+      carousel.classList.add("is-paused");
+      clearTimeout(timer);
+      remaining = Math.max(60, remaining - (performance.now() - startedAt));
+    };
+
+    const resume = () => {
+      if (!paused) return;
+      paused = false;
+      carousel.classList.remove("is-paused");
+      schedule(remaining);
+    };
+
+    const jump = index => {
+      show(index);
+      paused = false;
+      carousel.classList.remove("is-paused");
+      schedule(duration);
+    };
+
     prev?.addEventListener("click", event => {
       event.preventDefault();
       event.stopPropagation();
-      show(current - 1);
+      jump(current - 1);
     });
 
     next?.addEventListener("click", event => {
       event.preventDefault();
       event.stopPropagation();
-      show(current + 1);
+      jump(current + 1);
     });
 
     dots.forEach((dot, i) => {
       dot.addEventListener("click", event => {
         event.preventDefault();
         event.stopPropagation();
-        show(i);
+        jump(i);
       });
     });
 
+    carousel.addEventListener("mouseenter", pause);
+    carousel.addEventListener("mouseleave", resume);
+    carousel.addEventListener("focusin", pause);
+    carousel.addEventListener("focusout", event => {
+      if (!carousel.contains(event.relatedTarget)) resume();
+    });
+
+    // Métodos expuestos solo al helper de navegación del catálogo/buscador.
+    carousel.productCarouselShow = show;
+    carousel.productCarouselRestart = () => jump(0);
+
     show(0);
+    schedule(duration);
   });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) return;
+    // Al volver a la pestaña, cada carrusel continúa con su temporizador propio.
+  });
+}
+
+
+function initBackToTop(){
+  const button = $("#back-to-top");
+  if (!button) return;
+
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const update = () => {
+    button.classList.toggle("visible", window.scrollY > 620);
+  };
+
+  window.addEventListener("scroll", update, {passive:true});
+  update();
+
+  button.addEventListener("click", () => {
+    window.scrollTo({
+      top:0,
+      behavior:reduced ? "auto" : "smooth"
+    });
+  });
+}
+
+function initInteractiveFeedback(){
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const selector = [
+    ".btn",
+    ".nav-catalog",
+    ".nav-quote",
+    ".text-action",
+    ".catalog-item",
+    ".wizard-options button",
+    ".carousel-arrow",
+    ".product-arrow",
+    ".projects-controls > button",
+    ".back-to-top"
+  ].join(",");
+
+  $$(selector).forEach(element => {
+    element.classList.add("ripple-host");
+
+    element.addEventListener("pointerdown", event => {
+      if (element.disabled) return;
+
+      const rect = element.getBoundingClientRect();
+      const ripple = document.createElement("span");
+      ripple.className = "ui-ripple";
+      ripple.style.left = `${event.clientX - rect.left}px`;
+      ripple.style.top = `${event.clientY - rect.top}px`;
+
+      element.appendChild(ripple);
+      ripple.addEventListener("animationend", () => ripple.remove(), {once:true});
+    });
+  });
+}
+
+
+let cardPreviewApi = null;
+
+function initCardPreview(){
+  const modal = $("#card-preview-modal");
+  const content = $("#card-preview-content");
+  const closeButton = $("#card-preview-close");
+  if (!modal || !content || !closeButton) return;
+
+  let lastTrigger = null;
+
+  const close = () => {
+    modal.classList.remove("open");
+    document.body.classList.remove("card-preview-open");
+    setDialogAccessibility(modal,false);
+    content.innerHTML = "";
+    if (lastTrigger?.focus){
+      try { lastTrigger.focus({preventScroll:true}); } catch (_) {}
+    }
+  };
+
+  const open = card => {
+    if (!card) return;
+    lastTrigger = card;
+
+    const clone = card.cloneNode(true);
+    clone.classList.remove("scroll-reveal","animate-in","product-focus");
+    clone.classList.add("card-preview-clone");
+    clone.removeAttribute("id");
+    clone.removeAttribute("tabindex");
+
+    clone.querySelectorAll("[id]").forEach(el => el.removeAttribute("id"));
+    clone.querySelectorAll(".product-arrow,.product-dots").forEach(el => el.remove());
+
+    // En el preview se muestra la fotografía que estaba activa.
+    clone.querySelectorAll(".product-slide").forEach(img => {
+      if (!img.classList.contains("active")) img.remove();
+    });
+
+    const quoteButton = clone.querySelector(".quote-solution");
+    if (quoteButton){
+      quoteButton.addEventListener("click", event => {
+        event.preventDefault();
+        const solution = quoteButton.dataset.solution || "";
+        close();
+        const target = $("#cotizacion");
+        target?.scrollIntoView({behavior:"smooth",block:"start"});
+        setTimeout(() => {
+          const wizard = $("#open-wizard");
+          if (wizard){
+            wizard.dataset.preselect = solution;
+            wizard.focus({preventScroll:true});
+          }
+        }, 520);
+      });
+    }
+
+    content.innerHTML = "";
+    content.appendChild(clone);
+
+    modal.classList.add("open");
+    document.body.classList.add("card-preview-open");
+    setDialogAccessibility(modal,true,closeButton);
+  };
+
+  cardPreviewApi = {open, close};
+
+  closeButton.addEventListener("click", close);
+  $$("[data-close-card-preview]").forEach(el => el.addEventListener("click", close));
+
+  modal.addEventListener("keydown", event => {
+    trapFocusInDialog(modal,event);
+    if (event.key === "Escape" && modal.classList.contains("open")) close();
+  });
+
+  // Clic en tarjetas: ampliar. Botones/enlaces mantienen su función normal.
+  $$(".service-card, .solution-card").forEach(card => {
+    card.setAttribute("role","button");
+    card.setAttribute("aria-label", `${card.querySelector("h3")?.textContent || "Tarjeta"} — ampliar`);
+    if (!card.hasAttribute("tabindex")) card.tabIndex = 0;
+
+    const openFromCard = event => {
+      if (event?.target?.closest("button,a,input,textarea,select,.product-arrow,.product-dots")) return;
+      open(card);
+    };
+
+    card.addEventListener("click", openFromCard);
+    card.addEventListener("keydown", event => {
+      if ((event.key === "Enter" || event.key === " ") && !event.target.closest("button,a,input,textarea,select")){
+        event.preventDefault();
+        open(card);
+      }
+    });
+  });
+}
+
+function openCardPreview(card){
+  if (cardPreviewApi?.open) cardPreviewApi.open(card);
 }

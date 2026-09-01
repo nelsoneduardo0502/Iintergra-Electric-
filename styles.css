@@ -1816,3 +1816,1244 @@ body.lightbox-open{
     height:42px;
   }
 }
+
+
+/* =========================================================
+   V114 — COHERENCIA DE PRODUCTO + INTRO PREMIUM
+========================================================= */
+
+/* El carrusel principal conserva su comportamiento; solo afinamos el encuadre de las nuevas fotos. */
+.carousel-slide img.hero-product-distribucion{object-position:center 48%}
+.carousel-slide img.hero-product-ccm{object-position:center 45%}
+.carousel-slide img.hero-product-medidores{object-position:center 52%}
+
+/* Navegación directa desde buscador/catálogo */
+.solution-card{
+  scroll-margin-top:120px;
+}
+.solution-card.product-focus{
+  border-color:rgba(255,230,0,.78) !important;
+  box-shadow:0 0 0 1px rgba(255,230,0,.22),0 24px 70px rgba(0,0,0,.34),0 0 36px rgba(255,230,0,.09) !important;
+  animation:productFocusPulse 1.55s ease both;
+}
+@keyframes productFocusPulse{
+  0%{transform:translateY(0);filter:brightness(1)}
+  25%{transform:translateY(-4px);filter:brightness(1.08)}
+  100%{transform:translateY(0);filter:brightness(1)}
+}
+
+/* Intro: tipografía técnica + barrido, sin librerías pesadas */
+.site-intro{
+  position:fixed;
+  inset:0;
+  z-index:120000;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  background:#05070b;
+  color:#f4f7fa;
+  opacity:1;
+  visibility:visible;
+  transform:translateZ(0);
+}
+.intro-grid{
+  position:absolute;
+  inset:0;
+  opacity:.26;
+  background:
+    linear-gradient(rgba(255,230,0,.055) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,230,0,.055) 1px,transparent 1px);
+  background-size:56px 56px;
+  mask-image:linear-gradient(90deg,transparent 0,#000 28%,#000 72%,transparent 100%);
+}
+.intro-core{
+  position:relative;
+  z-index:2;
+  width:min(88vw,760px);
+  text-align:center;
+}
+.intro-kicker{
+  margin-bottom:16px;
+  color:rgba(255,255,255,.47);
+  font:800 .58rem var(--font-mono);
+  letter-spacing:.19em;
+  opacity:0;
+  animation:introFade .42s .08s ease forwards;
+}
+.intro-brand{
+  display:flex;
+  justify-content:center;
+  gap:.035em;
+  font:900 clamp(3rem,9vw,7.4rem)/.82 var(--font-heading);
+  letter-spacing:-.045em;
+  overflow:hidden;
+}
+.intro-brand span{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(115%) skewY(6deg);
+  animation:introLetter .52s var(--ease) forwards;
+}
+.intro-brand span:nth-child(1){animation-delay:.12s}
+.intro-brand span:nth-child(2){animation-delay:.16s}
+.intro-brand span:nth-child(3){animation-delay:.20s}
+.intro-brand span:nth-child(4){animation-delay:.24s}
+.intro-brand span:nth-child(5){animation-delay:.28s}
+.intro-brand span:nth-child(6){animation-delay:.32s}
+.intro-brand span:nth-child(7){animation-delay:.36s}
+.intro-brand span:nth-child(8){animation-delay:.40s}
+.intro-electric{
+  margin-top:9px;
+  color:var(--yellow);
+  font:900 clamp(.78rem,2vw,1.35rem) var(--font-mono);
+  letter-spacing:.44em;
+  padding-left:.44em;
+  opacity:0;
+  transform:translateY(8px);
+  animation:introFadeUp .42s .52s ease forwards;
+}
+.intro-line{
+  width:min(420px,72vw);
+  height:2px;
+  margin:24px auto 0;
+  overflow:hidden;
+  background:rgba(255,255,255,.08);
+}
+.intro-line span{
+  display:block;
+  width:100%;
+  height:100%;
+  background:var(--yellow);
+  transform:translateX(-102%);
+  animation:introLine .74s .42s var(--ease) forwards;
+}
+.intro-scan{
+  position:absolute;
+  inset:-20% auto -20% -12%;
+  width:20%;
+  background:linear-gradient(90deg,transparent,rgba(255,230,0,.075),transparent);
+  transform:skewX(-12deg) translateX(-180%);
+  animation:introScan 1s .3s ease forwards;
+}
+body.intro-active{
+  overflow:hidden;
+}
+body.intro-active .hero-seq{
+  opacity:0 !important;
+  transform:translateY(18px) !important;
+  animation:none !important;
+}
+body.intro-complete .hero-seq{
+  animation:heroAfterIntro .72s var(--ease) both !important;
+}
+body.intro-complete .hero-seq:nth-child(1){animation-delay:.02s !important}
+body.intro-complete .hero-seq:nth-child(2){animation-delay:.09s !important}
+body.intro-complete .hero-seq:nth-child(3){animation-delay:.17s !important}
+body.intro-complete .hero-seq:nth-child(4){animation-delay:.25s !important}
+body.intro-complete .hero-seq:nth-child(5){animation-delay:.33s !important}
+body.intro-complete .site-intro{
+  animation:introExit .62s var(--ease) forwards;
+  pointer-events:none;
+}
+@keyframes introLetter{to{opacity:1;transform:translateY(0) skewY(0)}}
+@keyframes introFade{to{opacity:1}}
+@keyframes introFadeUp{to{opacity:1;transform:none}}
+@keyframes introLine{to{transform:translateX(0)}}
+@keyframes introScan{to{transform:skewX(-12deg) translateX(760%)}}
+@keyframes heroAfterIntro{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes introExit{
+  0%{opacity:1;clip-path:inset(0 0 0 0)}
+  55%{opacity:1}
+  100%{opacity:0;visibility:hidden;clip-path:inset(0 0 100% 0)}
+}
+
+/* Los carruseles inferiores ya tenían flechas/puntos. V114 les da autoavance como al principal. */
+.product-media.is-paused .product-dots{opacity:.72}
+
+@media (max-width:700px){
+  .site-intro .intro-core{width:92vw}
+  .intro-brand{font-size:clamp(2.8rem,16vw,5rem)}
+  .intro-electric{letter-spacing:.28em;padding-left:.28em}
+  .solution-card{scroll-margin-top:92px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .site-intro{display:none !important}
+  body.intro-active{overflow:auto !important}
+  body.intro-active .hero-seq,
+  body.intro-complete .hero-seq{opacity:1 !important;transform:none !important;animation:none !important}
+  .solution-card.product-focus{animation:none !important}
+}
+
+
+/* =========================================================
+   V115 — COHERENCIA + MICROANIMACIONES + VOLVER ARRIBA
+========================================================= */
+
+/* El logo ya incluye el nombre; no reservamos espacio para texto duplicado. */
+.brand{
+  gap:0 !important;
+  overflow:visible !important;
+}
+.brand img{
+  width:220px !important;
+  height:62px !important;
+  object-fit:contain !important;
+  object-position:left center !important;
+}
+@media (max-width:640px){
+  .brand img{width:168px !important;height:50px !important}
+}
+@media (max-width:430px){
+  .brand img{width:148px !important;height:46px !important}
+}
+
+/* Entrada al hacer scroll: más fluida y con sensación de profundidad. */
+.scroll-reveal.animate-in{
+  animation:revealPremiumV115 .72s var(--ease) var(--delay,0ms) both !important;
+}
+@keyframes revealPremiumV115{
+  0%{
+    opacity:0;
+    transform:translate3d(var(--reveal-x,0),var(--reveal-y,22px),0) scale(.985);
+    filter:blur(5px);
+  }
+  70%{filter:blur(0)}
+  100%{opacity:1;transform:none;filter:none}
+}
+.services-grid .service-card:nth-child(odd),
+.solutions-grid .solution-card:nth-child(odd){--reveal-x:-20px;--reveal-y:12px}
+.services-grid .service-card:nth-child(even),
+.solutions-grid .solution-card:nth-child(even){--reveal-x:20px;--reveal-y:12px}
+
+.section-heading.animate-in .yellow-line{
+  animation:lineGrowV115 .8s .16s var(--ease) both;
+  transform-origin:left center;
+}
+@keyframes lineGrowV115{
+  from{transform:scaleX(0);opacity:.25}
+  to{transform:scaleX(1);opacity:1}
+}
+
+/* Tarjetas con barrido sutil y profundidad. */
+.service-card,
+.solution-card,
+.about-card,
+.metric,
+.contact-panel,
+.process-step{
+  position:relative;
+}
+.service-card::after,
+.solution-card::after,
+.about-card::after{
+  content:"";
+  position:absolute;
+  inset:-30% auto -30% -42%;
+  width:26%;
+  pointer-events:none;
+  opacity:0;
+  background:linear-gradient(90deg,transparent,rgba(255,230,0,.055),transparent);
+  transform:skewX(-16deg) translateX(-220%);
+  transition:transform .72s var(--ease),opacity .2s ease;
+  z-index:4;
+}
+.service-card:hover::after,
+.solution-card:hover::after,
+.about-card:hover::after{
+  opacity:1;
+  transform:skewX(-16deg) translateX(720%);
+}
+
+.metric{
+  transition:background .28s ease,transform .28s var(--ease),border-color .28s ease;
+}
+.metric:hover{
+  background:rgba(255,230,0,.025);
+  transform:translateY(-3px);
+}
+.metric:hover strong{
+  color:var(--yellow);
+  text-shadow:0 0 18px rgba(255,230,0,.12);
+}
+
+.process-step{
+  transition:transform .28s var(--ease),color .28s ease;
+}
+.process-step:hover{
+  transform:translateY(-4px);
+}
+.process-step:hover .process-dot{
+  box-shadow:0 0 0 5px rgba(255,230,0,.08),0 0 20px rgba(255,230,0,.32);
+}
+
+/* Links del menú: subrayado técnico animado en escritorio. */
+@media (min-width:901px){
+  .nav-links a:not(.nav-quote)::after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:-8px;
+    height:1px;
+    background:var(--yellow);
+    transform:scaleX(0);
+    transform-origin:right center;
+    transition:transform .28s var(--ease);
+  }
+  .nav-links a:not(.nav-quote):hover::after,
+  .nav-links a:not(.nav-quote).active::after{
+    transform:scaleX(1);
+    transform-origin:left center;
+  }
+}
+
+/* Buscador: desplegado animado en vez de aparecer de golpe. */
+.search-results{
+  display:block !important;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transform:translateY(-8px) scale(.985);
+  transform-origin:top center;
+  transition:opacity .2s ease,transform .24s var(--ease),visibility .2s ease;
+}
+.search-results.open{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  transform:none;
+}
+.search-result{
+  transition:background .2s ease,color .2s ease,padding-left .24s var(--ease);
+}
+.search-result:hover{
+  padding-left:20px;
+}
+
+/* Catálogo / modal: apertura con profundidad. */
+.modal .modal-card{
+  opacity:0;
+  transform:translateY(18px) scale(.975);
+  transition:opacity .24s ease,transform .34s var(--ease);
+}
+.modal.open .modal-card{
+  opacity:1;
+  transform:none;
+}
+.catalog-item{
+  position:relative;
+  overflow:hidden;
+  transition:transform .24s var(--ease),border-color .22s ease,background .22s ease;
+}
+.catalog-item:hover{
+  transform:translateY(-3px);
+}
+.catalog-item:active{
+  transform:translateY(0) scale(.985);
+}
+
+/* Selección del cotizador */
+.wizard-options button{
+  position:relative;
+  overflow:hidden;
+  transition:transform .2s var(--ease),border-color .22s ease,background .22s ease,color .22s ease,box-shadow .22s ease;
+}
+.wizard-options button:hover{
+  transform:translateY(-2px);
+}
+.wizard-options button.selected{
+  box-shadow:0 0 0 1px rgba(255,230,0,.16),0 0 20px rgba(255,230,0,.08);
+  animation:selectedPulseV115 .42s var(--ease);
+}
+@keyframes selectedPulseV115{
+  0%{transform:scale(.97)}
+  60%{transform:scale(1.015)}
+  100%{transform:scale(1)}
+}
+
+/* Carruseles: transición visual más clara al seleccionar/cambiar imagen. */
+.carousel-slide.active img{
+  animation:carouselImageInV115 .8s var(--ease) both;
+}
+.carousel-slide.active figcaption{
+  animation:captionInV115 .55s .1s var(--ease) both;
+}
+.product-slide.active{
+  animation:productImageInV115 .56s var(--ease) both;
+}
+.project-slide.active figcaption > *{
+  animation:projectCopyInV115 .5s var(--ease) both;
+}
+.project-slide.active figcaption > *:nth-child(2){animation-delay:.06s}
+.project-slide.active figcaption > *:nth-child(3){animation-delay:.12s}
+@keyframes carouselImageInV115{
+  from{opacity:.72;transform:scale(1.035)}
+  to{opacity:1;transform:scale(1)}
+}
+@keyframes captionInV115{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:none}
+}
+@keyframes productImageInV115{
+  from{opacity:.55;transform:scale(1.025)}
+  to{opacity:1;transform:scale(1)}
+}
+@keyframes projectCopyInV115{
+  from{opacity:0;transform:translateX(12px)}
+  to{opacity:1;transform:none}
+}
+
+/* Cuando buscador/catálogo lleva a un producto, la selección queda clarísima. */
+.solution-card.product-focus{
+  animation:productFocusV115 1.65s var(--ease) both !important;
+}
+.solution-card.product-focus h3{
+  animation:productTitleSweepV115 .75s .08s var(--ease) both;
+}
+@keyframes productFocusV115{
+  0%{transform:scale(.985);border-color:rgba(255,230,0,.25);filter:brightness(.92)}
+  30%{transform:translateY(-5px) scale(1.008);border-color:var(--yellow);filter:brightness(1.08)}
+  100%{transform:none;filter:none}
+}
+@keyframes productTitleSweepV115{
+  from{opacity:.35;letter-spacing:.04em}
+  to{opacity:1;letter-spacing:normal}
+}
+
+/* Feedback de clic: onda luminosa desde el punto seleccionado. */
+.ripple-host{
+  position:relative !important;
+  overflow:hidden !important;
+}
+.ui-ripple{
+  position:absolute;
+  z-index:20;
+  width:12px;
+  height:12px;
+  margin:-6px 0 0 -6px;
+  border-radius:50%;
+  pointer-events:none;
+  background:rgba(255,230,0,.32);
+  transform:scale(0);
+  animation:uiRippleV115 .58s ease-out forwards;
+}
+@keyframes uiRippleV115{
+  to{transform:scale(18);opacity:0}
+}
+
+/* Botón volver arriba */
+.back-to-top{
+  position:fixed;
+  right:26px;
+  bottom:26px;
+  z-index:1800;
+  min-width:58px;
+  height:58px;
+  padding:0 13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border:1px solid rgba(255,230,0,.5);
+  background:rgba(8,10,15,.9);
+  color:var(--yellow);
+  box-shadow:0 16px 42px rgba(0,0,0,.28);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  cursor:pointer;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transform:translateY(18px) scale(.94);
+  transition:opacity .22s ease,transform .3s var(--ease),visibility .22s ease,background .2s ease,color .2s ease;
+}
+.back-to-top.visible{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  transform:none;
+}
+.back-to-top:hover{
+  background:var(--yellow);
+  color:#05070b;
+  transform:translateY(-4px);
+}
+.back-to-top:active{
+  transform:translateY(-1px) scale(.96);
+}
+.back-to-top-arrow{
+  font:900 1.1rem var(--font-mono);
+  line-height:1;
+}
+.back-to-top-label{
+  font:800 .52rem var(--font-mono);
+  letter-spacing:.08em;
+}
+.back-to-top.visible .back-to-top-arrow{
+  animation:backArrowV115 1.8s ease-in-out infinite;
+}
+@keyframes backArrowV115{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-4px)}
+}
+
+@media (max-width:640px){
+  .back-to-top{
+    right:14px;
+    bottom:16px;
+    width:48px;
+    min-width:48px;
+    height:48px;
+    padding:0;
+  }
+  .back-to-top-label{display:none}
+}
+
+/* Accesibilidad: si el dispositivo pide menos movimiento, no forzamos animaciones. */
+@media (prefers-reduced-motion:reduce){
+  .back-to-top.visible .back-to-top-arrow,
+  .solution-card.product-focus h3,
+  .project-slide.active figcaption > *,
+  .product-slide.active,
+  .carousel-slide.active img,
+  .carousel-slide.active figcaption,
+  .wizard-options button.selected{
+    animation:none !important;
+  }
+}
+
+
+/* =========================================================
+   V116 — HERO, INTRO LARGO, PREVIEW DE TARJETAS Y CONTACTO
+========================================================= */
+
+/* ---------- HERO: dar más aire al texto y mover el carrusel a la derecha ---------- */
+@media (min-width:1101px){
+  .hero-grid{
+    grid-template-columns:minmax(0,1.2fr) minmax(500px,.8fr) !important;
+    gap:34px !important;
+  }
+
+  .hero-copy{
+    position:relative;
+    z-index:3;
+    min-width:0;
+  }
+
+  .hero-gallery{
+    position:relative;
+    z-index:2;
+    width:min(100%,620px) !important;
+    justify-self:end !important;
+    transform:translateX(28px);
+  }
+}
+
+/* El rótulo decorativo "SECTOR / BAJA TENSIÓN" no debe competir con el navbar. */
+@media (max-width:1450px){
+  .frame-top{
+    display:none !important;
+  }
+}
+
+/* ---------- INTRO EN DOS TIEMPOS ---------- */
+.intro-promise{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:min(92vw,900px);
+  transform:translate(-50%,-50%) translateY(10px);
+  color:#f4f7fa;
+  font:900 clamp(1rem,2.2vw,1.7rem)/1.2 var(--font-heading);
+  letter-spacing:.055em;
+  text-transform:uppercase;
+  opacity:0;
+  animation:introPromiseV116 1.35s .15s ease both;
+}
+
+.intro-kicker{
+  animation-delay:1.48s !important;
+}
+
+.intro-brand span:nth-child(1){animation-delay:1.55s !important}
+.intro-brand span:nth-child(2){animation-delay:1.61s !important}
+.intro-brand span:nth-child(3){animation-delay:1.67s !important}
+.intro-brand span:nth-child(4){animation-delay:1.73s !important}
+.intro-brand span:nth-child(5){animation-delay:1.79s !important}
+.intro-brand span:nth-child(6){animation-delay:1.85s !important}
+.intro-brand span:nth-child(7){animation-delay:1.91s !important}
+.intro-brand span:nth-child(8){animation-delay:1.97s !important}
+
+.intro-electric{
+  animation-delay:2.10s !important;
+}
+
+.intro-line span{
+  animation-delay:1.90s !important;
+  animation-duration:.86s !important;
+}
+
+.intro-scan{
+  animation-delay:1.55s !important;
+  animation-duration:1.15s !important;
+}
+
+@keyframes introPromiseV116{
+  0%{opacity:0;transform:translate(-50%,-50%) translateY(12px);filter:blur(6px)}
+  18%{opacity:1;transform:translate(-50%,-50%);filter:blur(0)}
+  72%{opacity:1;transform:translate(-50%,-50%);filter:blur(0)}
+  100%{opacity:0;transform:translate(-50%,-50%) translateY(-10px);filter:blur(3px)}
+}
+
+/* ---------- HOVER: crecimiento sutil ---------- */
+.service-card,
+.solution-card,
+.about-card,
+.contact-panel{
+  transform-origin:center;
+  will-change:transform;
+}
+
+.service-card:hover,
+.solution-card:hover,
+.about-card:hover,
+.contact-panel:hover{
+  transform:translateY(-5px) scale(1.018) !important;
+}
+
+.service-image img,
+.product-media .product-slide,
+.about-card img{
+  transition:transform .45s var(--ease),opacity .32s ease !important;
+}
+
+.service-card:hover .service-image img,
+.solution-card:hover .product-slide.active{
+  transform:scale(1.035) !important;
+}
+
+.service-card,
+.solution-card{
+  cursor:zoom-in;
+}
+
+/* ---------- CONTACTO: iconos reales, ligeros y coherentes ---------- */
+.contact-icon{
+  width:48px !important;
+  height:48px !important;
+  border-color:rgba(255,230,0,.34) !important;
+  background:rgba(255,230,0,.025);
+  transition:transform .25s var(--ease),background .2s ease,border-color .2s ease;
+}
+
+.contact-icon svg{
+  width:23px;
+  height:23px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.65;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.contact-panel>a,
+.contact-panel>div{
+  grid-template-columns:52px 1fr !important;
+}
+
+.contact-panel>a:hover .contact-icon{
+  transform:scale(1.08) rotate(-2deg);
+  background:rgba(255,230,0,.08);
+  border-color:var(--yellow) !important;
+}
+
+/* ---------- MODAL DE TARJETA AMPLIADA ---------- */
+.card-preview-modal{
+  position:fixed;
+  inset:0;
+  z-index:110000;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity .24s ease,visibility .24s ease;
+}
+
+.card-preview-modal.open{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+}
+
+.card-preview-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(3,5,8,.72);
+  backdrop-filter:blur(14px) saturate(.72);
+  -webkit-backdrop-filter:blur(14px) saturate(.72);
+}
+
+.card-preview-shell{
+  position:relative;
+  z-index:2;
+  width:min(92vw,1120px);
+  max-height:88vh;
+  overflow:auto;
+  border:1px solid rgba(255,230,0,.58);
+  background:#0a0f16;
+  box-shadow:0 34px 120px rgba(0,0,0,.62),0 0 42px rgba(255,230,0,.045);
+  opacity:0;
+  transform:translateY(22px) scale(.965);
+  transition:opacity .26s ease,transform .38s var(--ease);
+}
+
+.card-preview-modal.open .card-preview-shell{
+  opacity:1;
+  transform:none;
+}
+
+.card-preview-close{
+  position:absolute;
+  top:14px;
+  right:14px;
+  z-index:12;
+  width:44px;
+  height:44px;
+  border:1px solid rgba(255,230,0,.62);
+  background:rgba(5,8,12,.88);
+  color:var(--yellow);
+  font-size:1.35rem;
+  cursor:pointer;
+  transition:background .2s ease,color .2s ease,transform .2s ease;
+}
+
+.card-preview-close:hover{
+  background:var(--yellow);
+  color:#05070b;
+  transform:rotate(4deg);
+}
+
+.card-preview-content{
+  min-height:360px;
+}
+
+.card-preview-content .service-card,
+.card-preview-content .solution-card{
+  width:100%;
+  min-height:500px;
+  margin:0;
+  border:0 !important;
+  box-shadow:none !important;
+  transform:none !important;
+  cursor:default;
+  grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr) !important;
+}
+
+.card-preview-content .service-card::after,
+.card-preview-content .solution-card::after{
+  display:none !important;
+}
+
+.card-preview-content .service-image,
+.card-preview-content .product-media,
+.card-preview-content .solution-card > img{
+  min-height:500px !important;
+  height:500px !important;
+  background:#05080d;
+}
+
+.card-preview-content .service-image img,
+.card-preview-content .product-slide.active,
+.card-preview-content .solution-card > img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+  transform:none !important;
+}
+
+.card-preview-content .product-arrow,
+.card-preview-content .product-dots{
+  display:none !important;
+}
+
+.card-preview-content .service-copy,
+.card-preview-content .solution-copy{
+  padding:46px !important;
+}
+
+.card-preview-content h3{
+  font-size:clamp(1.8rem,3vw,3.15rem) !important;
+}
+
+.card-preview-content p{
+  font-size:1rem !important;
+  line-height:1.7 !important;
+}
+
+body.card-preview-open{
+  overflow:hidden !important;
+}
+
+@media (max-width:760px){
+  .card-preview-modal{
+    padding:12px;
+  }
+
+  .card-preview-shell{
+    width:96vw;
+    max-height:90dvh;
+  }
+
+  .card-preview-content .service-card,
+  .card-preview-content .solution-card{
+    grid-template-columns:1fr !important;
+    min-height:0;
+  }
+
+  .card-preview-content .service-image,
+  .card-preview-content .product-media,
+  .card-preview-content .solution-card > img{
+    min-height:280px !important;
+    height:42vh !important;
+    max-height:390px !important;
+  }
+
+  .card-preview-content .service-copy,
+  .card-preview-content .solution-copy{
+    padding:26px 22px !important;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .intro-promise,
+  .card-preview-shell{
+    animation:none !important;
+    transition:none !important;
+  }
+}
+
+
+/* =========================================================
+   V117 — PERFORMANCE / A11Y / UX
+========================================================= */
+:root{--muted:#9BAABD}
+
+/* Fuentes de sistema: no requieren descarga de webfont. */
+.carousel{aspect-ratio:4/3;height:auto!important;min-height:360px}
+.product-media{aspect-ratio:4/3}
+.service-image{aspect-ratio:4/3}
+.projects-stage{aspect-ratio:16/9}
+.image-zoom-stage{aspect-ratio:16/10}
+img{height:auto}
+
+.hero-bg{background:none!important}
+.hero{
+  background-image:
+    linear-gradient(90deg,rgba(4,7,12,.94) 0%,rgba(4,7,12,.82) 32%,rgba(4,7,12,.36) 68%,rgba(4,7,12,.16) 100%),
+    url("images/hero-portada-original.webp")!important;
+  background-size:cover!important;background-repeat:no-repeat!important;background-position:center center!important
+}
+@media(max-width:700px){
+  .hero{
+    background-image:
+      linear-gradient(90deg,rgba(4,7,12,.95) 0%,rgba(4,7,12,.82) 43%,rgba(4,7,12,.28) 100%),
+      url("images/hero-portada-original-960.webp")!important;
+    background-position:64% center!important
+  }
+  .carousel{min-height:0;aspect-ratio:4/3}
+  .projects-stage{aspect-ratio:auto}
+}
+@media(min-width:701px) and (max-width:1440px){
+  .hero{
+    background-image:
+      linear-gradient(90deg,rgba(4,7,12,.94) 0%,rgba(4,7,12,.82) 32%,rgba(4,7,12,.36) 68%,rgba(4,7,12,.16) 100%),
+      url("images/hero-portada-original-1400.webp")!important
+  }
+}
+
+.intro-brand-lockup{display:flex;align-items:center;justify-content:center;gap:clamp(10px,1.6vw,22px)}
+.intro-bolt{
+  display:grid;place-items:center;width:clamp(30px,5vw,64px);opacity:0;
+  transform:translateY(8px) scale(.82);
+  animation:introBoltInV117 .42s 2.02s var(--ease) forwards;
+  filter:drop-shadow(0 0 12px rgba(255,230,0,.18))
+}
+.intro-bolt svg{
+  width:100%;height:auto;fill:var(--yellow);transform-origin:50% 18%;
+  animation:introBoltWobbleV117 .8s 2.42s ease-in-out infinite
+}
+@keyframes introBoltInV117{
+  from{opacity:0;transform:translateY(10px) scale(.75) rotate(-6deg)}
+  to{opacity:1;transform:none}
+}
+@keyframes introBoltWobbleV117{
+  0%,100%{transform:rotate(-4deg) translateY(0)}
+  35%{transform:rotate(5deg) translateY(-3px)}
+  65%{transform:rotate(-2deg) translateY(1px)}
+}
+
+.sr-only{
+  position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;
+  overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important
+}
+.wizard-step-help{margin:0 0 14px;color:var(--muted);font-size:.86rem;line-height:1.55}
+.wizard-error{min-height:24px;margin:10px 0 2px;color:#ffd36b;font:700 .72rem var(--font-mono);letter-spacing:.02em}
+.wizard-invalid{border-color:#ffd36b!important;box-shadow:0 0 0 2px rgba(255,211,107,.08)!important}
+.wizard-fields input:focus-visible,#wizard-details:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+[inert]{pointer-events:none!important}
+
+@media(prefers-reduced-motion:reduce){
+  .intro-bolt,.intro-bolt svg{animation:none!important;opacity:1;transform:none}
+}
+
+
+/* =========================================================
+   V118 — FIX VISUAL / MARCO LIMPIO / INTRO RAYO
+========================================================= */
+
+/* Sin leyendas flotantes: conservamos solo el borde técnico. */
+.frame-label{display:none !important}
+
+/* El título de una sección no debe quedar escondido al navegar por anclas. */
+main section[id]{
+  scroll-margin-top:118px;
+}
+
+/* ---------------------------------------------------------
+   REPARACIÓN DE "¿QUÉ HACE CADA TABLERO?"
+   El aspect-ratio de V117 estaba forzando el primer track
+   del grid y podía invadir/cortar el texto.
+--------------------------------------------------------- */
+.solutions-grid{
+  align-items:stretch;
+}
+
+.solution-card{
+  grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr) !important;
+  min-width:0;
+  min-height:380px;
+  align-items:stretch;
+  overflow:hidden;
+}
+
+.solution-card > .product-media{
+  aspect-ratio:auto !important;
+  width:100% !important;
+  min-width:0 !important;
+  min-height:380px !important;
+  height:100% !important;
+  padding:0 !important;
+  overflow:hidden !important;
+}
+
+.solution-card > .solution-copy{
+  position:relative;
+  z-index:3;
+  min-width:0;
+  width:100%;
+  height:100%;
+  padding:30px !important;
+  background:#0D1219;
+  overflow:hidden;
+}
+
+.solution-card > .solution-copy h3,
+.solution-card > .solution-copy p{
+  max-width:100%;
+  overflow-wrap:anywhere;
+}
+
+.product-slides{
+  position:absolute;
+  inset:0;
+}
+
+.product-slide{
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+}
+
+@media(max-width:1100px){
+  .solutions-grid{
+    grid-template-columns:1fr !important;
+  }
+
+  .solution-card{
+    grid-template-columns:minmax(0,1fr) minmax(320px,.8fr) !important;
+  }
+}
+
+@media(max-width:700px){
+  .solution-card{
+    grid-template-columns:1fr !important;
+    min-height:0;
+  }
+
+  .solution-card > .product-media{
+    min-height:260px !important;
+    height:260px !important;
+  }
+
+  .solution-card > .solution-copy{
+    padding:22px !important;
+  }
+}
+
+/* ---------------------------------------------------------
+   MISIÓN / VISIÓN: emblema cuadrado, centrado y sin recorte.
+--------------------------------------------------------- */
+.section-mark{
+  display:grid !important;
+  place-items:center !important;
+  overflow:hidden !important;
+  padding:12px !important;
+}
+
+.section-mark img{
+  width:100% !important;
+  height:100% !important;
+  max-width:118px !important;
+  max-height:118px !important;
+  object-fit:contain !important;
+  object-position:center !important;
+  transform:none !important;
+}
+
+/* ---------------------------------------------------------
+   INTRO:
+   1) aparece IINTEGRA ELECTRIC
+   2) después el rayo cae desde arriba y rebota una vez
+   3) se queda visible antes de abrir la página
+--------------------------------------------------------- */
+.intro-brand-lockup{
+  display:block !important;
+  position:relative;
+}
+
+.intro-bolt-drop{
+  display:grid;
+  place-items:center;
+  width:clamp(28px,4.2vw,48px);
+  height:auto;
+  margin:8px auto 0;
+  opacity:0;
+  transform:translateY(-180px) rotate(-9deg) scale(.78);
+  filter:drop-shadow(0 0 14px rgba(255,230,0,.24));
+  animation:introBoltFallV118 .82s 2.86s cubic-bezier(.18,.78,.28,1.18) forwards !important;
+}
+
+.intro-bolt-drop svg{
+  width:100%;
+  height:auto;
+  fill:var(--yellow);
+  animation:introBoltSettleV118 .72s 3.68s ease-in-out both !important;
+}
+
+.intro-line span{
+  animation-delay:3.15s !important;
+}
+
+.intro-scan{
+  animation-delay:3.28s !important;
+}
+
+@keyframes introBoltFallV118{
+  0%{
+    opacity:0;
+    transform:translateY(-180px) rotate(-10deg) scale(.72);
+  }
+  58%{
+    opacity:1;
+    transform:translateY(8px) rotate(4deg) scale(1.08);
+  }
+  76%{
+    transform:translateY(-9px) rotate(-3deg) scale(.98);
+  }
+  100%{
+    opacity:1;
+    transform:translateY(0) rotate(0) scale(1);
+  }
+}
+
+@keyframes introBoltSettleV118{
+  0%,100%{transform:rotate(0)}
+  35%{transform:rotate(5deg)}
+  65%{transform:rotate(-4deg)}
+}
+
+/* Footer un poco más legible para la nueva leyenda legal. */
+.footer-bottom{
+  align-items:center;
+}
+
+.footer-bottom span:first-child{
+  color:rgba(255,255,255,.52);
+}
+
+@media(max-width:700px){
+  .footer-bottom{
+    gap:10px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .intro-bolt-drop,
+  .intro-bolt-drop svg{
+    animation:none !important;
+    opacity:1 !important;
+    transform:none !important;
+  }
+}
+
+
+/* =========================================================
+   V119 — TARJETAS AMPLIADAS: SIN PALABRAS CORTADAS
+          Y SIN IMAGEN/TEXTO ENCIMADOS
+========================================================= */
+
+/* Base robusta: la imagen y el texto nunca pueden invadir el track vecino. */
+.service-card,
+.solution-card{
+  min-width:0 !important;
+  grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr) !important;
+}
+
+.service-image,
+.service-copy,
+.solution-card > .product-media,
+.solution-card > .solution-copy{
+  min-width:0 !important;
+  max-width:100% !important;
+  box-sizing:border-box !important;
+}
+
+.service-image,
+.solution-card > .product-media{
+  overflow:hidden !important;
+}
+
+.service-image img,
+.solution-card > .product-media img{
+  display:block !important;
+  max-width:100% !important;
+}
+
+.service-copy,
+.solution-card > .solution-copy{
+  position:relative !important;
+  z-index:3 !important;
+  width:100% !important;
+  background:#0D1219 !important;
+  overflow:hidden !important;
+}
+
+/* ---------------------------------------------------------
+   VISTA AMPLIADA
+--------------------------------------------------------- */
+.card-preview-content .service-card,
+.card-preview-content .solution-card{
+  display:grid !important;
+  grid-template-columns:minmax(0,54%) minmax(0,46%) !important;
+  align-items:stretch !important;
+  width:100% !important;
+  min-width:0 !important;
+  min-height:500px !important;
+  overflow:hidden !important;
+}
+
+/* La parte visual se queda estrictamente dentro de su mitad. */
+.card-preview-content .service-image,
+.card-preview-content .product-media,
+.card-preview-content .solution-card > img{
+  width:100% !important;
+  min-width:0 !important;
+  max-width:100% !important;
+  min-height:500px !important;
+  height:500px !important;
+  aspect-ratio:auto !important;
+  overflow:hidden !important;
+  background:#05080d !important;
+}
+
+.card-preview-content .service-image img,
+.card-preview-content .product-slide.active,
+.card-preview-content .solution-card > img{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  max-width:100% !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+  transform:none !important;
+}
+
+/* La parte de texto también queda estrictamente dentro de su mitad. */
+.card-preview-content .service-copy,
+.card-preview-content .solution-copy{
+  width:100% !important;
+  min-width:0 !important;
+  max-width:100% !important;
+  padding:clamp(28px,3vw,46px) !important;
+  overflow:hidden !important;
+  box-sizing:border-box !important;
+}
+
+/*
+  Importante:
+  nunca partir AUTOMATIZACIÓN como "AUTOMATIZACIÓ" + "N".
+  Solo puede saltar de línea en espacios naturales.
+*/
+.card-preview-content h3,
+.card-preview-content .service-copy h3,
+.card-preview-content .solution-copy h3{
+  max-width:100% !important;
+  margin-right:42px !important;
+  font-size:clamp(1.65rem,2.45vw,2.75rem) !important;
+  line-height:1.03 !important;
+  white-space:normal !important;
+  word-break:keep-all !important;
+  overflow-wrap:normal !important;
+  hyphens:none !important;
+  text-wrap:balance;
+}
+
+.card-preview-content p{
+  max-width:100% !important;
+  overflow-wrap:break-word !important;
+}
+
+/* En pantallas donde dos columnas ya aprietan demasiado, apilamos.
+   Es mejor una tarjeta limpia que comprimir o cortar palabras. */
+@media (max-width:1050px){
+  .card-preview-content .service-card,
+  .card-preview-content .solution-card{
+    grid-template-columns:1fr !important;
+    min-height:0 !important;
+  }
+
+  .card-preview-content .service-image,
+  .card-preview-content .product-media,
+  .card-preview-content .solution-card > img{
+    min-height:320px !important;
+    height:min(46vh,420px) !important;
+  }
+
+  .card-preview-content h3,
+  .card-preview-content .service-copy h3,
+  .card-preview-content .solution-copy h3{
+    margin-right:0 !important;
+    font-size:clamp(1.6rem,4vw,2.45rem) !important;
+  }
+}
+
+@media (max-width:700px){
+  .service-card,
+  .solution-card{
+    grid-template-columns:1fr !important;
+  }
+}
