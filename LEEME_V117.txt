@@ -1,0 +1,22 @@
+IINTEGRA ELECTRIC — V117
+
+IMPLEMENTADO:
+- Hero responsive en WebP (960 / 1400 / original) y preload por media query.
+- srcset/sizes en las 6 imágenes del carrusel principal.
+- width/height en imágenes locales + aspect-ratio para reducir CLS.
+- La página usa fuentes del sistema; por eso no existe un webfont que deba pre-cargarse o usar font-display.
+- aria-hidden + inert sincronizados.
+- Focus trap en Catálogo, Cotizador, Vista Ampliada y Lightbox.
+- Labels accesibles y errores con role=alert.
+- Contraste secundario reforzado.
+- JSON-LD Organization.
+- canonical, og:url, og:site_name, og:locale, OG image completo y Twitter Card.
+- Cotizador con validación por pasos.
+- Tensión requerida para soluciones técnicas donde aplica.
+- Descripción mínima de proyecto.
+- Borrador automático en localStorage durante 7 días.
+- El borrador se elimina al abrir WhatsApp.
+- Rayo animado junto a IINTEGRA en la intro.
+
+JS syntax: OK
+Imágenes locales sin dimensiones: 0

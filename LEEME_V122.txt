@@ -1,0 +1,44 @@
+IINTEGRA ELECTRIC — V122
+
+CAMBIOS PRINCIPALES
+
+1. VENTA DE MATERIAL ELÉCTRICO
+- Nuevo servicio: venta por pieza o por proyecto.
+- Incluido en buscador, catálogo y cotizador.
+- Permite cotizar material, marca preferida, modelo/número de parte y cantidad.
+
+2. MARCAS QUE MANEJAMOS
+- Nueva sección con ABB, Siemens y Condumex.
+- Se presenta como marcas manejadas comercialmente, no como socios oficiales.
+- Diseño ligero sin cargar imágenes externas.
+
+3. COTIZADOR PERSONALIZADO
+Cada solución pide información distinta:
+- Distribución: tensión, capacidad, circuitos, cantidad.
+- CCM: tensión, número/potencia de motores y tipo de arranque/control.
+- Medidores: puntos de medición, tensión, comunicación y cantidad.
+- Transferencias: tensión, capacidad, fuente de respaldo y cantidad.
+- Alumbrado: tensión, circuitos, capacidad y cantidad.
+- Automatización: proceso, señales, comunicación y control existente.
+- Pruebas/diagnóstico: tipo de servicio, equipo, ubicación y prioridad.
+- Material eléctrico: componente, marca, modelo y cantidad.
+- Asesoría: objetivo, tipo de instalación, ubicación y plazo.
+
+4. WHATSAPP
+- Corregido el problema de los "\n" visibles.
+- El mensaje ahora se envía con saltos de línea reales, encabezados y viñetas.
+- Saludo cordial y solicitud organizada.
+
+5. ANIMACIONES
+- Se retiró el efecto ripple que se sentía plástico.
+- Hover más lento y sutil.
+- La vista ampliada ahora nace desde la tarjeta seleccionada y acelera/desacelera progresivamente.
+- El fondo difumina de forma gradual.
+- Catálogo y buscador conservan el flujo: llevan a la tarjeta y luego la amplían.
+
+6. SE CONSERVA
+- Scroll móvil V121.
+- Hero, intro, privacidad de imágenes, carruseles, zoom, menú móvil, SEO, accesibilidad y demás mejoras anteriores.
+
+CSS/JS: v122
+JS syntax: OK

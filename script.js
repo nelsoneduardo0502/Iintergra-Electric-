@@ -40,6 +40,12 @@ const catalog = [
     keywords: ["automatizacion", "plc", "control", "relevadores", "industrial"]
   },
   {
+    id: "materiales",
+    name: "VENTA DE MATERIAL ELÉCTRICO",
+    description: "Suministro por pieza o por proyecto de componentes y material eléctrico de baja tensión.",
+    keywords: ["material", "componentes", "venta", "pieza", "interruptores", "breakers", "cables", "conductores", "abb", "siemens", "condumex"]
+  },
+  {
     id: "pruebas",
     name: "PRUEBAS Y DIAGNÓSTICO",
     description: "Comprueba continuidad, aislamiento y funcionamiento antes de energizar o entregar el tablero.",
@@ -47,11 +53,132 @@ const catalog = [
   }
 ];
 
+
+const QUOTE_PROFILES = {
+  "Tablero de distribución": {
+    step2Title: "2. DATOS DEL TABLERO DE DISTRIBUCIÓN",
+    help: "Estos datos nos permiten dimensionar el tablero sin pedir información que no aplica a tu proyecto.",
+    detailsTitle: "3. APLICACIÓN Y REQUERIMIENTOS",
+    detailsPlaceholder: "Ej. área que alimentará, tipo de cargas, espacio disponible, interior/exterior, fecha requerida...",
+    detailsRequired: true,
+    fields: [
+      {key:"voltage", label:"Tensión del sistema", placeholder:"EJ. 220 / 440 V", required:true},
+      {key:"mainCurrent", label:"Corriente o capacidad principal", placeholder:"EJ. 225 A / 400 A"},
+      {key:"circuits", label:"Número aproximado de circuitos", placeholder:"EJ. 24 CIRCUITOS", type:"number", min:1},
+      {key:"quantity", label:"Cantidad de tableros", placeholder:"CANTIDAD", type:"number", min:1, value:"1", required:true}
+    ]
+  },
+  "Centro de Control de Motores CCM": {
+    step2Title: "2. DATOS DEL CCM",
+    help: "Para un CCM necesitamos conocer principalmente los motores y la forma en que se controlarán.",
+    detailsTitle: "3. PROCESO Y CONTROL",
+    detailsPlaceholder: "Describe el proceso, arranques requeridos, interbloqueos, señales, PLC existente o condiciones especiales...",
+    detailsRequired: true,
+    fields: [
+      {key:"voltage", label:"Tensión del sistema", placeholder:"EJ. 220 / 440 V", required:true},
+      {key:"motors", label:"Número de motores", placeholder:"EJ. 8 MOTORES", type:"number", min:1, required:true},
+      {key:"motorPower", label:"Potencia de motores", placeholder:"EJ. 5–30 HP / kW"},
+      {key:"starter", label:"Tipo de arranque o control", type:"select", options:["Por definir","Contactor","Variador de frecuencia","Arrancador suave","Combinado"]}
+    ]
+  },
+  "Medidores digitales": {
+    step2Title: "2. DATOS DE MEDICIÓN",
+    help: "Aquí importa cuántos puntos se medirán y qué variables o comunicación necesita el proyecto.",
+    detailsTitle: "3. VARIABLES Y MONITOREO",
+    detailsPlaceholder: "Indica qué deseas visualizar o registrar: energía, corriente, tensión, demanda, comunicación con PLC/BMS, etc.",
+    detailsRequired: true,
+    fields: [
+      {key:"points", label:"Puntos de medición", placeholder:"EJ. 4 PUNTOS", type:"number", min:1, required:true},
+      {key:"voltage", label:"Tensión a medir", placeholder:"EJ. 220 / 440 V"},
+      {key:"communication", label:"Comunicación requerida", type:"select", options:["No requerida / por definir","Modbus RTU","Modbus TCP","Ethernet / integración","Otra"]},
+      {key:"quantity", label:"Cantidad de equipos", placeholder:"CANTIDAD", type:"number", min:1, value:"1", required:true}
+    ]
+  },
+  "Transferencias automáticas": {
+    step2Title: "2. DATOS DE LA TRANSFERENCIA",
+    help: "Para seleccionar una transferencia necesitamos conocer la capacidad y las fuentes entre las que se realizará el cambio.",
+    detailsTitle: "3. FUENTES Y OPERACIÓN",
+    detailsPlaceholder: "Ej. red normal + generador, tiempos de transferencia, señal de arranque, operación manual/automática, espacio...",
+    detailsRequired: true,
+    fields: [
+      {key:"voltage", label:"Tensión del sistema", placeholder:"EJ. 220 / 440 V", required:true},
+      {key:"capacity", label:"Corriente / capacidad", placeholder:"EJ. 400 A", required:true},
+      {key:"backupSource", label:"Fuente de respaldo", type:"select", options:["Generador","Segunda acometida","UPS / sistema de respaldo","Por definir"]},
+      {key:"quantity", label:"Cantidad de transferencias", placeholder:"CANTIDAD", type:"number", min:1, value:"1", required:true}
+    ]
+  },
+  "Tablero de alumbrado": {
+    step2Title: "2. DATOS DEL TABLERO DE ALUMBRADO",
+    help: "Para alumbrado necesitamos principalmente la tensión, el número de circuitos y la capacidad general.",
+    detailsTitle: "3. DISTRIBUCIÓN DE CIRCUITOS",
+    detailsPlaceholder: "Indica si es interior/exterior, tipos de cargas de iluminación, espacios de reserva o alguna condición especial...",
+    detailsRequired: true,
+    fields: [
+      {key:"voltage", label:"Tensión del sistema", placeholder:"EJ. 127/220 V", required:true},
+      {key:"circuits", label:"Número de circuitos", placeholder:"EJ. 30 CIRCUITOS", type:"number", min:1, required:true},
+      {key:"mainCurrent", label:"Capacidad principal", placeholder:"EJ. 100 A"},
+      {key:"quantity", label:"Cantidad de tableros", placeholder:"CANTIDAD", type:"number", min:1, value:"1", required:true}
+    ]
+  },
+  "Control y automatización": {
+    step2Title: "2. DATOS DE AUTOMATIZACIÓN",
+    help: "En automatización la corriente no es el dato principal; necesitamos entender el proceso, las señales y la integración.",
+    detailsTitle: "3. LÓGICA Y FUNCIONAMIENTO",
+    detailsPlaceholder: "Describe qué debe hacer el sistema, secuencias, alarmas, HMI, equipos existentes, protocolos o condiciones especiales...",
+    detailsRequired: true,
+    fields: [
+      {key:"process", label:"Equipo o proceso a controlar", placeholder:"EJ. BOMBAS, BANDA, PROCESO DE DOSIFICACIÓN", required:true},
+      {key:"signals", label:"Señales / E/S aproximadas", placeholder:"EJ. 24 DI + 16 DO + 4 AI"},
+      {key:"communication", label:"Comunicación / protocolo", placeholder:"EJ. PROFINET, MODBUS, ETHERNET/IP"},
+      {key:"existingControl", label:"Control existente", type:"select", options:["Proyecto nuevo","PLC existente","HMI existente","PLC + HMI existente","Por definir"]}
+    ]
+  },
+  "Pruebas y diagnóstico eléctrico": {
+    step2Title: "2. DATOS DEL SERVICIO",
+    help: "Para diagnóstico no te pedimos corriente o capacidad si no es necesaria; primero necesitamos saber qué equipo se revisará y qué problema presenta.",
+    detailsTitle: "3. SÍNTOMA O PRUEBA REQUERIDA",
+    detailsPlaceholder: "Describe la falla, comportamiento, prueba requerida, antecedentes o cualquier dato que ayude al diagnóstico...",
+    detailsRequired: true,
+    fields: [
+      {key:"serviceType", label:"Tipo de servicio", type:"select", options:["Diagnóstico de falla","Prueba de aislamiento","Prueba de continuidad","Prueba funcional","Puesta en marcha","Revisión general","Otro"], required:true},
+      {key:"equipment", label:"Equipo / tablero a revisar", placeholder:"EJ. TABLERO DE DISTRIBUCIÓN, CCM, CONTROL", required:true},
+      {key:"location", label:"Ubicación del servicio", placeholder:"CIUDAD / PLANTA / SITIO"},
+      {key:"urgency", label:"Prioridad", type:"select", options:["Programable","Lo antes posible","Paro de operación / urgente"]}
+    ]
+  },
+  "Venta de material eléctrico": {
+    step2Title: "2. MATERIAL QUE NECESITAS",
+    help: "Para venta por pieza lo más útil es el material, marca, modelo o número de parte y la cantidad.",
+    detailsTitle: "3. ESPECIFICACIONES ADICIONALES",
+    detailsPlaceholder: "Agrega calibre, capacidad, características, equivalencias aceptables o cualquier dato adicional. Si tienes foto o ficha, podrás enviarla por WhatsApp.",
+    detailsRequired: false,
+    fields: [
+      {key:"material", label:"Material / componente", placeholder:"EJ. INTERRUPTOR, CONTACTOR, CABLE, MEDIDOR", required:true},
+      {key:"brand", label:"Marca preferida", type:"select", options:["Sin preferencia","ABB","Siemens","Condumex","Otra"]},
+      {key:"partNumber", label:"Modelo / número de parte", placeholder:"SI LO CONOCES"},
+      {key:"quantity", label:"Cantidad", placeholder:"CANTIDAD", type:"number", min:1, value:"1", required:true}
+    ]
+  },
+  "Necesito asesoría": {
+    step2Title: "2. CUÉNTANOS QUÉ NECESITAS RESOLVER",
+    help: "No necesitas conocer datos eléctricos todavía. Describe el objetivo y nosotros te ayudamos a identificar la solución adecuada.",
+    detailsTitle: "3. CONTEXTO DEL PROYECTO",
+    detailsPlaceholder: "Cuéntanos qué quieres lograr, qué equipo tienes actualmente, qué problema existe o qué información te gustaría recibir...",
+    detailsRequired: true,
+    fields: [
+      {key:"objective", label:"Objetivo principal", placeholder:"EJ. NUEVO TABLERO, FALLA, AMPLIACIÓN, AUTOMATIZAR", required:true},
+      {key:"installation", label:"Tipo de instalación", type:"select", options:["Industrial","Comercial","Servicios / edificio","Por definir"]},
+      {key:"location", label:"Ubicación aproximada", placeholder:"CIUDAD / ZONA"},
+      {key:"timeline", label:"Cuándo lo necesitas", type:"select", options:["Solo información","Este mes","Próximas semanas","Urgente","Por definir"]}
+    ]
+  }
+};
+
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
 
 
-const WIZARD_STORAGE_KEY = "iintegra_quote_draft_v1";
+const WIZARD_STORAGE_KEY = "iintegra_quote_draft_v2";
 
 function getFocusableElements(container){
   if (!container) return [];
@@ -120,8 +247,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initProductCarousels();
   initDeepLinks();
   initBackToTop();
-  initInteractiveFeedback();
   initCardPreview();
+  initMobileScrollFix();
 });
 
 
@@ -159,7 +286,7 @@ function focusProduct(id, {updateHash=true, openPreview=true} = {}){
     card.classList.remove("product-focus");
     void card.offsetWidth;
     card.classList.add("product-focus");
-    setTimeout(() => card.classList.remove("product-focus"), 1700);
+    setTimeout(() => card.classList.remove("product-focus"), 2200);
 
     const carousel = $("[data-product-carousel]", card);
     if (carousel?.productCarouselShow) carousel.productCarouselShow(0);
@@ -170,7 +297,7 @@ function focusProduct(id, {updateHash=true, openPreview=true} = {}){
     }, 520);
 
     if (openPreview){
-      setTimeout(() => openCardPreview(card), 760);
+      setTimeout(() => openCardPreview(card), 1050);
     }
   };
 
@@ -308,7 +435,7 @@ function initSearch(){
   const render = items => {
     box.innerHTML = "";
     if (!items.length){
-      box.innerHTML = `<div class="search-result"><strong>SIN COINCIDENCIAS</strong><small>Prueba con “CCM”, “medidores”, “transferencias”, “alumbrado” o “distribución”.</small></div>`;
+      box.innerHTML = `<div class="search-result"><strong>SIN COINCIDENCIAS</strong><small>Prueba con “CCM”, “material”, “medidores”, “transferencias”, “alumbrado” o “distribución”.</small></div>`;
       box.classList.add("open");
       return;
     }
@@ -578,140 +705,364 @@ let wizardSolution = "";
 let wizardStep = 1;
 
 function initWizard(){
-  const modal=$("#wizard-modal"), open=$("#open-wizard"), close=$("#close-wizard");
-  const prev=$("#wizard-prev"), next=$("#wizard-next"), form=$("#wizard-form"), error=$("#wizard-error");
-  const voltage=$("#wizard-voltage"), current=$("#wizard-current"), quantity=$("#wizard-quantity");
-  const details=$("#wizard-details"), name=$("#wizard-name"), email=$("#wizard-email");
-  const step2Help=$("#wizard-step2-help");
-  if (!modal||!open||!close||!form) return;
+  const modal = $("#wizard-modal");
+  const open = $("#open-wizard");
+  const close = $("#close-wizard");
+  const prev = $("#wizard-prev");
+  const next = $("#wizard-next");
+  const form = $("#wizard-form");
+  const error = $("#wizard-error");
+  const dynamicFields = $("#wizard-dynamic-fields");
+  const step2Title = $("#wizard-step2-title");
+  const step2Help = $("#wizard-step2-help");
+  const step3Title = $("#wizard-step3-title");
+  const details = $("#wizard-details");
+  const detailsHelp = $("#wizard-details-help");
+  const name = $("#wizard-name");
+  const email = $("#wizard-email");
 
-  const voltageRequiredSolutions=new Set([
-    "Tablero de distribución","Centro de Control de Motores CCM","Medidores digitales",
-    "Transferencias automáticas","Tablero de alumbrado","Control y automatización"
-  ]);
+  if (!modal || !open || !close || !form || !dynamicFields) return;
 
-  const clearErrors=()=>{
-    if (error) error.textContent="";
-    [voltage,current,quantity,details,name,email].forEach(field=>{
-      field?.classList.remove("wizard-invalid");field?.removeAttribute("aria-invalid");
+  let wizardValues = {};
+
+  const profileFor = solution => QUOTE_PROFILES[solution] || QUOTE_PROFILES["Necesito asesoría"];
+
+  const fieldId = key => `wizard-dynamic-${key}`;
+
+  const escapeHtml = value => String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;");
+
+  const renderDynamicFields = (solution, values = {}) => {
+    const profile = profileFor(solution);
+    wizardValues = {...values};
+    dynamicFields.innerHTML = "";
+
+    step2Title.textContent = profile.step2Title;
+    step2Help.textContent = profile.help;
+    step3Title.textContent = profile.detailsTitle;
+    details.placeholder = profile.detailsPlaceholder;
+    details.required = !!profile.detailsRequired;
+    details.minLength = profile.detailsRequired ? 10 : 0;
+    detailsHelp.textContent = profile.detailsRequired
+      ? "Incluye la información que conozcas. Si tienes plano, ficha o fotografía, podrás adjuntarla al abrir WhatsApp."
+      : "Este campo es opcional. Si tienes foto, ficha o lista de material, podrás adjuntarla al abrir WhatsApp.";
+
+    profile.fields.forEach(field => {
+      const wrapper = document.createElement("label");
+      wrapper.className = "wizard-field";
+      wrapper.htmlFor = fieldId(field.key);
+
+      const label = document.createElement("span");
+      label.className = "wizard-field-label";
+      label.innerHTML = `${escapeHtml(field.label)}${field.required ? ' <b>*</b>' : ''}`;
+      wrapper.appendChild(label);
+
+      let control;
+      if (field.type === "select"){
+        control = document.createElement("select");
+        (field.options || []).forEach(option => {
+          const opt = document.createElement("option");
+          opt.value = option;
+          opt.textContent = option;
+          control.appendChild(opt);
+        });
+      } else {
+        control = document.createElement("input");
+        control.type = field.type || "text";
+        if (field.placeholder) control.placeholder = field.placeholder;
+        if (field.min != null) control.min = field.min;
+        if (field.max != null) control.max = field.max;
+        if (control.type === "number") control.inputMode = "numeric";
+        else control.autocomplete = "off";
+      }
+
+      control.id = fieldId(field.key);
+      control.dataset.quoteKey = field.key;
+      control.dataset.quoteLabel = field.label;
+      if (field.required) control.required = true;
+
+      const saved = values[field.key];
+      if (saved !== undefined && saved !== null && saved !== ""){
+        control.value = saved;
+      } else if (field.value !== undefined){
+        control.value = field.value;
+      }
+
+      control.addEventListener("input", () => {
+        control.classList.remove("wizard-invalid");
+        control.removeAttribute("aria-invalid");
+        if (error) error.textContent = "";
+        wizardValues[field.key] = control.value;
+        saveDraft();
+      });
+      control.addEventListener("change", () => {
+        wizardValues[field.key] = control.value;
+        saveDraft();
+      });
+
+      wrapper.appendChild(control);
+      dynamicFields.appendChild(wrapper);
     });
   };
-  const fail=(message,field=null)=>{
-    if (error) error.textContent=message;
-    if (field){field.classList.add("wizard-invalid");field.setAttribute("aria-invalid","true");field.focus({preventScroll:true})}
+
+  const collectDynamicValues = () => {
+    const values = {};
+    $$("[data-quote-key]", dynamicFields).forEach(control => {
+      values[control.dataset.quoteKey] = control.value.trim ? control.value.trim() : control.value;
+    });
+    wizardValues = values;
+    return values;
+  };
+
+  const clearErrors = () => {
+    if (error) error.textContent = "";
+    $$("[data-quote-key]", dynamicFields).forEach(field => {
+      field.classList.remove("wizard-invalid");
+      field.removeAttribute("aria-invalid");
+    });
+    [details,name,email].forEach(field => {
+      field?.classList.remove("wizard-invalid");
+      field?.removeAttribute("aria-invalid");
+    });
+  };
+
+  const fail = (message, field = null) => {
+    if (error) error.textContent = message;
+    if (field){
+      field.classList.add("wizard-invalid");
+      field.setAttribute("aria-invalid","true");
+      field.focus({preventScroll:true});
+    }
     return false;
   };
-  const applyDynamicRequirements=()=>{
-    const req=voltageRequiredSolutions.has(wizardSolution);
-    voltage.required=req;
-    if (step2Help) step2Help.textContent=req
-      ?"Para esta solución necesitamos conocer la tensión del proyecto. La corriente/capacidad puede quedar por definir si aún no la conoces."
-      :"Agrega los datos técnicos que conozcas. Si todavía no los tienes, puedes continuar y describir la necesidad en el siguiente paso.";
-  };
-  const collectDraft=()=>({
-    savedAt:Date.now(),solution:wizardSolution,step:wizardStep,
-    voltage:voltage.value.trim(),current:current.value.trim(),quantity:quantity.value||"1",
-    details:details.value.trim(),name:name.value.trim(),email:email.value.trim()
+
+  const collectDraft = () => ({
+    savedAt: Date.now(),
+    solution: wizardSolution,
+    step: wizardStep,
+    values: collectDynamicValues(),
+    details: details.value.trim(),
+    name: name.value.trim(),
+    email: email.value.trim()
   });
-  const saveDraft=()=>{try{localStorage.setItem(WIZARD_STORAGE_KEY,JSON.stringify(collectDraft()))}catch(_){}};
-  const restoreDraft=preferredSolution=>{
-    const draft=readWizardDraft();
-    if (draft){
-      voltage.value=draft.voltage||"";current.value=draft.current||"";quantity.value=draft.quantity||"1";
-      details.value=draft.details||"";name.value=draft.name||"";email.value=draft.email||"";
-    }
-    wizardSolution=preferredSolution||draft?.solution||"";
-    $$(".wizard-options button").forEach(btn=>btn.classList.toggle("selected",btn.dataset.value===wizardSolution));
-    applyDynamicRequirements();
+
+  const saveDraft = () => {
+    try{
+      localStorage.setItem(WIZARD_STORAGE_KEY, JSON.stringify(collectDraft()));
+    }catch(_){}
   };
-  const validateStep=step=>{
+
+  const restoreDraft = preferredSolution => {
+    const draft = readWizardDraft();
+    wizardSolution = preferredSolution || draft?.solution || "";
+
+    const restoredValues = (!preferredSolution || preferredSolution === draft?.solution)
+      ? (draft?.values || {})
+      : {};
+
+    renderDynamicFields(wizardSolution || "Necesito asesoría", restoredValues);
+
+    if (draft){
+      if (!preferredSolution || preferredSolution === draft.solution){
+        details.value = draft.details || "";
+      } else {
+        details.value = "";
+      }
+      name.value = draft.name || "";
+      email.value = draft.email || "";
+    }
+
+    $$(".wizard-options button").forEach(btn => {
+      btn.classList.toggle("selected", btn.dataset.value === wizardSolution);
+    });
+  };
+
+  const validateStep = step => {
     clearErrors();
-    if (step===1 && !wizardSolution) return fail("Selecciona una solución o elige “NO ESTOY SEGURO”.");
-    if (step===2){
-      if (!quantity.value||Number(quantity.value)<1) return fail("Indica una cantidad válida de 1 o más.",quantity);
-      if (voltage.required&&!voltage.value.trim()) return fail("Para esta solución necesitamos la tensión del proyecto (por ejemplo 220 V o 440 V).",voltage);
+
+    if (step === 1){
+      if (!wizardSolution){
+        return fail("Selecciona una solución o elige “NO ESTOY SEGURO”.");
+      }
+      return true;
     }
-    if (step===3 && details.value.trim().length<10) return fail("Describe brevemente el proyecto con al menos 10 caracteres para poder orientarte mejor.",details);
-    if (step===4){
-      if (!name.value.trim()) return fail("Agrega tu nombre o el nombre de la empresa.",name);
-      if (email.value&&!email.checkValidity()) return fail("Revisa el formato del correo electrónico.",email);
+
+    if (step === 2){
+      for (const field of $$("[data-quote-key]", dynamicFields)){
+        const value = field.value.trim ? field.value.trim() : field.value;
+        if (field.required && !value){
+          return fail(`Completa: ${field.dataset.quoteLabel}.`, field);
+        }
+        if (field.type === "number" && value && Number(value) < Number(field.min || 0)){
+          return fail(`Revisa el valor de: ${field.dataset.quoteLabel}.`, field);
+        }
+      }
+      collectDynamicValues();
+      return true;
     }
+
+    if (step === 3){
+      if (details.required && details.value.trim().length < 10){
+        return fail("Agrega una breve descripción para que podamos entender mejor tu solicitud.", details);
+      }
+      return true;
+    }
+
+    if (step === 4){
+      if (!name.value.trim()){
+        return fail("Agrega tu nombre o el nombre de la empresa.", name);
+      }
+      if (email.value && !email.checkValidity()){
+        return fail("Revisa el formato del correo electrónico.", email);
+      }
+      return true;
+    }
+
     return true;
   };
 
-  window.openWizard=solution=>{
-    restoreDraft(solution||"");
-    modal.classList.add("open");document.body.classList.add("modal-open");
+  window.openWizard = solution => {
+    restoreDraft(solution || "");
+    modal.classList.add("open");
+    document.body.classList.add("modal-open");
     setDialogAccessibility(modal,true,close);
-    setWizardStep(1);saveDraft();
+    setWizardStep(1);
+    saveDraft();
   };
-  const closeWizard=()=>{
-    saveDraft();modal.classList.remove("open");document.body.classList.remove("modal-open");
+
+  const closeWizard = () => {
+    saveDraft();
+    modal.classList.remove("open");
+    document.body.classList.remove("modal-open");
     setDialogAccessibility(modal,false);
   };
 
-  open.addEventListener("click",()=>{
-    const preselect=open.dataset.preselect||"";delete open.dataset.preselect;openWizard(preselect);
+  open.addEventListener("click", () => {
+    const preselect = open.dataset.preselect || "";
+    delete open.dataset.preselect;
+    openWizard(preselect);
   });
-  close.addEventListener("click",closeWizard);
-  $$("[data-close-wizard]").forEach(el=>el.addEventListener("click",closeWizard));
+  close.addEventListener("click", closeWizard);
+  $$("[data-close-wizard]").forEach(el => el.addEventListener("click", closeWizard));
 
-  $$(".wizard-options button").forEach(btn=>btn.addEventListener("click",()=>{
-    wizardSolution=btn.dataset.value;
-    $$(".wizard-options button").forEach(b=>b.classList.toggle("selected",b===btn));
-    applyDynamicRequirements();clearErrors();saveDraft();
-  }));
-
-  [voltage,current,quantity,details,name,email].forEach(field=>{
-    field?.addEventListener("input",()=>{
-      field.classList.remove("wizard-invalid");field.removeAttribute("aria-invalid");
-      if (error) error.textContent="";saveDraft();
+  $$(".wizard-options button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      wizardSolution = btn.dataset.value;
+      $$(".wizard-options button").forEach(b => b.classList.toggle("selected", b === btn));
+      details.value = "";
+      renderDynamicFields(wizardSolution, {});
+      clearErrors();
+      saveDraft();
     });
-    field?.addEventListener("change",saveDraft);
   });
 
-  prev.addEventListener("click",()=>{clearErrors();setWizardStep(wizardStep-1);saveDraft()});
-  next.addEventListener("click",()=>{if (!validateStep(wizardStep)) return;setWizardStep(wizardStep+1);saveDraft()});
+  [details,name,email].forEach(field => {
+    field?.addEventListener("input", () => {
+      field.classList.remove("wizard-invalid");
+      field.removeAttribute("aria-invalid");
+      if (error) error.textContent = "";
+      saveDraft();
+    });
+    field?.addEventListener("change", saveDraft);
+  });
 
-  form.addEventListener("submit",e=>{
-    e.preventDefault();
+  prev.addEventListener("click", () => {
+    clearErrors();
+    setWizardStep(wizardStep - 1);
+    saveDraft();
+  });
+
+  next.addEventListener("click", () => {
+    if (!validateStep(wizardStep)) return;
+    setWizardStep(wizardStep + 1);
+    saveDraft();
+  });
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+
     for (const step of [1,2,3,4]){
-      if (!validateStep(step)){setWizardStep(step);return}
+      if (!validateStep(step)){
+        setWizardStep(step);
+        return;
+      }
     }
-    const message=[
-      "Hola, deseo solicitar una cotización con Iintegra Electric.","",
-      `Nombre / Empresa: ${name.value.trim()}`,
-      `Correo: ${email.value.trim()||"No indicado"}`,
-      `Solución: ${wizardSolution}`,
-      `Tensión: ${voltage.value.trim()||"Por definir"}`,
-      `Corriente / capacidad: ${current.value.trim()||"Por definir"}`,
-      `Cantidad: ${quantity.value||"1"}`,"","Detalles:",details.value.trim()
-    ].join("\\n");
+
+    const profile = profileFor(wizardSolution);
+    const values = collectDynamicValues();
+
+    const technicalLines = profile.fields
+      .map(field => {
+        const value = values[field.key];
+        if (!value) return null;
+        return `• ${field.label}: ${value}`;
+      })
+      .filter(Boolean);
+
+    const message = [
+      "Hola, muy buenas tardes. 👋",
+      "Me gustaría solicitar una cotización con IINTEGRA ELECTRIC.",
+      "",
+      "*SOLICITUD*",
+      `• Solución: ${wizardSolution}`,
+      ...technicalLines,
+      "",
+      ...(details.value.trim() ? ["*INFORMACIÓN ADICIONAL*", details.value.trim(), ""] : []),
+      "*DATOS DE CONTACTO*",
+      `• Nombre / empresa: ${name.value.trim()}`,
+      `• Correo: ${email.value.trim() || "No indicado"}`,
+      "",
+      "Quedo atento(a) a su asesoría. Muchas gracias."
+    ].join("\n");
+
     clearWizardDraft();
-    window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`,"_blank","noopener,noreferrer");
+    window.open(
+      `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
   });
 
-  modal.addEventListener("keydown",event=>{
+  modal.addEventListener("keydown", event => {
     trapFocusInDialog(modal,event);
-    if (event.key==="Escape") closeWizard();
+    if (event.key === "Escape") closeWizard();
   });
+
   restoreDraft("");
 }
 
 function setWizardStep(step){
-  wizardStep=Math.max(1,Math.min(4,step));
-  $$(".wizard-step").forEach(s=>s.classList.toggle("active",Number(s.dataset.step)===wizardStep));
-  $("#wizard-progress").style.width=`${wizardStep*25}%`;
-  $("#wizard-prev").style.visibility=wizardStep===1?"hidden":"visible";
-  $("#wizard-next").classList.toggle("hidden",wizardStep===4);
-  $("#wizard-submit").classList.toggle("hidden",wizardStep!==4);
-  const error=$("#wizard-error");if (error) error.textContent="";
-  if (wizardStep===4){
-    $("#wizard-summary").innerHTML=`
-      <strong>${wizardSolution||"Solución por definir"}</strong><br>
-      Tensión: ${$("#wizard-voltage").value||"Por definir"}<br>
-      Corriente/capacidad: ${$("#wizard-current").value||"Por definir"}<br>
-      Cantidad: ${$("#wizard-quantity").value||"1"}
+  wizardStep = Math.max(1, Math.min(4, step));
+  $$(".wizard-step").forEach(section => {
+    section.classList.toggle("active", Number(section.dataset.step) === wizardStep);
+  });
+
+  $("#wizard-progress").style.width = `${wizardStep * 25}%`;
+  $("#wizard-prev").style.visibility = wizardStep === 1 ? "hidden" : "visible";
+  $("#wizard-next").classList.toggle("hidden", wizardStep === 4);
+  $("#wizard-submit").classList.toggle("hidden", wizardStep !== 4);
+
+  const error = $("#wizard-error");
+  if (error) error.textContent = "";
+
+  if (wizardStep === 4){
+    const profile = QUOTE_PROFILES[wizardSolution] || QUOTE_PROFILES["Necesito asesoría"];
+    const values = {};
+    $$("[data-quote-key]", $("#wizard-dynamic-fields")).forEach(control => {
+      values[control.dataset.quoteKey] = control.value;
+    });
+
+    const rows = profile.fields
+      .map(field => values[field.key] ? `<span><b>${field.label}:</b> ${values[field.key]}</span>` : "")
+      .filter(Boolean)
+      .join("");
+
+    $("#wizard-summary").innerHTML = `
+      <strong>${wizardSolution || "Solución por definir"}</strong>
+      <div class="wizard-summary-grid">${rows || "<span>Datos técnicos por definir.</span>"}</div>
     `;
   }
 }
@@ -1042,35 +1393,87 @@ let cardPreviewApi = null;
 function initCardPreview(){
   const modal = $("#card-preview-modal");
   const content = $("#card-preview-content");
+  const shell = $(".card-preview-shell", modal);
+  const backdrop = $(".card-preview-backdrop", modal);
   const closeButton = $("#card-preview-close");
-  if (!modal || !content || !closeButton) return;
 
+  if (!modal || !content || !shell || !backdrop || !closeButton) return;
+
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   let lastTrigger = null;
+  let sourceRect = null;
+  let closing = false;
 
-  const close = () => {
-    modal.classList.remove("open");
+  const geometryTransform = (fromRect, toRect) => {
+    if (!fromRect || !toRect || !toRect.width || !toRect.height) return "translate3d(0,18px,0) scale(.97)";
+    const fromX = fromRect.left + fromRect.width / 2;
+    const fromY = fromRect.top + fromRect.height / 2;
+    const toX = toRect.left + toRect.width / 2;
+    const toY = toRect.top + toRect.height / 2;
+    const dx = fromX - toX;
+    const dy = fromY - toY;
+    const sx = Math.max(.28, Math.min(1, fromRect.width / toRect.width));
+    const sy = Math.max(.28, Math.min(1, fromRect.height / toRect.height));
+    return `translate3d(${dx}px,${dy}px,0) scale(${sx},${sy})`;
+  };
+
+  const finalizeClose = () => {
+    modal.classList.remove("open","is-morphing");
     document.body.classList.remove("card-preview-open");
     setDialogAccessibility(modal,false);
     content.innerHTML = "";
+    shell.getAnimations().forEach(a => a.cancel());
+    backdrop.getAnimations().forEach(a => a.cancel());
+    closing = false;
+
     if (lastTrigger?.focus){
       try { lastTrigger.focus({preventScroll:true}); } catch (_) {}
     }
   };
 
+  const close = () => {
+    if (!modal.classList.contains("open") || closing) return;
+    closing = true;
+
+    if (reduced){
+      finalizeClose();
+      return;
+    }
+
+    const currentRect = shell.getBoundingClientRect();
+    const destinationRect = lastTrigger?.isConnected ? lastTrigger.getBoundingClientRect() : sourceRect;
+    const endTransform = geometryTransform(destinationRect, currentRect);
+
+    shell.animate(
+      [
+        {transform:"translate3d(0,0,0) scale(1)", opacity:1, filter:"blur(0px)"},
+        {transform:endTransform, opacity:.35, filter:"blur(1.5px)"}
+      ],
+      {duration:560, easing:"cubic-bezier(.55,.05,.67,.19)", fill:"forwards"}
+    ).finished.finally(finalizeClose);
+
+    backdrop.animate(
+      [{opacity:1, backdropFilter:"blur(14px)"}, {opacity:0, backdropFilter:"blur(0px)"}],
+      {duration:500, easing:"ease", fill:"forwards"}
+    );
+  };
+
   const open = card => {
-    if (!card) return;
+    if (!card || modal.classList.contains("open")) return;
+
     lastTrigger = card;
+    sourceRect = card.getBoundingClientRect();
 
     const clone = card.cloneNode(true);
     clone.classList.remove("scroll-reveal","animate-in","product-focus");
     clone.classList.add("card-preview-clone");
     clone.removeAttribute("id");
     clone.removeAttribute("tabindex");
+    clone.removeAttribute("role");
 
     clone.querySelectorAll("[id]").forEach(el => el.removeAttribute("id"));
     clone.querySelectorAll(".product-arrow,.product-dots").forEach(el => el.remove());
 
-    // En el preview se muestra la fotografía que estaba activa.
     clone.querySelectorAll(".product-slide").forEach(img => {
       if (!img.classList.contains("active")) img.remove();
     });
@@ -1079,26 +1482,55 @@ function initCardPreview(){
     if (quoteButton){
       quoteButton.addEventListener("click", event => {
         event.preventDefault();
+        event.stopPropagation();
         const solution = quoteButton.dataset.solution || "";
         close();
-        const target = $("#cotizacion");
-        target?.scrollIntoView({behavior:"smooth",block:"start"});
-        setTimeout(() => {
-          const wizard = $("#open-wizard");
-          if (wizard){
-            wizard.dataset.preselect = solution;
-            wizard.focus({preventScroll:true});
-          }
-        }, 520);
+        setTimeout(() => openWizard(solution), reduced ? 0 : 600);
       });
     }
 
     content.innerHTML = "";
     content.appendChild(clone);
 
-    modal.classList.add("open");
+    modal.classList.add("open","is-morphing");
     document.body.classList.add("card-preview-open");
-    setDialogAccessibility(modal,true,closeButton);
+    modal.removeAttribute("inert");
+    modal.inert = false;
+    modal.setAttribute("aria-hidden","false");
+
+    requestAnimationFrame(() => {
+      const targetRect = shell.getBoundingClientRect();
+
+      if (!reduced){
+        const startTransform = geometryTransform(sourceRect, targetRect);
+
+        shell.animate(
+          [
+            {transform:startTransform, opacity:.42, filter:"blur(2px)"},
+            {transform:"translate3d(0,0,0) scale(1.012)", opacity:1, filter:"blur(0px)", offset:.82},
+            {transform:"translate3d(0,0,0) scale(1)", opacity:1, filter:"blur(0px)"}
+          ],
+          {
+            duration:760,
+            easing:"cubic-bezier(.16,1,.3,1)",
+            fill:"both"
+          }
+        );
+
+        backdrop.animate(
+          [
+            {opacity:0, backdropFilter:"blur(0px)"},
+            {opacity:1, backdropFilter:"blur(14px)"}
+          ],
+          {duration:520, easing:"cubic-bezier(.22,.61,.36,1)", fill:"both"}
+        );
+      }
+
+      setTimeout(() => {
+        modal.classList.remove("is-morphing");
+        setDialogAccessibility(modal,true,closeButton);
+      }, reduced ? 0 : 620);
+    });
   };
 
   cardPreviewApi = {open, close};
@@ -1111,7 +1543,6 @@ function initCardPreview(){
     if (event.key === "Escape" && modal.classList.contains("open")) close();
   });
 
-  // Clic en tarjetas: ampliar. Botones/enlaces mantienen su función normal.
   $$(".service-card, .solution-card").forEach(card => {
     card.setAttribute("role","button");
     card.setAttribute("aria-label", `${card.querySelector("h3")?.textContent || "Tarjeta"} — ampliar`);
@@ -1134,4 +1565,114 @@ function initCardPreview(){
 
 function openCardPreview(card){
   if (cardPreviewApi?.open) cardPreviewApi.open(card);
+}
+
+
+function initMobileScrollFix(){
+  const isTouchDevice =
+    matchMedia("(hover:none) and (pointer:coarse)").matches ||
+    navigator.maxTouchPoints > 0;
+
+  if (!isTouchDevice) return;
+
+  const root = document.documentElement;
+  const body = document.body;
+
+  const hasOpenOverlay = () =>
+    !!document.querySelector(
+      ".modal.open, .image-lightbox.open, .card-preview-modal.open, #nav-links.open"
+    );
+
+  /*
+    Safari puede conservar temporalmente el bloqueo de overflow usado
+    por la intro. Si ya no hay ninguna ventana abierta, lo liberamos.
+  */
+  const releaseStaleScrollLock = () => {
+    if (hasOpenOverlay()) return;
+
+    body.classList.remove(
+      "menu-open",
+      "mobile-menu-active",
+      "modal-open",
+      "lightbox-open",
+      "card-preview-open"
+    );
+    root.classList.remove("mobile-menu-active");
+
+    body.style.removeProperty("overflow");
+    body.style.removeProperty("height");
+    body.style.removeProperty("position");
+    root.style.removeProperty("overflow");
+    root.style.removeProperty("height");
+
+    // Forzar a Safari a recalcular el área desplazable después de la intro.
+    void body.offsetHeight;
+  };
+
+  window.addEventListener("iintegra:intro-complete", () => {
+    releaseStaleScrollLock();
+    requestAnimationFrame(() => {
+      releaseStaleScrollLock();
+      setTimeout(releaseStaleScrollLock, 120);
+    });
+  });
+
+  window.addEventListener("pageshow", releaseStaleScrollLock);
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) releaseStaleScrollLock();
+  });
+
+  /*
+    Un gesto de scroll que empieza encima de una tarjeta/carrusel no
+    debe terminar abriendo accidentalmente la vista ampliada.
+  */
+  const guarded = [
+    ...document.querySelectorAll(
+      ".carousel-slide, .service-card, .solution-card, .project-slide"
+    )
+  ];
+
+  guarded.forEach(element => {
+    let startX = 0;
+    let startY = 0;
+    let suppressUntil = 0;
+
+    element.addEventListener("touchstart", event => {
+      const touch = event.touches?.[0];
+      if (!touch) return;
+      startX = touch.clientX;
+      startY = touch.clientY;
+    }, {passive:true});
+
+    element.addEventListener("touchmove", event => {
+      const touch = event.touches?.[0];
+      if (!touch) return;
+
+      const dx = Math.abs(touch.clientX - startX);
+      const dy = Math.abs(touch.clientY - startY);
+
+      if (dx > 8 || dy > 8){
+        suppressUntil = Date.now() + 450;
+      }
+    }, {passive:true});
+
+    element.addEventListener("click", event => {
+      if (Date.now() < suppressUntil){
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
+    }, true);
+  });
+
+  // Evitar el arrastre nativo de imágenes en navegadores que lo soportan.
+  document.addEventListener("dragstart", event => {
+    if (event.target instanceof HTMLImageElement){
+      event.preventDefault();
+    }
+  });
+
+  // Por si la página ya terminó la intro antes de registrar el listener.
+  if (!body.classList.contains("intro-active")){
+    releaseStaleScrollLock();
+  }
 }

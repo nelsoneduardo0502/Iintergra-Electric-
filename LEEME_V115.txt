@@ -1,0 +1,13 @@
+IINTEGRA ELECTRIC — V115
+
+CAMBIOS:
+- CONTROL Y DISTRIBUCIÓN ya usa una foto real de tablero de distribución.
+- BARRAJE DE COBRE conserva su propia foto y tiene una explicación más clara.
+- Se eliminó el texto redundante IINTEGRA ELECTRIC junto al logo del navbar.
+- Se agregaron microanimaciones a tarjetas, buscador, catálogo, cotizador, carruseles y selección de productos.
+- Cuando buscador/catálogo lleva a un producto, la tarjeta se resalta con una animación clara.
+- Se agregó feedback visual al hacer clic en botones y selecciones.
+- Se agregó botón flotante ARRIBA para volver al inicio.
+- Se respetan las preferencias de movimiento reducido del dispositivo.
+- Se conservan todos los cambios y funciones de V114.
+- CSS/JS usan v=115 para evitar caché antigua.

@@ -1,0 +1,17 @@
+IINTEGRA ELECTRIC — V119
+
+Solo se corrigieron los dos problemas reportados:
+
+1. En “¿Qué hace cada tablero?” / vista ampliada:
+   - Los títulos ya no parten una palabra a la mitad.
+   - “AUTOMATIZACIÓN” nunca debe terminar con una “N” sola en otro renglón.
+   - El salto de línea ocurre únicamente entre palabras.
+   - Si la pantalla se hace demasiado angosta, la tarjeta se apila verticalmente.
+
+2. En “Nuestros servicios” / vista ampliada:
+   - La imagen queda encerrada en su propia columna.
+   - El texto queda encerrado en su propia columna.
+   - Se eliminó cualquier posible solapamiento entre imagen y texto.
+
+No se modificaron las demás funciones, contenido, carruseles, intro, menú, cotizador ni animaciones.
+CSS/JS usan v119 para evitar caché antigua.

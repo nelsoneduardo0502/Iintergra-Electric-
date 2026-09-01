@@ -1,0 +1,16 @@
+IINTEGRA ELECTRIC — V116
+
+Cambios:
+- Hero: el carrusel se desplazó a la derecha y se dio más espacio al slogan para que no lo tape.
+- El rótulo decorativo "SECTOR / BAJA TENSIÓN" se oculta cuando el ancho ya no permite mostrarlo sin amontonarse.
+- Intro más larga:
+  1) "LO MEJOR PARA QUE TU OPERACIÓN NO SE DETENGA."
+  2) IINTEGRA ELECTRIC
+  3) salida fluida al Hero.
+- Hover en tarjetas: crecen ligeramente sin exagerar.
+- Clic en tarjetas de servicios/soluciones: se abren grandes al centro con el fondo difuminado.
+- Buscador y catálogo siguen llevando al producto y ahora también abren esa tarjeta en vista ampliada.
+- La vista ampliada mantiene acceso a cotización.
+- Contacto: se sustituyeron W / @ / ✓ por iconos vectoriales de WhatsApp/contacto, correo y atención.
+- Se conservan el Hero, carruseles, zoom, menú móvil fullscreen, cotizador y botón ARRIBA de V115.
+- CSS/JS: v116 para evitar caché.

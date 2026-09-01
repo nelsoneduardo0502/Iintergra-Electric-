@@ -68,7 +68,7 @@
   <link rel="manifest" href="site.webmanifest" />
 
   <link rel="preload" as="image" href="images/products/distribucion-01.webp?v=120" imagesrcset="images/products/distribucion-01-720.webp?v=120 720w, images/products/distribucion-01.webp?v=120 1200w" imagesizes="(max-width: 700px) 92vw, (max-width: 1100px) 46vw, 620px" fetchpriority="high" />
-  <link rel="stylesheet" href="styles.css?v=120" />
+  <link rel="stylesheet" href="styles.css?v=122" />
 </head>
 
 <body class="intro-active">
@@ -318,7 +318,49 @@
             <div class="service-image"><img src="images/real/pruebas-puerta.webp" alt="Pruebas eléctricas y soporte técnico en gabinete" loading="lazy" width="1200" height="1600" /></div>
             <div class="service-copy"><span>04</span><h3>SOPORTE TÉCNICO</h3><p>Acompañamiento especializado para selección, revisión, puesta en marcha y seguimiento de requerimientos.</p></div>
           </article>
+
+          <article class="service-card scroll-reveal material-service-card" id="materiales" data-id="materiales" tabindex="-1">
+            <div class="service-image"><img src="images/real/matriz-breakers.webp" alt="Componentes eléctricos de baja tensión disponibles para suministro" loading="lazy" width="1200" height="1600" /></div>
+            <div class="service-copy">
+              <span>05</span>
+              <h3>VENTA DE MATERIAL ELÉCTRICO</h3>
+              <p>Suministro por pieza o por proyecto de interruptores, protecciones, conductores y componentes de baja tensión, sujeto a disponibilidad.</p>
+              <button class="text-action quote-solution" data-solution="Venta de material eléctrico">COTIZAR MATERIAL →</button>
+            </div>
+          </article>
         </div>
+      </div>
+    </section>
+
+
+    <!-- MARCAS QUE MANEJAMOS -->
+    <section class="section brands-section" id="marcas">
+      <div class="container">
+        <div class="section-heading simple scroll-reveal">
+          <div>
+            <span class="kicker">// SUMINISTRO DE COMPONENTES</span>
+            <h2>MARCAS QUE MANEJAMOS</h2>
+            <div class="yellow-line"></div>
+            <p>Material y componentes de fabricantes reconocidos, seleccionados de acuerdo con la especificación y disponibilidad de cada proyecto.</p>
+          </div>
+        </div>
+
+        <div class="brands-grid scroll-reveal" aria-label="Marcas de material eléctrico que manejamos">
+          <article class="brand-card brand-card-abb" aria-label="ABB">
+            <div class="brand-mark brand-mark-abb">ABB</div>
+            <span>ELECTRIFICACIÓN · CONTROL</span>
+          </article>
+          <article class="brand-card brand-card-siemens" aria-label="Siemens">
+            <div class="brand-mark brand-mark-siemens">SIEMENS</div>
+            <span>PROTECCIÓN · AUTOMATIZACIÓN</span>
+          </article>
+          <article class="brand-card brand-card-condumex" aria-label="Condumex">
+            <div class="brand-mark brand-mark-condumex"><i aria-hidden="true"></i>CONDUMEX</div>
+            <span>CONDUCTORES · CABLEADO</span>
+          </article>
+        </div>
+
+        <p class="brands-note scroll-reveal">Las marcas se muestran únicamente para identificar líneas de producto que IINTEGRA ELECTRIC maneja comercialmente; su disponibilidad puede variar.</p>
       </div>
     </section>
 
@@ -503,7 +545,7 @@
           <p>Responde unas preguntas y prepara tu solicitud técnica en menos de un minuto. Si ya sabes exactamente qué necesitas, también puedes escribir directamente.</p>
           <div class="quote-actions">
             <button class="btn btn-primary" id="open-wizard" type="button">INICIAR COTIZADOR <span>→</span></button>
-            <a class="btn btn-outline" target="_blank" rel="noopener" href="https://wa.me/523319773148?text=Hola%2C%20ya%20s%C3%A9%20qu%C3%A9%20necesito%20y%20quisiera%20solicitar%20una%20cotizaci%C3%B3n%20con%20Iintegra%20Electric.">YA SÉ QUÉ NECESITO <span>↗</span></a>
+            <a class="btn btn-outline" target="_blank" rel="noopener" href="https://wa.me/523319773148?text=Hola%2C%20muy%20buenas%20tardes.%20Quisiera%20solicitar%20una%20cotizaci%C3%B3n%20con%20IINTEGRA%20ELECTRIC.%20Ya%20s%C3%A9%20qu%C3%A9%20material%20o%20soluci%C3%B3n%20necesito%20y%20me%20gustar%C3%ADa%20recibir%20informaci%C3%B3n%20sobre%20disponibilidad%20y%20precio.">YA SÉ QUÉ NECESITO <span>↗</span></a>
           </div>
         </div>
 
@@ -544,6 +586,7 @@
         <h3>CONÓCENOS</h3>
         <a href="#nosotros">Misión y visión</a>
         <a href="#servicios">Servicios</a>
+        <a href="#marcas">Marcas que manejamos</a>
         <a href="#soluciones">Tableros</a>
       </div>
 
@@ -600,25 +643,19 @@
             <button type="button" data-value="Tablero de alumbrado">ALUMBRADO</button>
             <button type="button" data-value="Control y automatización">AUTOMATIZACIÓN</button>
             <button type="button" data-value="Pruebas y diagnóstico eléctrico">PRUEBAS / DIAGNÓSTICO</button>
+            <button type="button" data-value="Venta de material eléctrico">MATERIAL ELÉCTRICO</button>
             <button type="button" data-value="Necesito asesoría">NO ESTOY SEGURO</button>
           </div>
         </section>
 
         <section class="wizard-step" data-step="2">
-          <h3>2. DATOS GENERALES</h3>
-          <p class="wizard-step-help" id="wizard-step2-help">Los datos técnicos ayudan a preparar una cotización más precisa. Si elegiste un tablero, la tensión es necesaria.</p>
-          <div class="wizard-fields">
-            <label class="sr-only" for="wizard-voltage">Tensión del proyecto</label>
-            <input id="wizard-voltage" type="text" maxlength="40" autocomplete="off" placeholder="TENSIÓN (EJ. 220 / 440 V)" aria-describedby="wizard-step2-help" />
-            <label class="sr-only" for="wizard-current">Corriente o capacidad</label>
-            <input id="wizard-current" type="text" maxlength="50" autocomplete="off" placeholder="CORRIENTE / CAPACIDAD (SI LA CONOCES)" />
-            <label class="sr-only" for="wizard-quantity">Cantidad</label>
-            <input id="wizard-quantity" type="number" min="1" max="999" value="1" required placeholder="CANTIDAD" />
-          </div>
+          <h3 id="wizard-step2-title">2. DATOS DE LA SOLUCIÓN</h3>
+          <p class="wizard-step-help" id="wizard-step2-help">Selecciona primero una solución para mostrar únicamente los datos que necesitamos para cotizarla.</p>
+          <div class="wizard-fields wizard-dynamic-fields" id="wizard-dynamic-fields"></div>
         </section>
 
         <section class="wizard-step" data-step="3">
-          <h3>3. CUÉNTANOS SOBRE EL PROYECTO</h3>
+          <h3 id="wizard-step3-title">3. CUÉNTANOS SOBRE EL PROYECTO</h3>
           <label class="sr-only" for="wizard-details">Descripción del proyecto</label>
           <textarea id="wizard-details" rows="5" minlength="10" maxlength="800" required aria-describedby="wizard-details-help" placeholder="Aplicación, cargas, espacio, fecha, requerimientos especiales..."></textarea>
           <p class="wizard-help" id="wizard-details-help">Describe brevemente el uso del tablero o la necesidad. Si tienes un plano, diagrama o fotografía, podrás adjuntarlo manualmente al abrir WhatsApp.</p>
@@ -646,7 +683,7 @@
     </div>
   </div>
 
-  <script src="script.js?v=120"></script>
+  <script src="script.js?v=122"></script>
 
   <!-- LIGHTBOX / ZOOM DE TRABAJOS -->
   <div class="image-lightbox" id="image-lightbox" aria-hidden="true" inert role="dialog" aria-modal="true" aria-label="Imagen ampliada">

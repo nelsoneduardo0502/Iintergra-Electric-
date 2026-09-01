@@ -3057,3 +3057,405 @@ main section[id]{
     grid-template-columns:1fr !important;
   }
 }
+
+
+/* =========================================================
+   V121 — FIX SCROLL MÓVIL / iOS
+   La página debe desplazarse aunque el gesto empiece sobre
+   una imagen, tarjeta o carrusel.
+========================================================= */
+
+@media (hover:none) and (pointer:coarse){
+
+  html{
+    min-height:100%;
+    overflow-x:hidden;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    touch-action:pan-y pinch-zoom;
+  }
+
+  body{
+    min-height:100%;
+    overflow-x:hidden;
+    -webkit-overflow-scrolling:touch;
+    touch-action:pan-y pinch-zoom;
+  }
+
+  /*
+    Cuando no existe una ventana/modal abierto, nunca dejamos
+    bloqueado el scroll por una clase residual de la intro.
+  */
+  body:not(.menu-open):not(.mobile-menu-active):not(.modal-open):not(.lightbox-open):not(.card-preview-open){
+    overflow-y:auto !important;
+    height:auto !important;
+    position:static !important;
+    touch-action:pan-y pinch-zoom !important;
+  }
+
+  /* Deslizar sobre imágenes y tarjetas debe desplazar la página. */
+  .hero,
+  .hero-grid,
+  .hero-gallery,
+  .carousel,
+  .carousel-slide,
+  .project-slide,
+  .projects-stage,
+  .service-card,
+  .service-image,
+  .solution-card,
+  .product-media,
+  .product-slides,
+  .product-slide,
+  .about-card,
+  .metrics,
+  main,
+  section{
+    touch-action:pan-y pinch-zoom !important;
+  }
+
+  /* Safari no debe intentar "arrastrar" las fotografías. */
+  img{
+    -webkit-user-drag:none !important;
+    -webkit-touch-callout:none !important;
+    -webkit-user-select:none !important;
+    user-select:none !important;
+    touch-action:pan-y pinch-zoom !important;
+  }
+
+  a,
+  button,
+  input,
+  textarea,
+  select{
+    touch-action:manipulation;
+  }
+
+  /*
+    Cuando sí existe un menú/modal, el fondo se bloquea como antes,
+    pero el contenido de la ventana puede desplazarse verticalmente.
+  */
+  body.menu-open,
+  body.mobile-menu-active{
+    overflow:hidden !important;
+    touch-action:none !important;
+  }
+
+  .modal.open,
+  .modal.open .modal-card,
+  .card-preview-modal.open,
+  .card-preview-modal.open .card-preview-shell,
+  .image-lightbox.open,
+  .image-lightbox.open .image-lightbox-content,
+  body > #nav-links.mobile-nav-portal.open{
+    touch-action:pan-y pinch-zoom !important;
+    -webkit-overflow-scrolling:touch;
+  }
+}
+
+
+/* =========================================================
+   V122 — MATERIAL / MARCAS / COTIZADOR PERSONALIZADO
+          Y MOVIMIENTO MÁS ORGÁNICO
+========================================================= */
+
+/* ---------- Marcas que manejamos ---------- */
+.brands-section{
+  background:
+    linear-gradient(rgba(255,230,0,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,230,0,.018) 1px,transparent 1px),
+    #080B10;
+  background-size:54px 54px;
+}
+
+.brands-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+}
+
+.brand-card{
+  min-height:180px;
+  padding:30px 24px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  border:1px solid var(--border);
+  background:#0B1017;
+  overflow:hidden;
+  transition:
+    transform .55s cubic-bezier(.16,1,.3,1),
+    border-color .42s ease,
+    background .42s ease,
+    box-shadow .55s ease;
+}
+
+.brand-card:hover{
+  transform:translateY(-5px) scale(1.012);
+  border-color:rgba(255,230,0,.38);
+  background:#0D131B;
+  box-shadow:0 22px 55px rgba(0,0,0,.20);
+}
+
+.brand-mark{
+  min-height:62px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  line-height:1;
+  user-select:none;
+}
+
+.brand-mark-abb{
+  color:#ff3434;
+  font:900 clamp(2.8rem,5vw,4.4rem)/1 Arial Black,Arial,sans-serif;
+  letter-spacing:-.09em;
+}
+
+.brand-mark-siemens{
+  color:#00a0a0;
+  font:800 clamp(2.3rem,4.5vw,3.8rem)/1 Arial,Helvetica,sans-serif;
+  letter-spacing:.015em;
+}
+
+.brand-mark-condumex{
+  gap:12px;
+  color:#f5f6f8;
+  font:900 clamp(1.75rem,3.3vw,3rem)/1 Arial Black,Arial,sans-serif;
+  letter-spacing:-.045em;
+}
+
+.brand-mark-condumex i{
+  width:34px;
+  height:40px;
+  display:block;
+  position:relative;
+  border:5px solid #f5f6f8;
+  border-radius:5px 5px 11px 11px;
+  transform:skew(-9deg);
+}
+
+.brand-mark-condumex i::after{
+  content:"";
+  position:absolute;
+  left:5px;
+  right:5px;
+  bottom:5px;
+  height:6px;
+  background:#f28c00;
+  transform:skew(18deg);
+}
+
+.brand-card>span{
+  color:var(--muted);
+  font:700 .56rem var(--font-mono);
+  letter-spacing:.08em;
+  text-align:center;
+}
+
+.brands-note{
+  max-width:900px;
+  margin:18px auto 0;
+  color:rgba(155,170,189,.76);
+  font-size:.68rem;
+  text-align:center;
+  line-height:1.55;
+}
+
+/* ---------- Material eléctrico ---------- */
+.material-service-card{
+  grid-column:1 / -1;
+  min-height:300px;
+}
+
+.material-service-card .service-image img{
+  object-position:center 38%;
+}
+
+.material-service-card .text-action{
+  align-self:flex-start;
+  margin-top:18px;
+}
+
+/* ---------- Cotizador dinámico ---------- */
+.wizard-dynamic-fields{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.wizard-field{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.wizard-field-label{
+  color:#dfe5ec;
+  font:700 .58rem var(--font-mono);
+  letter-spacing:.035em;
+}
+
+.wizard-field-label b{
+  color:var(--yellow);
+}
+
+.wizard-field input,
+.wizard-field select{
+  width:100%;
+  min-height:48px;
+  padding:13px;
+  border:1px solid var(--border);
+  border-radius:0;
+  background:#080A0F;
+  color:#fff;
+  outline:none;
+  font:600 .78rem var(--font-mono);
+  transition:
+    border-color .26s ease,
+    background .26s ease,
+    box-shadow .26s ease;
+}
+
+.wizard-field select{
+  appearance:auto;
+}
+
+.wizard-field input:focus,
+.wizard-field select:focus{
+  border-color:var(--yellow);
+  background:#0A0D12;
+  box-shadow:0 0 0 2px rgba(255,230,0,.055);
+}
+
+.wizard-summary-grid{
+  display:grid;
+  gap:5px;
+  margin-top:8px;
+}
+
+.wizard-summary-grid span{
+  display:block;
+}
+
+/* ---------- Movimiento más orgánico ---------- */
+.service-card,
+.solution-card,
+.about-card,
+.brand-card,
+.catalog-item,
+.wizard-options button{
+  transition-timing-function:cubic-bezier(.16,1,.3,1) !important;
+}
+
+.service-card,
+.solution-card,
+.about-card{
+  transition-duration:.55s !important;
+}
+
+.service-card:hover,
+.solution-card:hover,
+.about-card:hover,
+.contact-panel:hover{
+  transform:translateY(-4px) scale(1.012) !important;
+}
+
+.service-image img,
+.product-media .product-slide,
+.about-card img{
+  transition-duration:.70s !important;
+  transition-timing-function:cubic-bezier(.16,1,.3,1) !important;
+}
+
+.service-card:hover .service-image img,
+.solution-card:hover .product-slide.active{
+  transform:scale(1.025) !important;
+}
+
+/* Quitamos la sensación de "destello" y de clic plástico. */
+.ui-ripple{
+  display:none !important;
+}
+
+.card-preview-modal{
+  transition:
+    opacity .40s cubic-bezier(.22,.61,.36,1),
+    visibility .40s ease !important;
+}
+
+.card-preview-backdrop{
+  opacity:1;
+}
+
+.card-preview-shell{
+  transform-origin:center center !important;
+  will-change:transform,opacity,filter;
+  transition:none !important;
+}
+
+.card-preview-modal.is-morphing .card-preview-close{
+  opacity:0;
+  pointer-events:none;
+}
+
+.card-preview-close{
+  transition:
+    opacity .28s ease,
+    background .28s ease,
+    color .28s ease,
+    transform .38s cubic-bezier(.16,1,.3,1) !important;
+}
+
+.catalog-item{
+  transition:
+    transform .42s cubic-bezier(.16,1,.3,1),
+    border-color .32s ease,
+    background .32s ease !important;
+}
+
+.catalog-item:hover{
+  transform:translateY(-2px) scale(1.006) !important;
+}
+
+.wizard-options button{
+  transition:
+    transform .38s cubic-bezier(.16,1,.3,1),
+    border-color .30s ease,
+    background .30s ease,
+    color .30s ease !important;
+}
+
+.wizard-options button:hover{
+  transform:translateY(-2px) !important;
+}
+
+@media(max-width:800px){
+  .brands-grid{
+    grid-template-columns:1fr;
+  }
+
+  .brand-card{
+    min-height:145px;
+  }
+
+  .material-service-card{
+    grid-column:auto;
+  }
+
+  .wizard-dynamic-fields{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .service-card,
+  .solution-card,
+  .about-card,
+  .brand-card,
+  .catalog-item,
+  .wizard-options button{
+    transition:none !important;
+  }
+}

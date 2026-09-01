@@ -1,0 +1,14 @@
+IINTEGRA ELECTRIC — V121
+
+FIX DE SCROLL EN MÓVIL / iPHONE:
+- El gesto vertical desplaza la página aunque comience encima de una fotografía,
+  tarjeta o carrusel.
+- Se desactiva el arrastre nativo de imágenes.
+- Después de la animación inicial se liberan posibles bloqueos residuales de
+  overflow de Safari/iOS.
+- Un swipe sobre una tarjeta ya no se interpreta por accidente como clic para
+  abrir la vista ampliada.
+- Menús y modales siguen bloqueando correctamente el fondo cuando están abiertos.
+- CSS/JS usan v121 para evitar caché anterior.
+
+No se modificó el diseño ni el contenido de la página.

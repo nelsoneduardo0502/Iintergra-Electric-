@@ -1,0 +1,17 @@
+IINTEGRA ELECTRIC — V118
+
+CORRECCIONES:
+- Reparado el layout de “¿QUÉ HACE CADA TABLERO?”: las imágenes ya no invaden ni recortan el texto.
+- Se eliminó “SECTOR / BAJA TENSIÓN”.
+- Se eliminó “HOME / IINTEGRA”.
+- Se eliminó el año flotante 2026 del marco técnico.
+- El marco técnico queda limpio, solo con el borde.
+- En Misión y Visión se usa el emblema cuadrado correcto y centrado.
+- Footer: “© [año] IINTEGRA ELECTRIC · TODOS LOS DERECHOS RESERVADOS.”
+- Intro: primero aparece IINTEGRA ELECTRIC; después cae el rayo desde arriba, rebota y queda visible antes de abrir la página.
+- La intro dura más para que la caída del rayo se alcance a apreciar.
+- Se corrigieron tags <img> mal formados que podían provocar comportamientos visuales inconsistentes.
+- initYear() ya no intenta acceder al antiguo frame-year.
+- CSS/JS: v118.
+
+JS syntax: OK

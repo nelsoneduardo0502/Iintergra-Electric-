@@ -1,0 +1,14 @@
+IINTEGRA ELECTRIC — V114
+
+Cambios clave:
+- Carrusel principal: Distribución, CCM y Medidores usan las nuevas fotos correctas.
+- Se eliminaron del paquete las fotos antiguas de esas tres categorías para evitar reutilizarlas por error.
+- Los 5 productos con 2 fotos (Distribución, CCM, Medidores Digitales, Alumbrado y Transferencias) ahora cambian automáticamente cada 4.8 s, además de conservar flechas y puntos.
+- Buscador y Catálogo llevan directamente a la tarjeta del producto, la centran y la resaltan.
+- Cada producto tiene un ancla directa (#distribucion, #ccm, #medidores, #alumbrado, #transferencias, etc.).
+- Descripciones más cortas y claras.
+- Cotizador incluye Automatización y Pruebas/Diagnóstico.
+- Nueva animación de entrada IINTEGRA ELECTRIC, ligera y sin librerías externas.
+- Respeta prefers-reduced-motion.
+- Se conserva todo lo que ya funcionaba: Hero, menú móvil fullscreen, zoom, WhatsApp, correo, diseño y carrusel principal.
+- CSS/JS: v114.
