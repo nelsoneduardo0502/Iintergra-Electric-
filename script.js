@@ -178,7 +178,7 @@ const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
 
 
-const WIZARD_STORAGE_KEY = "iintegra_quote_draft_v2";
+const WIZARD_STORAGE_KEY = "iintegra_quote_session_v3";
 
 function getFocusableElements(container){
   if (!container) return [];
@@ -215,17 +215,17 @@ function setDialogAccessibility(modal,isOpen,initialFocus=null){
 
 function readWizardDraft(){
   try{
-    const raw=localStorage.getItem(WIZARD_STORAGE_KEY);
+    const raw=sessionStorage.getItem(WIZARD_STORAGE_KEY);
     if (!raw) return null;
     const data=JSON.parse(raw);
     if (!data || typeof data!=="object") return null;
     if (data.savedAt && Date.now()-data.savedAt>7*24*60*60*1000){
-      localStorage.removeItem(WIZARD_STORAGE_KEY); return null;
+      sessionStorage.removeItem(WIZARD_STORAGE_KEY); return null;
     }
     return data;
   }catch(_){return null}
 }
-function clearWizardDraft(){try{localStorage.removeItem(WIZARD_STORAGE_KEY)}catch(_){}}
+function clearWizardDraft(){try{sessionStorage.removeItem(WIZARD_STORAGE_KEY)}catch(_){}}
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -433,17 +433,36 @@ function initSearch(){
   const wrap = $("#search-wrap");
 
   const render = items => {
-    box.innerHTML = "";
+    box.replaceChildren();
+
     if (!items.length){
-      box.innerHTML = `<div class="search-result"><strong>SIN COINCIDENCIAS</strong><small>Prueba con “CCM”, “material”, “medidores”, “transferencias”, “alumbrado” o “distribución”.</small></div>`;
+      const result = document.createElement("div");
+      result.className = "search-result";
+
+      const title = document.createElement("strong");
+      title.textContent = "SIN COINCIDENCIAS";
+
+      const hint = document.createElement("small");
+      hint.textContent = "Prueba con “CCM”, “material”, “medidores”, “transferencias”, “alumbrado” o “distribución”.";
+
+      result.append(title, hint);
+      box.appendChild(result);
       box.classList.add("open");
       return;
     }
+
     items.slice(0,6).forEach(item => {
       const button = document.createElement("button");
       button.className = "search-result";
       button.type = "button";
-      button.innerHTML = `<strong>${item.name}</strong><small>${item.description}</small>`;
+
+      const title = document.createElement("strong");
+      title.textContent = item.name;
+
+      const description = document.createElement("small");
+      description.textContent = item.description;
+
+      button.append(title, description);
       button.addEventListener("click", () => {
         box.classList.remove("open");
         input.value = item.name;
@@ -451,6 +470,7 @@ function initSearch(){
       });
       box.appendChild(button);
     });
+
     box.classList.add("open");
   };
 
@@ -480,8 +500,16 @@ function initCatalog(){
 
   catalog.forEach(item=>{
     const button=document.createElement("button");
-    button.type="button";button.className="catalog-item";
-    button.innerHTML=`<strong>${item.name}</strong><p>${item.description}</p>`;
+    button.type="button";
+    button.className="catalog-item";
+
+    const title=document.createElement("strong");
+    title.textContent=item.name;
+
+    const description=document.createElement("p");
+    description.textContent=item.description;
+
+    button.append(title,description);
     button.addEventListener("click",()=>{closeModal();focusProduct(item.id)});
     grid.appendChild(button);
   });
@@ -522,23 +550,25 @@ function initCarousel(){
   const duration = 4000;
   let paused = false;
 
+  let progressAnimation = null;
+
   const setProgress = (ms, fromFraction = 0) => {
     const from = Math.max(0, Math.min(1, fromFraction));
-    progress.style.animation = "none";
+
+    progressAnimation?.cancel();
     progress.style.width = `${from * 100}%`;
-    progress.offsetHeight;
 
-    const styleName = `carouselProgress-${Math.round(from * 1000)}`;
-    const style = document.createElement("style");
-    style.dataset.carouselTemp = "true";
-    style.textContent = `@keyframes ${styleName}{from{width:${from * 100}%}to{width:100%}}`;
-    document.head.appendChild(style);
-
-    progress.style.animation = `${styleName} ${ms}ms linear forwards`;
-
-    setTimeout(() => {
-      style.remove();
-    }, ms + 100);
+    progressAnimation = progress.animate(
+      [
+        {width:`${from * 100}%`},
+        {width:"100%"}
+      ],
+      {
+        duration:Math.max(0,ms),
+        easing:"linear",
+        fill:"forwards"
+      }
+    );
   };
 
   const show = index => {
@@ -569,7 +599,7 @@ function initCarousel(){
     remaining = Math.max(0, remaining - elapsed);
 
     const computed = getComputedStyle(progress).width;
-    progress.style.animation = "none";
+    progressAnimation?.cancel();
     progress.style.width = computed;
   };
 
@@ -729,16 +759,11 @@ function initWizard(){
 
   const fieldId = key => `wizard-dynamic-${key}`;
 
-  const escapeHtml = value => String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;");
 
   const renderDynamicFields = (solution, values = {}) => {
     const profile = profileFor(solution);
     wizardValues = {...values};
-    dynamicFields.innerHTML = "";
+    dynamicFields.replaceChildren();
 
     step2Title.textContent = profile.step2Title;
     step2Help.textContent = profile.help;
@@ -757,7 +782,13 @@ function initWizard(){
 
       const label = document.createElement("span");
       label.className = "wizard-field-label";
-      label.innerHTML = `${escapeHtml(field.label)}${field.required ? ' <b>*</b>' : ''}`;
+      label.append(document.createTextNode(field.label));
+      if (field.required){
+        label.append(document.createTextNode(" "));
+        const requiredMark = document.createElement("b");
+        requiredMark.textContent = "*";
+        label.appendChild(requiredMark);
+      }
       wrapper.appendChild(label);
 
       let control;
@@ -772,6 +803,7 @@ function initWizard(){
       } else {
         control = document.createElement("input");
         control.type = field.type || "text";
+        if (control.type === "text") control.maxLength = field.maxLength || 160;
         if (field.placeholder) control.placeholder = field.placeholder;
         if (field.min != null) control.min = field.min;
         if (field.max != null) control.max = field.max;
@@ -851,7 +883,7 @@ function initWizard(){
 
   const saveDraft = () => {
     try{
-      localStorage.setItem(WIZARD_STORAGE_KEY, JSON.stringify(collectDraft()));
+      sessionStorage.setItem(WIZARD_STORAGE_KEY, JSON.stringify(collectDraft()));
     }catch(_){}
   };
 
@@ -1055,15 +1087,36 @@ function setWizardStep(step){
       values[control.dataset.quoteKey] = control.value;
     });
 
-    const rows = profile.fields
-      .map(field => values[field.key] ? `<span><b>${field.label}:</b> ${values[field.key]}</span>` : "")
-      .filter(Boolean)
-      .join("");
+    const summary = $("#wizard-summary");
+    summary.replaceChildren();
 
-    $("#wizard-summary").innerHTML = `
-      <strong>${wizardSolution || "Solución por definir"}</strong>
-      <div class="wizard-summary-grid">${rows || "<span>Datos técnicos por definir.</span>"}</div>
-    `;
+    const heading = document.createElement("strong");
+    heading.textContent = wizardSolution || "Solución por definir";
+    summary.appendChild(heading);
+
+    const grid = document.createElement("div");
+    grid.className = "wizard-summary-grid";
+
+    let added = 0;
+    profile.fields.forEach(field => {
+      const value = values[field.key];
+      if (!value) return;
+
+      const row = document.createElement("span");
+      const label = document.createElement("b");
+      label.textContent = `${field.label}: `;
+      row.append(label, document.createTextNode(value));
+      grid.appendChild(row);
+      added += 1;
+    });
+
+    if (!added){
+      const row = document.createElement("span");
+      row.textContent = "Datos técnicos por definir.";
+      grid.appendChild(row);
+    }
+
+    summary.appendChild(grid);
   }
 }
 
@@ -1421,7 +1474,7 @@ function initCardPreview(){
     modal.classList.remove("open","is-morphing");
     document.body.classList.remove("card-preview-open");
     setDialogAccessibility(modal,false);
-    content.innerHTML = "";
+    content.replaceChildren();
     shell.getAnimations().forEach(a => a.cancel());
     backdrop.getAnimations().forEach(a => a.cancel());
     closing = false;
@@ -1489,7 +1542,7 @@ function initCardPreview(){
       });
     }
 
-    content.innerHTML = "";
+    content.replaceChildren();
     content.appendChild(clone);
 
     modal.classList.add("open","is-morphing");

@@ -3459,3 +3459,24 @@ main section[id]{
     transition:none !important;
   }
 }
+
+
+/* =========================================================
+   V123 — PRIVACIDAD / SEGURIDAD
+========================================================= */
+.quote-privacy{
+  margin:14px 0 0;
+  max-width:720px;
+  padding:11px 13px;
+  border-left:2px solid rgba(255,230,0,.6);
+  background:rgba(255,230,0,.025);
+  color:#9BAABD;
+  font-size:.73rem;
+  line-height:1.55;
+}
+
+.quote-privacy strong{
+  color:var(--yellow);
+  font:800 .62rem var(--font-mono);
+  letter-spacing:.04em;
+}
