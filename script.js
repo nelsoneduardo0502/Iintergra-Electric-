@@ -249,6 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initBackToTop();
   initCardPreview();
   initMobileScrollFix();
+  initSmartMobileHeader();
 });
 
 
@@ -1728,4 +1729,60 @@ function initMobileScrollFix(){
   if (!body.classList.contains("intro-active")){
     releaseStaleScrollLock();
   }
+}
+
+
+function initSmartMobileHeader(){
+  const header=document.querySelector('.navbar');
+  if(!header) return;
+  const mobileQuery=window.matchMedia('(max-width: 900px)');
+  let lastY=Math.max(0,window.scrollY);
+  let accumulatedDown=0, accumulatedUp=0, ticking=false;
+  const HIDE_AFTER=24, SHOW_AFTER=8, ALWAYS_SHOW_UNTIL=80;
+
+  const overlayOpen=()=>
+    document.body.classList.contains('menu-open') ||
+    document.body.classList.contains('mobile-menu-active') ||
+    document.body.classList.contains('modal-open') ||
+    document.body.classList.contains('lightbox-open') ||
+    document.body.classList.contains('card-preview-open') ||
+    !!document.querySelector('.modal.open, .image-lightbox.open, .card-preview-modal.open, #nav-links.open');
+
+  const showHeader=()=>{
+    header.classList.remove('header-auto-hidden');
+    header.classList.add('header-auto-visible');
+  };
+  const hideHeader=()=>{
+    if(overlayOpen()) return;
+    header.classList.remove('header-auto-visible');
+    header.classList.add('header-auto-hidden');
+  };
+  const reset=()=>{
+    accumulatedDown=0; accumulatedUp=0; lastY=Math.max(0,window.scrollY); showHeader();
+  };
+  const update=()=>{
+    ticking=false;
+    if(!mobileQuery.matches){ reset(); return; }
+    const currentY=Math.max(0,window.scrollY);
+    const delta=currentY-lastY;
+    if(currentY<=ALWAYS_SHOW_UNTIL || overlayOpen()){
+      showHeader(); accumulatedDown=0; accumulatedUp=0; lastY=currentY; return;
+    }
+    if(Math.abs(delta)<2){ lastY=currentY; return; }
+    if(delta>0){
+      accumulatedDown+=delta; accumulatedUp=0;
+      if(accumulatedDown>=HIDE_AFTER){ hideHeader(); accumulatedDown=0; }
+    }else{
+      accumulatedUp+=Math.abs(delta); accumulatedDown=0;
+      if(accumulatedUp>=SHOW_AFTER){ showHeader(); accumulatedUp=0; }
+    }
+    lastY=currentY;
+  };
+  window.addEventListener('scroll',()=>{
+    if(!ticking){ ticking=true; requestAnimationFrame(update); }
+  },{passive:true});
+  mobileQuery.addEventListener?.('change',reset);
+  window.addEventListener('pageshow',reset);
+  window.addEventListener('orientationchange',()=>setTimeout(reset,120));
+  showHeader();
 }

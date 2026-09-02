@@ -3480,3 +3480,181 @@ main section[id]{
   font:800 .62rem var(--font-mono);
   letter-spacing:.04em;
 }
+
+
+/* =========================================================
+   V124 — AVISO DE PRIVACIDAD DISCRETO
+========================================================= */
+.quote-privacy{
+  display:none !important;
+}
+
+.quote-legal-note{
+  margin:16px 0 0;
+  max-width:760px;
+  color:rgba(155,170,189,.78);
+  font-size:.72rem;
+  line-height:1.55;
+}
+
+.quote-legal-note a{
+  color:#d8dde5;
+  text-decoration:underline;
+  text-decoration-color:rgba(255,230,0,.55);
+  text-underline-offset:3px;
+  transition:color .22s ease,text-decoration-color .22s ease;
+}
+
+.quote-legal-note a:hover{
+  color:var(--yellow);
+  text-decoration-color:var(--yellow);
+}
+
+@media(max-width:700px){
+  .quote-legal-note{
+    margin-top:14px;
+    font-size:.68rem;
+    line-height:1.5;
+  }
+}
+
+
+/* =========================================================
+   PÁGINA — AVISO DE PRIVACIDAD
+========================================================= */
+.privacy-page{
+  min-height:100vh;
+  background:
+    linear-gradient(rgba(255,230,0,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,230,0,.018) 1px,transparent 1px),
+    #080A0F;
+  background-size:56px 56px;
+  color:#f4f7fa;
+}
+
+.privacy-main{
+  padding:70px 22px 90px;
+}
+
+.privacy-container{
+  width:min(920px,100%);
+  margin:0 auto;
+}
+
+.privacy-back{
+  display:inline-flex;
+  margin-bottom:44px;
+  color:var(--yellow);
+  font:800 .68rem var(--font-mono);
+  letter-spacing:.04em;
+  text-decoration:none;
+}
+
+.privacy-container h1{
+  margin:12px 0 12px;
+  font:900 clamp(2.5rem,7vw,5.5rem)/.95 var(--font-heading);
+  letter-spacing:-.035em;
+}
+
+.privacy-intro{
+  max-width:760px;
+  margin:26px 0 44px;
+  color:#aeb9c8;
+  font-size:1.02rem;
+  line-height:1.75;
+}
+
+.privacy-block{
+  padding:26px 0;
+  border-top:1px solid rgba(255,255,255,.11);
+}
+
+.privacy-block h2{
+  margin:0 0 12px;
+  color:#f5f7fa;
+  font:900 clamp(1.15rem,2.8vw,1.7rem)/1.1 var(--font-heading);
+  letter-spacing:-.01em;
+}
+
+.privacy-block p{
+  margin:0 0 10px;
+  color:#9BAABD;
+  line-height:1.75;
+}
+
+.privacy-contact{
+  display:inline-flex;
+  margin-top:8px;
+  color:var(--yellow);
+  font-weight:800;
+  text-decoration:none;
+}
+
+.privacy-legal-disclaimer{
+  margin:36px 0 0;
+  padding:18px 20px;
+  border-left:2px solid var(--yellow);
+  background:rgba(255,230,0,.025);
+  color:#96a4b6;
+  font-size:.8rem;
+  line-height:1.65;
+}
+
+.privacy-footer{
+  margin-top:52px;
+  padding-top:22px;
+  border-top:1px solid rgba(255,255,255,.12);
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+  color:rgba(255,255,255,.45);
+  font:700 .62rem var(--font-mono);
+}
+
+.privacy-footer a{
+  color:var(--yellow);
+  text-decoration:none;
+}
+
+@media(max-width:700px){
+  .privacy-main{
+    padding:44px 20px 70px;
+  }
+
+  .privacy-back{
+    margin-bottom:32px;
+  }
+
+  .privacy-intro{
+    font-size:.92rem;
+    margin-bottom:34px;
+  }
+
+  .privacy-block{
+    padding:22px 0;
+  }
+}
+
+
+/* =========================================================
+   V125 — HEADER INTELIGENTE EN MÓVIL
+   Scroll abajo: se guarda. Scroll arriba: reaparece.
+========================================================= */
+@media (max-width:900px){
+  .navbar{
+    will-change:transform;
+    transition:transform .46s cubic-bezier(.16,1,.3,1),box-shadow .30s ease,background-color .30s ease !important;
+  }
+  .navbar.header-auto-hidden{
+    transform:translate3d(0,calc(-100% - 10px),0) !important;
+    box-shadow:none !important;
+  }
+  .navbar.header-auto-visible{transform:translate3d(0,0,0) !important;}
+  body.menu-open .navbar,
+  body.mobile-menu-active .navbar,
+  body.modal-open .navbar,
+  body.lightbox-open .navbar,
+  body.card-preview-open .navbar{transform:translate3d(0,0,0) !important;}
+}
+@media (prefers-reduced-motion:reduce){.navbar{transition:none !important;}}
