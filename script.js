@@ -751,6 +751,7 @@ function initWizard(){
   const detailsHelp = $("#wizard-details-help");
   const name = $("#wizard-name");
   const email = $("#wizard-email");
+  const privacyConsent = $("#wizard-privacy-consent");
 
   if (!modal || !open || !close || !form || !dynamicFields) return;
 
@@ -827,11 +828,13 @@ function initWizard(){
       control.addEventListener("input", () => {
         control.classList.remove("wizard-invalid");
         control.removeAttribute("aria-invalid");
+        clearNativeValidity(control);
         if (error) error.textContent = "";
         wizardValues[field.key] = control.value;
         saveDraft();
       });
       control.addEventListener("change", () => {
+        clearNativeValidity(control);
         wizardValues[field.key] = control.value;
         saveDraft();
       });
@@ -855,10 +858,12 @@ function initWizard(){
     $$("[data-quote-key]", dynamicFields).forEach(field => {
       field.classList.remove("wizard-invalid");
       field.removeAttribute("aria-invalid");
+      clearNativeValidity(field);
     });
-    [details,name,email].forEach(field => {
+    [details,name,email,privacyConsent].forEach(field => {
       field?.classList.remove("wizard-invalid");
       field?.removeAttribute("aria-invalid");
+      clearNativeValidity(field);
     });
   };
 
@@ -867,9 +872,26 @@ function initWizard(){
     if (field){
       field.classList.add("wizard-invalid");
       field.setAttribute("aria-invalid","true");
+
+      // Mostrar también el aviso nativo del navegador cuando aplique.
+      // Así el usuario recibe el mensaje típico de "completa este campo".
+      if (typeof field.setCustomValidity === "function"){
+        field.setCustomValidity(message);
+      }
+
       field.focus({preventScroll:true});
+
+      if (typeof field.reportValidity === "function"){
+        requestAnimationFrame(() => field.reportValidity());
+      }
     }
     return false;
+  };
+
+  const clearNativeValidity = field => {
+    if (field && typeof field.setCustomValidity === "function"){
+      field.setCustomValidity("");
+    }
   };
 
   const collectDraft = () => ({
@@ -951,6 +973,9 @@ function initWizard(){
       if (email.value && !email.checkValidity()){
         return fail("Revisa el formato del correo electrónico.", email);
       }
+      if (!privacyConsent?.checked){
+        return fail("Para enviar la solicitud, confirma que has leído el Aviso de Privacidad y autorizas el tratamiento de tus datos.", privacyConsent);
+      }
       return true;
     }
 
@@ -962,6 +987,7 @@ function initWizard(){
     modal.classList.add("open");
     document.body.classList.add("modal-open");
     setDialogAccessibility(modal,true,close);
+    if (privacyConsent) privacyConsent.checked = false;
     setWizardStep(1);
     saveDraft();
   };
@@ -996,10 +1022,21 @@ function initWizard(){
     field?.addEventListener("input", () => {
       field.classList.remove("wizard-invalid");
       field.removeAttribute("aria-invalid");
+      clearNativeValidity(field);
       if (error) error.textContent = "";
       saveDraft();
     });
-    field?.addEventListener("change", saveDraft);
+    field?.addEventListener("change", () => {
+      clearNativeValidity(field);
+      saveDraft();
+    });
+  });
+
+  privacyConsent?.addEventListener("change", () => {
+    privacyConsent.classList.remove("wizard-invalid");
+    privacyConsent.removeAttribute("aria-invalid");
+    clearNativeValidity(privacyConsent);
+    if (error) error.textContent = "";
   });
 
   prev.addEventListener("click", () => {
@@ -1012,6 +1049,39 @@ function initWizard(){
     if (!validateStep(wizardStep)) return;
     setWizardStep(wizardStep + 1);
     saveDraft();
+  });
+
+  form.addEventListener("keydown", event => {
+    if (event.key !== "Enter") return;
+
+    const target = event.target;
+
+    // En textarea, Enter conserva su función normal: salto de línea.
+    if (target instanceof HTMLTextAreaElement) return;
+
+    // En botones, enlaces y selects dejamos el comportamiento nativo.
+    if (
+      target instanceof HTMLButtonElement ||
+      target instanceof HTMLAnchorElement ||
+      target instanceof HTMLSelectElement
+    ) return;
+
+    event.preventDefault();
+
+    // Enter funciona como "Siguiente" mientras no estemos en el último paso.
+    if (wizardStep < 4){
+      if (validateStep(wizardStep)){
+        setWizardStep(wizardStep + 1);
+        saveDraft();
+      }
+      return;
+    }
+
+    // En el último paso, Enter intenta enviar.
+    // Las mismas validaciones (incluido el checkbox) siguen aplicando.
+    if (validateStep(4)){
+      form.requestSubmit();
+    }
   });
 
   form.addEventListener("submit", event => {
@@ -1080,6 +1150,11 @@ function setWizardStep(step){
 
   const error = $("#wizard-error");
   if (error) error.textContent = "";
+
+  // Elimina mensajes nativos antiguos al cambiar de paso.
+  $$("#wizard-form input, #wizard-form select, #wizard-form textarea").forEach(field => {
+    if (typeof field.setCustomValidity === "function") field.setCustomValidity("");
+  });
 
   if (wizardStep === 4){
     const profile = QUOTE_PROFILES[wizardSolution] || QUOTE_PROFILES["Necesito asesoría"];
