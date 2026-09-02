@@ -70,7 +70,7 @@
   <link rel="manifest" href="site.webmanifest" />
 
   <link rel="preload" as="image" href="images/products/distribucion-01.webp?v=120" imagesrcset="images/products/distribucion-01-720.webp?v=120 720w, images/products/distribucion-01.webp?v=120 1200w" imagesizes="(max-width: 700px) 92vw, (max-width: 1100px) 46vw, 620px" fetchpriority="high" />
-  <link rel="stylesheet" href="styles.css?v=125" />
+  <link rel="stylesheet" href="styles.css?v=127" />
 </head>
 
 <body class="intro-active">
@@ -550,7 +550,10 @@
             <a class="btn btn-outline" target="_blank" rel="noopener noreferrer" href="https://wa.me/523319773148?text=Hola%2C%20muy%20buenas%20tardes.%20Quisiera%20solicitar%20una%20cotizaci%C3%B3n%20con%20IINTEGRA%20ELECTRIC.%20Ya%20s%C3%A9%20qu%C3%A9%20material%20o%20soluci%C3%B3n%20necesito%20y%20me%20gustar%C3%ADa%20recibir%20informaci%C3%B3n%20sobre%20disponibilidad%20y%20precio.">YA SÉ QUÉ NECESITO <span>↗</span></a>
           </div>
           <p class="quote-legal-note">
-            Al enviar tu solicitud, los datos proporcionados se utilizarán únicamente para atender tu cotización.
+            <strong>TUS DATOS, BAJO TU CONTROL.</strong>
+            Al enviar una solicitud autorizas a IINTEGRA ELECTRIC a utilizar los datos proporcionados
+            únicamente para atender tu consulta, preparar una cotización, brindar asesoría técnica
+            y dar seguimiento a tu solicitud.
             <a href="aviso-privacidad.html">Consulta nuestro Aviso de Privacidad.</a>
           </p>
 
@@ -677,6 +680,16 @@
             <input id="wizard-email" type="email" maxlength="140" autocomplete="email" placeholder="CORREO (OPCIONAL)" />
           </div>
           <div class="wizard-summary" id="wizard-summary"></div>
+
+          <label class="wizard-consent" for="wizard-privacy-consent">
+            <input id="wizard-privacy-consent" type="checkbox" required />
+            <span>
+              He leído el <a href="aviso-privacidad.html" target="_blank" rel="noopener noreferrer">Aviso de Privacidad</a>
+              y autorizo el tratamiento de mis datos para atender esta solicitud, preparar una cotización,
+              brindar asesoría técnica y dar seguimiento relacionado con mi consulta.
+            </span>
+          </label>
+
         </section>
 
         <p class="wizard-error" id="wizard-error" role="alert" aria-live="polite"></p>
@@ -690,7 +703,7 @@
     </div>
   </div>
 
-  <script src="script.js?v=125"></script>
+  <script src="script.js?v=126"></script>
 
   <!-- LIGHTBOX / ZOOM DE TRABAJOS -->
   <div class="image-lightbox" id="image-lightbox" aria-hidden="true" inert role="dialog" aria-modal="true" aria-label="Imagen ampliada">

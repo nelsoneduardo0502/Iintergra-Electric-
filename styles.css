@@ -3658,3 +3658,124 @@ main section[id]{
   body.card-preview-open .navbar{transform:translate3d(0,0,0) !important;}
 }
 @media (prefers-reduced-motion:reduce){.navbar{transition:none !important;}}
+
+
+/* =========================================================
+   V126 — CONSENTIMIENTO DE PRIVACIDAD EN COTIZADOR
+========================================================= */
+
+.quote-legal-note strong{
+  display:block;
+  margin-bottom:4px;
+  color:var(--yellow);
+  font:800 .62rem var(--font-mono);
+  letter-spacing:.045em;
+}
+
+.wizard-consent{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:11px;
+  align-items:flex-start;
+  margin-top:18px;
+  padding:14px 15px;
+  border:1px solid rgba(255,255,255,.10);
+  background:#090c11;
+  color:#9BAABD;
+  font-size:.72rem;
+  line-height:1.55;
+  cursor:pointer;
+}
+
+.wizard-consent input{
+  width:18px;
+  height:18px;
+  margin:2px 0 0;
+  accent-color:var(--yellow);
+  cursor:pointer;
+}
+
+.wizard-consent a{
+  color:#f1f4f7;
+  text-decoration:underline;
+  text-decoration-color:rgba(255,230,0,.55);
+  text-underline-offset:3px;
+}
+
+.wizard-consent a:hover{
+  color:var(--yellow);
+  text-decoration-color:var(--yellow);
+}
+
+#wizard-privacy-consent.wizard-invalid{
+  outline:2px solid #ffd36b;
+  outline-offset:3px;
+}
+
+@media(max-width:700px){
+  .wizard-consent{
+    font-size:.68rem;
+    padding:13px;
+  }
+}
+
+
+/* =========================================================
+   V127 — TÍTULOS SIN PALABRAS PARTIDAS
+   Evita cortes como "AUTOMATIZACIÓ / N" o
+   "TRANSFERENCIA / S".
+========================================================= */
+
+/* Tarjetas normales */
+.solution-card .solution-copy h3,
+.service-card .service-copy h3{
+  white-space:normal !important;
+  word-break:normal !important;
+  overflow-wrap:normal !important;
+  hyphens:none !important;
+  text-wrap:balance;
+  max-width:100% !important;
+}
+
+/* Vista ampliada */
+.card-preview-content h3,
+.card-preview-content .solution-copy h3,
+.card-preview-content .service-copy h3{
+  white-space:normal !important;
+  word-break:normal !important;
+  overflow-wrap:normal !important;
+  hyphens:none !important;
+  text-wrap:balance;
+  max-width:100% !important;
+}
+
+/* Ajuste ligero para que palabras largas entren completas
+   sin sacrificar la jerarquía visual. */
+.solution-card .solution-copy h3,
+.service-card .service-copy h3{
+  font-size:clamp(1.6rem,2.15vw,2.45rem) !important;
+  line-height:1.04 !important;
+  letter-spacing:-.025em;
+}
+
+/* En desktop, si hay dos columnas, damos un poco más de aire al texto. */
+@media(min-width:901px){
+  .solution-card,
+  .service-card{
+    grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr) !important;
+  }
+}
+
+/* En móvil conservamos palabras enteras y dejamos que el salto ocurra
+   únicamente entre palabras completas. */
+@media(max-width:700px){
+  .solution-card .solution-copy h3,
+  .service-card .service-copy h3,
+  .card-preview-content h3{
+    font-size:clamp(1.55rem,7vw,2.15rem) !important;
+    line-height:1.05 !important;
+    word-break:normal !important;
+    overflow-wrap:normal !important;
+    hyphens:none !important;
+  }
+}
