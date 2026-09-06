@@ -4032,3 +4032,45 @@ main section[id]{
     text-align:left !important;
   }
 }
+
+
+/* =========================================================
+   V132 — COLORES RELACIONADOS CON CADA MARCA
+   Conserva tipografía y composición propias de IINTEGRA.
+   No reproduce logotipos oficiales.
+========================================================= */
+
+.brands-rail .brand-pill:nth-child(1) strong{
+  color:#F04444 !important; /* ABB: rojo relacionado, no logo */
+}
+
+.brands-rail .brand-pill:nth-child(2) strong{
+  color:#19B7B7 !important; /* Siemens: turquesa relacionado */
+}
+
+.brands-rail .brand-pill:nth-child(3) strong{
+  color:#F29A2E !important; /* Condumex: naranja relacionado */
+}
+
+/* La línea inferior acompaña el color de cada marca de forma discreta. */
+.brands-rail .brand-pill:nth-child(1)::after{
+  background:#F04444 !important;
+}
+
+.brands-rail .brand-pill:nth-child(2)::after{
+  background:#19B7B7 !important;
+}
+
+.brands-rail .brand-pill:nth-child(3)::after{
+  background:#F29A2E !important;
+}
+
+/* Los números permanecen amarillos para conservar identidad IINTEGRA. */
+.brands-rail .brand-index{
+  color:var(--yellow) !important;
+}
+
+/* Los subtítulos siguen neutrales para que no parezca identidad oficial. */
+.brands-rail .brand-pill small{
+  color:#8F9CAF !important;
+}
