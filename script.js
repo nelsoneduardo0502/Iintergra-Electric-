@@ -1,6 +1,6 @@
 "use strict";
 
-const WHATSAPP = "523319773148";
+const WHATSAPP = "523310659646";
 
 const catalog = [
   {

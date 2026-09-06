@@ -63,7 +63,7 @@ img{display:block;max-width:100%}
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:135px 0 84px;overflow:hidden
   background-image: url("images/hero-portada-original.webp");
 }
-.hero-bg{position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(8,10,15,.98) 0%,rgba(8,10,15,.92) 35%,rgba(8,10,15,.60) 69%,rgba(8,10,15,.72) 100%),linear-gradient(180deg,transparent 70%,var(--bg) 100%),url("images/tablero-fondo-original.jpg") center/cover no-repeat;animation:heroZoom 1.5s var(--ease) both}
+.hero-bg{position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(8,10,15,.98) 0%,rgba(8,10,15,.92) 35%,rgba(8,10,15,.60) 69%,rgba(8,10,15,.72) 100%),linear-gradient(180deg,transparent 70%,var(--bg) 100%),url("images/hero-portada-original.webp") center/cover no-repeat;animation:heroZoom 1.5s var(--ease) both}
 @keyframes heroZoom{from{transform:scale(1.045)}to{transform:scale(1)}}
 .energy-trace{position:absolute;z-index:-1;top:36%;left:48%;width:28%;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);box-shadow:0 0 10px rgba(88,224,255,.3);opacity:0;animation:energyTrace 7s ease-in-out 1.5s infinite}
 @keyframes energyTrace{0%,20%,100%{opacity:0;transform:translateX(-45%) scaleX(.6)}38%{opacity:.24}60%{opacity:.1;transform:translateX(95%) scaleX(1)}78%{opacity:0;transform:translateX(130%) scaleX(.7)}}
