@@ -1,20 +1,8 @@
-IINTEGRA ELECTRIC — V104 MOBILE PRO
+SUBE SOLO ESTOS ARCHIVOS A GITHUB:
+- index.html
+- styles.css
+- assets/iintegra-logo-client-v135.webp
+- assets/iintegra-emblem-client-v135.png
 
-Cambios:
-- Logo definitivo con fondo transparente: ya no parece una foto pegada.
-- Menú hamburguesa móvil rehecho como panel profesional.
-- El fondo de la página ya no se mezcla con el menú.
-- Hamburguesa se transforma en X.
-- Se bloquea el scroll cuando el menú está abierto.
-- Enlaces con entrada sutil y mejor jerarquía.
-- Catálogo y Cotizar se diferencian como CTAs.
-- Métricas móviles ligeramente más compactas.
-- Escritorio permanece sin cambios de diseño.
-
-Para actualizar GitHub:
-1) Reemplaza index.html
-2) Reemplaza styles.css
-3) Reemplaza script.js
-4) Sube assets/iintegra-logo-transparent.png
-
-No necesitas tocar la carpeta images/.
+NO reemplaces ni borres favicon.ico, site.webmanifest, assets/favicon-*.png ni assets/apple-touch-icon.png.
+Tampoco cambies sitemap.xml, robots.txt, CNAME ni el SEO actual.
