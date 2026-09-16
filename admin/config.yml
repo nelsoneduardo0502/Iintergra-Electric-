@@ -1,0 +1,148 @@
+backend:
+  name: turbo-github
+  branch: main
+  turbo_site_id: REEMPLAZAR_CON_TU_TURBO_SITE_ID
+
+site_url: https://iintegraelectric.com
+display_url: https://iintegraelectric.com
+media_folder: images/cms
+public_folder: /images/cms
+
+editor:
+  preview: false
+
+collections:
+  - name: sitio
+    label: Sitio web
+    description: Edita solo contenido público autorizado. Contacto, SEO, cotizador, diseño y código están bloqueados fuera del panel.
+    format: json
+    files:
+      - name: contenido_principal
+        label: Contenido principal
+        file: content/site.json
+        fields:
+          - label: Inicio
+            name: hero
+            widget: object
+            collapsed: false
+            fields:
+              - label: Descripción principal
+                name: description
+                widget: text
+                pattern: ['^[\s\S]{1,320}$', 'Máximo 320 caracteres.']
+                hint: Texto debajo del título principal. No modifica el H1 ni el SEO.
+
+          - label: Misión
+            name: mission
+            widget: object
+            collapsed: true
+            fields:
+              - label: Título
+                name: title
+                widget: string
+                pattern: ['^.{1,140}$', 'Máximo 140 caracteres.']
+              - label: Texto
+                name: text
+                widget: text
+                pattern: ['^[\s\S]{1,900}$', 'Máximo 900 caracteres.']
+
+          - label: Visión
+            name: vision
+            widget: object
+            collapsed: true
+            fields:
+              - label: Título
+                name: title
+                widget: string
+                pattern: ['^.{1,140}$', 'Máximo 140 caracteres.']
+              - label: Texto
+                name: text
+                widget: text
+                pattern: ['^[\s\S]{1,900}$', 'Máximo 900 caracteres.']
+
+          - label: Carrusel principal
+            name: heroSlides
+            widget: list
+            min: 6
+            max: 6
+            allow_add: false
+            allow_remove: false
+            allow_reorder: true
+            collapsed: true
+            summary: '{{fields.label}}'
+            fields:
+              - label: Nombre
+                name: label
+                widget: string
+                pattern: ['^.{1,100}$', 'Máximo 100 caracteres.']
+              - label: Texto alternativo
+                name: alt
+                widget: string
+                pattern: ['^.{1,180}$', 'Máximo 180 caracteres.']
+                hint: Describe brevemente lo que aparece en la imagen.
+              - label: Imagen
+                name: image
+                widget: image
+                choose_url: false
+                allow_multiple: false
+                hint: Usa JPG, PNG o WebP. Máximo 2 MB. SVG no se mostrará en el sitio.
+                media_library:
+                  config:
+                    max_file_size: 2097152
+
+          - label: Trabajos realizados
+            name: projects
+            widget: list
+            min: 6
+            max: 6
+            allow_add: false
+            allow_remove: false
+            allow_reorder: true
+            collapsed: true
+            summary: '{{fields.title}}'
+            fields:
+              - label: Categoría / número
+                name: category
+                widget: string
+                pattern: ['^.{1,80}$', 'Máximo 80 caracteres.']
+              - label: Título
+                name: title
+                widget: string
+                pattern: ['^.{1,120}$', 'Máximo 120 caracteres.']
+              - label: Descripción
+                name: description
+                widget: text
+                pattern: ['^[\s\S]{1,420}$', 'Máximo 420 caracteres.']
+              - label: Texto alternativo
+                name: alt
+                widget: string
+                pattern: ['^.{1,180}$', 'Máximo 180 caracteres.']
+              - label: Imagen
+                name: image
+                widget: image
+                choose_url: false
+                allow_multiple: false
+                hint: Usa JPG, PNG o WebP. Máximo 2 MB. SVG no se mostrará en el sitio.
+                media_library:
+                  config:
+                    max_file_size: 2097152
+
+          - label: Marcas que manejamos
+            name: brands
+            widget: list
+            min: 3
+            max: 3
+            allow_add: false
+            allow_remove: false
+            allow_reorder: true
+            collapsed: true
+            summary: '{{fields.name}}'
+            fields:
+              - label: Marca
+                name: name
+                widget: string
+                pattern: ['^.{1,60}$', 'Máximo 60 caracteres.']
+              - label: Categoría
+                name: category
+                widget: string
+                pattern: ['^.{1,100}$', 'Máximo 100 caracteres.']

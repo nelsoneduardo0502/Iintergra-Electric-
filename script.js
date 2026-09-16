@@ -1,6 +1,6 @@
 "use strict";
 
-const WHATSAPP = "523310659646";
+const WHATSAPP_FALLBACK = "523310659646";
 
 const catalog = [
   {
@@ -1123,7 +1123,7 @@ function initWizard(){
 
     clearWizardDraft();
     window.open(
-      `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`,
+      `https://wa.me/${window.IINTEGRA_RUNTIME_CONTACT?.whatsapp || WHATSAPP_FALLBACK}?text=${encodeURIComponent(message)}`,
       "_blank",
       "noopener,noreferrer"
     );

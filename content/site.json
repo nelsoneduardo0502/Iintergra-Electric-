@@ -1,0 +1,103 @@
+{
+  "hero": {
+    "description": "Diseño, ingeniería y armado de tableros eléctricos de baja tensión para proyectos que exigen seguridad, confiabilidad y soporte técnico."
+  },
+  "mission": {
+    "title": "INGENIERÍA QUE RESUELVE Y MANTIENE TU OPERACIÓN.",
+    "text": "Proveer soluciones integrales en baja tensión a través del diseño y armado de tableros eléctricos, la comercialización de material eléctrico de marcas líderes y el soporte técnico especializado. Nuestro objetivo es aportar seguridad, confiabilidad y continuidad operativa a cada proyecto, ayudando a nuestros clientes a optimizar sus instalaciones y tomar mejores decisiones técnicas."
+  },
+  "vision": {
+    "title": "SER EL REFERENTE REGIONAL EN SOLUCIONES DE BAJA TENSIÓN.",
+    "text": "Ser la empresa líder y referente regional en el diseño, ingeniería y armado de tableros eléctricos de baja tensión, reconocida por entregar soluciones innovadoras, seguras y de máxima confiabilidad que contribuyan a garantizar la continuidad operativa de nuestros clientes. Buscamos crecer mediante alianzas con tecnologías de clase mundial y un compromiso permanente con la calidad, la mejora continua y la sustentabilidad."
+  },
+  "heroSlides": [
+    {
+      "label": "TABLERO DE DISTRIBUCIÓN",
+      "alt": "Tablero de distribución de baja tensión",
+      "image": "images/products/distribucion-01.webp?v=120"
+    },
+    {
+      "label": "CENTRO DE CONTROL DE MOTORES / CCM",
+      "alt": "Centro de control de motores con elementos de maniobra y protección",
+      "image": "images/products/ccm-01.webp?v=120"
+    },
+    {
+      "label": "MEDIDORES DIGITALES",
+      "alt": "Medidores digitales para supervisión de variables eléctricas",
+      "image": "images/products/medidores-digitales-02.webp?v=120"
+    },
+    {
+      "label": "CONTROL Y AUTOMATIZACIÓN",
+      "alt": "Control y automatización industrial",
+      "image": "images/real/automatizacion.webp"
+    },
+    {
+      "label": "PRUEBAS DE GABINETE",
+      "alt": "Pruebas técnicas en gabinete eléctrico",
+      "image": "images/real/pruebas-gabinete.webp"
+    },
+    {
+      "label": "PRUEBAS Y DIAGNÓSTICO DE CONTROL",
+      "alt": "Prueba y diagnóstico de interruptor industrial",
+      "image": "images/real/diagnostico-control.webp"
+    }
+  ],
+  "projects": [
+    {
+      "category": "01 / ENTREGA FINAL",
+      "title": "TABLERO FINALIZADO",
+      "description": "Proyecto ensamblado y preparado para validación antes de entrega.",
+      "alt": "Tablero finalizado en área de pruebas",
+      "image": "images/real/proyecto-finalizado.webp"
+    },
+    {
+      "category": "02 / AUTOMATIZACIÓN",
+      "title": "CONTROL PLC INDUSTRIAL",
+      "description": "Integración de PLC, fuente SITOP, comunicaciones y cableado identificado.",
+      "alt": "PLC industrial integrado en gabinete",
+      "image": "images/real/plc-siemens.webp"
+    },
+    {
+      "category": "03 / VALIDACIÓN",
+      "title": "PRUEBA DE AISLAMIENTO",
+      "description": "Comprobación eléctrica previa a la liberación del tablero.",
+      "alt": "Prueba de aislamiento con equipo de medición",
+      "image": "images/real/prueba-aislamiento.webp"
+    },
+    {
+      "category": "04 / CONTROL",
+      "title": "MATRIZ DE CONTROL",
+      "description": "Cableado identificado y organizado para facilitar operación y mantenimiento.",
+      "alt": "Matriz de control con cableado rojo ordenado",
+      "image": "images/real/matriz-control.webp"
+    },
+    {
+      "category": "05 / POTENCIA",
+      "title": "BARRAJE DE COBRE",
+      "description": "Barras conductoras que distribuyen altas corrientes de forma segura dentro del tablero.",
+      "alt": "Barraje de cobre montado sobre aisladores",
+      "image": "images/real/barraje-cobre.webp"
+    },
+    {
+      "category": "06 / DISTRIBUCIÓN",
+      "title": "MATRIZ DE BREAKERS",
+      "description": "Configuración multinivel de protecciones para distribución eléctrica.",
+      "alt": "Matriz de interruptores Siemens en gabinete",
+      "image": "images/real/matriz-breakers.webp"
+    }
+  ],
+  "brands": [
+    {
+      "name": "ABB",
+      "category": "ELECTRIFICACIÓN · CONTROL"
+    },
+    {
+      "name": "SIEMENS",
+      "category": "PROTECCIÓN · AUTOMATIZACIÓN"
+    },
+    {
+      "name": "CONDUMEX",
+      "category": "CONDUCTORES · CABLEADO"
+    }
+  ]
+}

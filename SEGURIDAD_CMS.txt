@@ -1,0 +1,32 @@
+IINTEGRA ELECTRIC — SEGURIDAD DEL CMS
+====================================
+
+1. NUNCA GUARDAR EN EL REPOSITORIO
+- Contraseñas.
+- Tokens de GitHub.
+- Secret keys.
+- API keys privadas.
+- Archivos .env con secretos.
+- Llaves service_role.
+- Códigos de recuperación o contraseñas de correo.
+
+2. CUENTAS
+- Activa 2FA/passkey en la cuenta de GitHub propietaria del repositorio.
+- Usa una contraseña única para Decap Turbo.
+- Autoriza Turbo únicamente para el repositorio de IINTEGRA cuando GitHub permita elegir repositorios.
+
+3. SI UNA CUENTA ES COMPROMETIDA
+- Cambia la contraseña inmediatamente.
+- Revoca sesiones activas.
+- Revisa los commits recientes del repositorio.
+- Revierte cualquier commit no reconocido.
+- Revisa la instalación/permisos de la GitHub App de Turbo.
+
+4. DATOS DE CONTACTO
+El teléfono, WhatsApp y correo comercial siguen siendo visibles públicamente en la página porque son datos de contacto del negocio. La V141 impide que el cliente los cambie desde el CMS para reducir el riesgo de desviar cotizaciones si alguien obtiene acceso al panel.
+
+5. IMÁGENES
+El panel está pensado para JPG, JPEG, PNG y WebP. Aunque el selector del CMS pueda reconocer otros formatos, la página pública no acepta SVG ni imágenes remotas como contenido del CMS.
+
+6. RESPALDO
+Cada guardado del CMS termina como un commit de Git. Eso permite revisar historial y volver a una versión anterior si se publica algo incorrecto.

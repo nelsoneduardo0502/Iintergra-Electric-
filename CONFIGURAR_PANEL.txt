@@ -1,0 +1,75 @@
+IINTEGRA ELECTRIC — V141 CMS SEGURO
+===================================
+
+IMPORTANTE
+- Esta versión sustituye la V140. No necesitas descargar ni subir la V140.
+- Sube el CONTENIDO de este ZIP a la raíz del repositorio; no metas una carpeta V141 dentro del repo.
+- No reemplaza favicon, sitemap, robots.txt, CNAME ni styles.css.
+
+QUÉ PUEDE EDITAR EL CLIENTE
+- Descripción visible del inicio.
+- Misión y visión.
+- 6 imágenes/textos del carrusel principal.
+- 6 trabajos realizados.
+- 3 marcas mostradas.
+
+QUÉ NO PUEDE EDITAR DESDE EL PANEL
+- WhatsApp, teléfono ni correo.
+- SEO, title, canonical, robots o sitemap.
+- H1 principal.
+- Cotizador.
+- HTML, CSS o JavaScript.
+- Aviso de privacidad.
+- Favicon.
+
+PROTECCIONES AÑADIDAS EN V141
+- Los datos de contacto quedan fuera de content/site.json y del CMS.
+- Los textos se insertan con textContent; el CMS no puede introducir HTML en la web pública.
+- Las imágenes del CMS solo se muestran si pertenecen al mismo dominio.
+- La web rechaza como contenido CMS URLs externas, data:, javascript: y archivos SVG.
+- Desde el panel se desactiva "Insertar desde URL" para imágenes.
+- Límite de 2 MB por imagen desde el panel.
+- Límites de longitud para textos y títulos.
+- El repositorio ya no aparece escrito en admin/config.yml; Turbo toma el repo configurado en su panel.
+- La versión del CMS queda fijada, en vez de actualizarse sola sin revisión.
+- /admin/ se marca noindex/nofollow y no envía Referer.
+
+PASOS PARA ACTIVARLO
+1. Sube estos archivos/carpetas a GitHub:
+   index.html
+   script.js
+   cms-public.js
+   admin/
+   content/
+   images/cms/
+   CONFIGURAR_PANEL.txt
+   SEGURIDAD_CMS.txt
+   aviso-privacidad.html (solo si quieres conservar la versión corregida incluida)
+
+2. En Decap Turbo crea/conecta el sitio usando:
+   Repo: tu repositorio de IINTEGRA
+   Branch: main
+   Config path: admin/config.yml
+   Admin URL: https://iintegraelectric.com/admin/
+
+3. Copia el Site ID que muestre Turbo.
+
+4. En admin/config.yml cambia SOLO:
+   turbo_site_id: REEMPLAZAR_CON_TU_TURBO_SITE_ID
+
+   por el ID real. Ese ID identifica el sitio; NO pegues contraseñas, tokens ni secretos en el archivo.
+
+5. Guarda el cambio en GitHub y espera el despliegue de GitHub Pages.
+
+6. Entra a:
+   https://iintegraelectric.com/admin/
+
+RUTINA NORMAL
+- Entrar al /admin/.
+- Hacer el cambio.
+- Guardar.
+- Esperar el despliegue.
+- Revisar la página pública.
+- Cerrar sesión.
+
+No hace falta realizar mantenimiento diario.
