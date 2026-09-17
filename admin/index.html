@@ -5,10 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />
   <meta name="referrer" content="no-referrer" />
-  <title>IINTEGRA ELECTRIC · Panel de contenido</title>
+  <meta name="theme-color" content="#070b12" />
+  <title>IINTEGRA ELECTRIC · Panel de administración</title>
+  <link rel="stylesheet" href="panel.css?v=142" />
 </head>
 <body>
-  <!-- Versión fijada para evitar que una actualización automática del CMS cambie el panel sin revisión previa. -->
+  <header class="iintegra-adminbar">
+    <a class="iintegra-adminbrand" href="https://iintegraelectric.com/" target="_blank" rel="noopener noreferrer" aria-label="Abrir sitio de IINTEGRA ELECTRIC">
+      <img src="../assets/iintegra-logo-ingeniero-v137.webp" alt="IINTEGRA ELECTRIC" />
+    </a>
+    <div class="iintegra-admincopy">
+      <span class="iintegra-kicker">PANEL DE ADMINISTRACIÓN</span>
+      <strong>Contenido del sitio</strong>
+      <small>Edita únicamente la información autorizada. El diseño, SEO y código permanecen protegidos.</small>
+    </div>
+    <a class="iintegra-site-button" href="https://iintegraelectric.com/" target="_blank" rel="noopener noreferrer">
+      Ver sitio <span aria-hidden="true">↗</span>
+    </a>
+  </header>
+
+  <div class="iintegra-adminnote" role="note">
+    <span class="iintegra-dot"></span>
+    Los cambios guardados se publican mediante GitHub Pages. Revisa el sitio después de guardar.
+  </div>
+
+  <main class="iintegra-cms-wrap">
+    <div id="nc-root"></div>
+  </main>
+
+  <!-- Versión fijada para evitar cambios inesperados del CMS. -->
   <script src="https://unpkg.com/decap-cms@3.17.0-beta.0/dist/decap-cms.js"></script>
 </body>
 </html>

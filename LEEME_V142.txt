@@ -1,0 +1,21 @@
+IINTEGRA ELECTRIC · V142
+
+Esta actualización hace DOS cosas:
+1) Corrige el logo roto en la página pública agregando los archivos que el HTML ya estaba intentando cargar.
+2) Mejora visualmente /admin/ con branding IINTEGRA, fondo oscuro, cabecera, logo y botón "Ver sitio".
+
+SUBE/REEMPLAZA SOLO ESTOS ARCHIVOS/CARPETAS:
+- admin/index.html
+- admin/panel.css
+- assets/iintegra-logo-ingeniero-v137.webp
+- assets/iintegra-emblem-ingeniero-v137.png
+
+IMPORTANTE:
+- NO reemplaces admin/config.yml. Ahí ya tienes tu turbo_site_id configurado.
+- NO toques index.html, styles.css, script.js, sitemap.xml, robots.txt, CNAME ni favicon.
+- Esta actualización no cambia SEO ni la configuración del panel.
+
+Después de subir:
+1. Espera a que GitHub Pages termine el deployment.
+2. Abre https://iintegraelectric.com y haz Ctrl+F5.
+3. Abre https://iintegraelectric.com/admin/ y haz Ctrl+F5.
