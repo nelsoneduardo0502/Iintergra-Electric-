@@ -1,0 +1,29 @@
+IINTEGRA ELECTRIC · V143 PANEL PRO
+
+OBJETIVO
+- Dar al panel /admin/ una apariencia más parecida a un software profesional.
+- Mantener Decap Turbo y su autenticación sin cambios.
+- No tocar SEO, Google, favicon, sitio público ni admin/config.yml.
+
+SUBE/REEMPLAZA SOLO:
+- admin/index.html
+- admin/panel.css
+- admin/panel.js
+
+NO REEMPLACES:
+- admin/config.yml (contiene tu turbo_site_id actual)
+- index.html
+- styles.css
+- script.js
+- sitemap.xml
+- robots.txt
+- CNAME
+- favicon.ico
+
+DESPUÉS DE SUBIR
+1. Espera a que GitHub Pages termine el deployment.
+2. Abre https://iintegraelectric.com/admin/
+3. Haz Ctrl + F5.
+
+NOTA
+El menú lateral busca y desplaza a las secciones de Decap. Si Decap cambia internamente su interfaz en una futura versión, el editor seguirá funcionando; lo que podría requerir ajuste sería únicamente la navegación visual del menú lateral.

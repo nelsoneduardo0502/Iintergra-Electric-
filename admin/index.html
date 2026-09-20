@@ -5,35 +5,100 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />
   <meta name="referrer" content="no-referrer" />
-  <meta name="theme-color" content="#070b12" />
+  <meta name="theme-color" content="#080b10" />
   <title>IINTEGRA ELECTRIC · Panel de administración</title>
-  <link rel="stylesheet" href="panel.css?v=142" />
+  <link rel="stylesheet" href="panel.css?v=143" />
 </head>
 <body>
-  <header class="iintegra-adminbar">
-    <a class="iintegra-adminbrand" href="https://iintegraelectric.com/" target="_blank" rel="noopener noreferrer" aria-label="Abrir sitio de IINTEGRA ELECTRIC">
-      <img src="../assets/iintegra-logo-ingeniero-v137.webp" alt="IINTEGRA ELECTRIC" />
-    </a>
-    <div class="iintegra-admincopy">
-      <span class="iintegra-kicker">PANEL DE ADMINISTRACIÓN</span>
-      <strong>Contenido del sitio</strong>
-      <small>Edita únicamente la información autorizada. El diseño, SEO y código permanecen protegidos.</small>
-    </div>
-    <a class="iintegra-site-button" href="https://iintegraelectric.com/" target="_blank" rel="noopener noreferrer">
-      Ver sitio <span aria-hidden="true">↗</span>
-    </a>
-  </header>
+  <div class="admin-shell">
+    <aside class="admin-sidebar" aria-label="Navegación del panel">
+      <a class="brand" href="https://iintegraelectric.com/" target="_blank" rel="noopener noreferrer">
+        <img src="../assets/iintegra-logo-ingeniero-v137.webp" alt="IINTEGRA ELECTRIC" />
+      </a>
 
-  <div class="iintegra-adminnote" role="note">
-    <span class="iintegra-dot"></span>
-    Los cambios guardados se publican mediante GitHub Pages. Revisa el sitio después de guardar.
+      <div class="sidebar-label">Panel</div>
+      <nav class="sidebar-nav">
+        <button class="nav-item is-active" type="button" data-target="top">
+          <span class="nav-icon">⌂</span><span>Resumen</span>
+        </button>
+        <button class="nav-item" type="button" data-search="Inicio">
+          <span class="nav-icon">▣</span><span>Inicio</span>
+        </button>
+        <button class="nav-item" type="button" data-search="Misión">
+          <span class="nav-icon">◎</span><span>Misión</span>
+        </button>
+        <button class="nav-item" type="button" data-search="Visión">
+          <span class="nav-icon">◈</span><span>Visión</span>
+        </button>
+        <button class="nav-item" type="button" data-search="Carrusel principal">
+          <span class="nav-icon">▤</span><span>Carrusel</span>
+        </button>
+        <button class="nav-item" type="button" data-search="Trabajos realizados">
+          <span class="nav-icon">▧</span><span>Trabajos</span>
+        </button>
+        <button class="nav-item" type="button" data-search="Marcas">
+          <span class="nav-icon">◇</span><span>Marcas</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-security">
+        <span class="security-dot"></span>
+        <div><strong>Acceso protegido</strong><small>Solo contenido autorizado</small></div>
+      </div>
+
+      <a class="sidebar-site" href="https://iintegraelectric.com/" target="_blank" rel="noopener noreferrer">
+        Ver sitio <span aria-hidden="true">↗</span>
+      </a>
+    </aside>
+
+    <main class="admin-main" id="admin-top">
+      <header class="page-header">
+        <div>
+          <span class="eyebrow">IINTEGRA ELECTRIC · CMS</span>
+          <h1>Administrador</h1>
+          <p>Actualiza el contenido público del sitio sin tocar diseño, SEO ni código.</p>
+        </div>
+        <a class="primary-action" href="https://iintegraelectric.com/" target="_blank" rel="noopener noreferrer">
+          Ver sitio <span aria-hidden="true">↗</span>
+        </a>
+      </header>
+
+      <section class="status-grid" aria-label="Estado del panel">
+        <article class="status-card">
+          <span class="status-icon">✓</span>
+          <div><strong>Contenido editable</strong><small>Textos, imágenes, trabajos y marcas.</small></div>
+        </article>
+        <article class="status-card">
+          <span class="status-icon">↻</span>
+          <div><strong>Publicación automática</strong><small>Los cambios se envían a GitHub Pages.</small></div>
+        </article>
+        <article class="status-card">
+          <span class="status-icon">◆</span>
+          <div><strong>Código protegido</strong><small>Diseño, SEO y funciones quedan fuera del panel.</small></div>
+        </article>
+      </section>
+
+      <div class="admin-notice" role="note">
+        <span class="notice-dot"></span>
+        <div>
+          <strong>Consejo:</strong> realiza un cambio a la vez y revisa el sitio después de guardar. La publicación puede tardar unos momentos.
+        </div>
+      </div>
+
+      <section class="cms-card" aria-label="Editor de contenido">
+        <div class="cms-card-head">
+          <div>
+            <span>Contenido del sitio</span>
+            <strong>Editor</strong>
+          </div>
+          <span class="cms-badge">En línea</span>
+        </div>
+        <div id="nc-root"></div>
+      </section>
+    </main>
   </div>
 
-  <main class="iintegra-cms-wrap">
-    <div id="nc-root"></div>
-  </main>
-
-  <!-- Versión fijada para evitar cambios inesperados del CMS. -->
   <script src="https://unpkg.com/decap-cms@3.17.0-beta.0/dist/decap-cms.js"></script>
+  <script src="panel.js?v=143"></script>
 </body>
 </html>
