@@ -1,0 +1,36 @@
+IINTEGRA ELECTRIC · V144 PANEL DASHBOARD PRO
+
+ESTA VERSIÓN SOLO CAMBIA EL PANEL /admin/.
+
+Reemplaza en GitHub:
+- admin/index.html
+- admin/panel.css
+- admin/panel.js
+
+NO reemplaces:
+- admin/config.yml
+- index.html
+- styles.css
+- script.js
+- content/site.json
+- sitemap.xml
+- robots.txt
+- CNAME
+- favicon.ico
+
+Motivo:
+admin/config.yml contiene el Site ID de Decap Turbo que ya está funcionando.
+
+Qué cambia:
+- Panel inicial tipo dashboard profesional.
+- Muestra las imágenes reales del carrusel y de trabajos.
+- Tablas/tarjetas con información visible.
+- Botones Editar que abren el editor real de Decap en la sección correspondiente.
+- Mantiene autenticación y guardado de Decap Turbo.
+- No expone contraseñas, tokens ni claves.
+- No toca SEO ni la página pública.
+
+Después de subir:
+1. Espera Pages build and deployment.
+2. Abre https://iintegraelectric.com/admin/
+3. Haz Ctrl + F5.
