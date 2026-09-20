@@ -1,0 +1,22 @@
+IINTEGRA ELECTRIC · V147 EDITOR INTEGRADO FIX
+
+CORRECCIÓN:
+La V146 podía dejar el editor en blanco al intentar ocultar otras secciones
+internas de Decap. V147 elimina por completo ese ocultamiento.
+
+Además:
+- Decap queda contenido dentro del dashboard.
+- La barra lateral de IINTEGRA permanece visible.
+- Ningún campo del editor se oculta por CSS.
+- El botón Editar abre directamente el archivo contenido_principal.
+- Se usa Decap CMS estable 3.15.1 (no beta).
+- Se conservan login, Guardar/Publicar y Turbo.
+- No se toca SEO ni la página pública.
+
+REEMPLAZA SOLO:
+admin/index.html
+admin/panel.css
+admin/panel.js
+
+NO REEMPLACES:
+admin/config.yml

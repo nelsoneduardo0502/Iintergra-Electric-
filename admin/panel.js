@@ -21,6 +21,9 @@
   let siteData = null;
   let currentView = 'resumen';
   let toastTimer = null;
+  let activeEditorSection = '';
+  let activeEditorItem = '';
+  let locateTimer = null;
 
   const viewMeta = {
     resumen: ['Administrador', 'Gestiona el contenido público del sitio sin tocar código, diseño ni SEO.'],
@@ -485,20 +488,21 @@
 
   function clearEditorFocus() {
     if (!root) return;
-    root.querySelectorAll('.iintegra-section').forEach(section => {
-      section.classList.remove('iintegra-focus-target', 'iintegra-nonfocus-section');
-    });
+    root.querySelectorAll('.iintegra-section, .iintegra-focus-target, .iintegra-nonfocus-section')
+      .forEach(section => {
+        section.classList.remove('iintegra-focus-target', 'iintegra-nonfocus-section');
+      });
   }
 
   function focusOnlySection(sectionLabel) {
     if (!root) return;
-    const sections = [...root.querySelectorAll('.iintegra-section')];
-    if (!sections.length) return;
-    sections.forEach(section => {
-      const same = clean(section.dataset.iintegraSection) === clean(sectionLabel);
-      section.classList.toggle('iintegra-focus-target', same);
-      section.classList.toggle('iintegra-nonfocus-section', !same);
-    });
+    clearEditorFocus();
+    const match = findSmallestTextElement(sectionLabel);
+    const section = sectionContainer(match);
+    if (section) {
+      section.classList.add('iintegra-section', 'iintegra-focus-target');
+      section.dataset.iintegraSection = sectionLabel;
+    }
   }
 
   function setPreviewImage(path, alt) {
@@ -568,7 +572,19 @@
     previewText.textContent = 'Edita únicamente los campos necesarios y publica cuando termines.';
   }
 
+  function scheduleLocate(delay = 300) {
+    window.clearTimeout(locateTimer);
+    locateTimer = window.setTimeout(() => {
+      if (!document.body.classList.contains('editor-mode') || !activeEditorSection) return;
+      focusOnlySection(activeEditorSection);
+      locateEditor(activeEditorSection, activeEditorItem);
+    }, delay);
+  }
+
   function openEditor(sectionLabel, itemTitle = '') {
+    activeEditorSection = sectionLabel;
+    activeEditorItem = itemTitle;
+
     document.body.classList.add('editor-mode');
     dashboardArea.hidden = true;
     editorArea.hidden = false;
@@ -588,14 +604,24 @@
 
     clearEditorFocus();
     window.scrollTo({ top: 0, behavior: 'instant' });
+
+    // Todos los campos editables pertenecen al mismo archivo fijo de Decap.
+    // Abrimos directamente su editor real sin depender de clicks automáticos
+    // sobre la interfaz interna.
+    const editorHash = '#/collections/site/entries/contenido_principal';
+    if (window.location.hash !== editorHash) {
+      window.location.hash = editorHash;
+    }
+
     window.dispatchEvent(new Event('resize'));
-    window.setTimeout(() => {
-      focusOnlySection(sectionLabel);
-      locateEditor(sectionLabel, itemTitle);
-    }, 450);
+    scheduleLocate(500);
+    scheduleLocate(1200);
   }
 
   function closeEditor() {
+    activeEditorSection = '';
+    activeEditorItem = '';
+    window.clearTimeout(locateTimer);
     clearEditorFocus();
     document.body.classList.remove('editor-mode');
     editorArea.hidden = true;
@@ -636,15 +662,19 @@
           }
         });
 
-      if (document.body.classList.contains('editor-mode')) {
-        const active = editorTitle.textContent.replace(/^Editar\s*·\s*/, '').trim();
-        const sectionMap = ['Inicio', 'Misión', 'Visión', 'Carrusel principal', 'Trabajos realizados', 'Marcas que manejamos'];
-        const detected = sectionMap.find(label => clean(active) === clean(label) || clean(active).includes(clean(label)));
-        if (detected) focusOnlySection(detected);
+      if (document.body.classList.contains('editor-mode') && activeEditorSection) {
+        scheduleLocate(220);
       }
     });
     observer.observe(root, { childList: true, subtree: true });
   }
+
+
+  window.addEventListener('hashchange', () => {
+    if (document.body.classList.contains('editor-mode') && activeEditorSection) {
+      scheduleLocate(500);
+    }
+  });
 
   loadData(false);
 })();
