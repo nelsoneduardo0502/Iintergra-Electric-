@@ -7,23 +7,18 @@
   const viewTitle = document.getElementById('viewTitle');
   const viewDescription = document.getElementById('viewDescription');
   const editorTitle = document.getElementById('editorTitle');
+  const editorSubtitle = document.getElementById('editorSubtitle');
+  const editingNow = document.getElementById('editingNow');
+  const cmsLoading = document.getElementById('cmsLoading');
   const refreshButton = document.getElementById('refreshData');
   const backButton = document.getElementById('backToPanel');
   const navButtons = [...document.querySelectorAll('.nav-item')];
   const root = document.getElementById('nc-root');
   const toast = document.getElementById('toast');
-  const previewMedia = document.getElementById('editorPreviewMedia');
-  const previewBadge = document.getElementById('editorPreviewBadge');
-  const previewHeading = document.getElementById('editorPreviewHeading');
-  const previewText = document.getElementById('editorPreviewText');
-  const cmsFormTitle = document.getElementById('cmsFormTitle');
 
   let siteData = null;
   let currentView = 'resumen';
   let toastTimer = null;
-  let activeEditorSection = '';
-  let activeEditorItem = '';
-  let locateTimer = null;
 
   const viewMeta = {
     resumen: ['Administrador', 'Gestiona el contenido público del sitio sin tocar código, diseño ni SEO.'],
@@ -396,237 +391,101 @@
     }
   }
 
-  function clean(value) {
-    return (value || '').replace(/\s+/g, ' ').trim().toLocaleLowerCase('es-MX');
-  }
+  const DECAP_SRC = 'https://unpkg.com/decap-cms@3.17.0-beta.0/dist/decap-cms.js';
+  const EDITOR_HASH = '#/collections/site/entries/contenido_principal';
+  let decapPromise = null;
+  let editorSection = '';
+  let editorItemTitle = '';
 
-  function findSmallestTextElement(label, scope = root) {
-    if (!scope) return null;
-    const wanted = clean(label);
-    const candidates = scope.querySelectorAll('legend, label, h1, h2, h3, h4, h5, button, span, p, div');
-    let best = null;
-    for (const candidate of candidates) {
-      const text = clean(candidate.textContent);
-      if (text !== wanted && !text.startsWith(wanted + ' ') && !text.startsWith(wanted + '·')) continue;
-      if (!best || candidate.children.length < best.children.length) best = candidate;
-      if (candidate.children.length === 0) break;
-    }
-    return best;
-  }
-
-  function sectionContainer(element) {
-    if (!element) return null;
-    const fieldset = element.closest('fieldset');
-    if (fieldset) return fieldset;
-
-    let node = element;
-    for (let i = 0; i < 6 && node && node !== root; i += 1, node = node.parentElement) {
-      const rect = node.getBoundingClientRect();
-      if (rect.height >= 58 && rect.height <= 1800 && rect.width >= 280) return node;
-    }
-    return element;
-  }
-
-  function maybeExpand(container, label) {
-    if (!container) return;
-    const buttons = [...container.querySelectorAll('button,[role="button"]')];
-    const labeled = buttons.find(b => clean(b.textContent).includes(clean(label)));
-    if (labeled) {
-      const expanded = labeled.getAttribute('aria-expanded');
-      if (expanded === 'false') labeled.click();
-      return;
-    }
-
-    if (container.getBoundingClientRect().height < 110) {
-      const first = buttons[0];
-      if (first) first.click();
-    }
-  }
-
-  function highlightAndScroll(element) {
-    if (!element) return;
-    const target = sectionContainer(element);
-    target.classList.add('iintegra-section');
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    target.classList.remove('iintegra-section-highlight');
-    void target.offsetWidth;
-    target.classList.add('iintegra-section-highlight');
-    window.setTimeout(() => target.classList.remove('iintegra-section-highlight'), 1400);
-  }
-
-  function locateEditor(sectionLabel, itemTitle = '', attempt = 0) {
-    const sectionElement = findSmallestTextElement(sectionLabel);
-    if (!sectionElement) {
-      if (attempt < 20) {
-        window.setTimeout(() => locateEditor(sectionLabel, itemTitle, attempt + 1), 250);
-      } else {
-        showToast('El editor abrió. Selecciona la sección indicada para continuar.');
-      }
-      return;
-    }
-
-    const container = sectionContainer(sectionElement);
-    maybeExpand(container, sectionLabel);
-
-    if (!itemTitle) {
-      highlightAndScroll(container);
-      return;
-    }
-
-    window.setTimeout(() => {
-      const item = findSmallestTextElement(itemTitle, container);
-      if (item) {
-        const itemContainer = sectionContainer(item);
-        maybeExpand(itemContainer, itemTitle);
-        highlightAndScroll(itemContainer);
-      } else {
-        highlightAndScroll(container);
-        showToast('Se abrió la sección. Selecciona el elemento que deseas editar.');
-      }
-    }, 350);
-  }
-
-  function clearEditorFocus() {
-    if (!root) return;
-    root.querySelectorAll('.iintegra-section, .iintegra-focus-target, .iintegra-nonfocus-section')
-      .forEach(section => {
-        section.classList.remove('iintegra-focus-target', 'iintegra-nonfocus-section');
-      });
-  }
-
-  function focusOnlySection(sectionLabel) {
-    if (!root) return;
-    clearEditorFocus();
-    const match = findSmallestTextElement(sectionLabel);
-    const section = sectionContainer(match);
-    if (section) {
-      section.classList.add('iintegra-section', 'iintegra-focus-target');
-      section.dataset.iintegraSection = sectionLabel;
-    }
-  }
-
-  function setPreviewImage(path, alt) {
-    if (!previewMedia) return;
-    previewMedia.replaceChildren();
-    const src = sanitizeImagePath(path);
-    if (!src) {
-      previewMedia.hidden = true;
-      return;
-    }
-    const image = imgElement(path, alt, '');
-    previewMedia.append(image);
-    previewMedia.hidden = false;
-  }
-
-  function populateEditorPreview(sectionLabel, itemTitle = '') {
-    if (!siteData) return;
-    previewBadge.textContent = sectionLabel;
-    cmsFormTitle.textContent = itemTitle ? `Editar · ${itemTitle}` : `Editar · ${sectionLabel}`;
-    previewMedia.hidden = true;
-    previewMedia.replaceChildren();
-
-    if (sectionLabel === 'Inicio') {
-      previewHeading.textContent = 'CONTINUIDAD OPERATIVA GARANTIZADA.';
-      previewText.textContent = safeText(siteData?.hero?.description, 'Descripción principal del sitio.');
-      const slide = siteData?.heroSlides?.[0];
-      if (slide) setPreviewImage(slide.image, slide.alt);
-      return;
-    }
-
-    if (sectionLabel === 'Misión') {
-      previewHeading.textContent = safeText(siteData?.mission?.title, 'Misión');
-      previewText.textContent = safeText(siteData?.mission?.text, '');
-      return;
-    }
-
-    if (sectionLabel === 'Visión') {
-      previewHeading.textContent = safeText(siteData?.vision?.title, 'Visión');
-      previewText.textContent = safeText(siteData?.vision?.text, '');
-      return;
-    }
-
-    if (sectionLabel === 'Carrusel principal') {
-      const slide = (siteData?.heroSlides || []).find(item => clean(item.label) === clean(itemTitle)) || siteData?.heroSlides?.[0];
-      previewHeading.textContent = safeText(slide?.label, itemTitle || 'Imagen del carrusel');
-      previewText.textContent = safeText(slide?.alt, 'Imagen publicada en el carrusel principal.');
-      if (slide) setPreviewImage(slide.image, slide.alt);
-      return;
-    }
-
-    if (sectionLabel === 'Trabajos realizados') {
-      const project = (siteData?.projects || []).find(item => clean(item.title) === clean(itemTitle)) || siteData?.projects?.[0];
-      previewHeading.textContent = safeText(project?.title, itemTitle || 'Trabajo realizado');
-      previewText.textContent = [safeText(project?.category), safeText(project?.description)].filter(Boolean).join('\n\n');
-      if (project) setPreviewImage(project.image, project.alt);
-      return;
-    }
-
-    if (sectionLabel === 'Marcas que manejamos') {
-      const brand = (siteData?.brands || []).find(item => clean(item.name) === clean(itemTitle)) || siteData?.brands?.[0];
-      previewHeading.textContent = safeText(brand?.name, itemTitle || 'Marca');
-      previewText.textContent = safeText(brand?.category, 'Marca publicada en el sitio.');
-      return;
-    }
-
-    previewHeading.textContent = itemTitle || sectionLabel;
-    previewText.textContent = 'Edita únicamente los campos necesarios y publica cuando termines.';
-  }
-
-  function scheduleLocate(delay = 300) {
-    window.clearTimeout(locateTimer);
-    locateTimer = window.setTimeout(() => {
-      if (!document.body.classList.contains('editor-mode') || !activeEditorSection) return;
-      focusOnlySection(activeEditorSection);
-      locateEditor(activeEditorSection, activeEditorItem);
-    }, delay);
-  }
-
-  function openEditor(sectionLabel, itemTitle = '') {
-    activeEditorSection = sectionLabel;
-    activeEditorItem = itemTitle;
-
-    document.body.classList.add('editor-mode');
-    dashboardArea.hidden = true;
-    editorArea.hidden = false;
-    editorTitle.textContent = itemTitle ? `Editar · ${itemTitle}` : `Editar · ${sectionLabel}`;
-    populateEditorPreview(sectionLabel, itemTitle);
-
-    const viewBySection = {
+  function sectionToView(sectionLabel) {
+    return ({
       'Inicio': 'inicio',
       'Misión': 'mision',
       'Visión': 'vision',
       'Carrusel principal': 'carrusel',
       'Trabajos realizados': 'trabajos',
       'Marcas que manejamos': 'marcas'
-    };
-    const mappedView = viewBySection[sectionLabel];
-    if (mappedView) activateNav(mappedView);
+    })[sectionLabel] || 'resumen';
+  }
 
-    clearEditorFocus();
+  function loadDecap() {
+    if (window.CMS) return Promise.resolve(window.CMS);
+    if (decapPromise) return decapPromise;
+
+    decapPromise = new Promise((resolve, reject) => {
+      const existing = document.querySelector('script[data-iintegra-decap]');
+      if (existing) {
+        existing.addEventListener('load', () => resolve(window.CMS), { once: true });
+        existing.addEventListener('error', reject, { once: true });
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = DECAP_SRC;
+      script.defer = true;
+      script.dataset.iintegraDecap = 'true';
+      script.onload = () => resolve(window.CMS);
+      script.onerror = () => reject(new Error('No se pudo cargar Decap CMS'));
+      document.body.appendChild(script);
+    });
+
+    return decapPromise;
+  }
+
+  function setEditorCopy(sectionLabel, itemTitle = '') {
+    const title = itemTitle ? `Editar · ${itemTitle}` : `Editar · ${sectionLabel}`;
+    editorTitle.textContent = title;
+    editorSubtitle.textContent = `Sección: ${sectionLabel}. Realiza el cambio y usa Guardar/Publicar al terminar.`;
+    editingNow.textContent = itemTitle
+      ? `Editando ${sectionLabel}: ${itemTitle}.`
+      : `Editando: ${sectionLabel}.`;
+  }
+
+  async function openEditor(sectionLabel, itemTitle = '') {
+    editorSection = sectionLabel;
+    editorItemTitle = itemTitle;
+
+    currentView = sectionToView(sectionLabel);
+    activateNav(currentView);
+    setEditorCopy(sectionLabel, itemTitle);
+
+    dashboardArea.hidden = true;
+    editorArea.hidden = false;
+    cmsLoading?.classList.remove('is-hidden');
     window.scrollTo({ top: 0, behavior: 'instant' });
 
-    // Todos los campos editables pertenecen al mismo archivo fijo de Decap.
-    // Abrimos directamente su editor real sin depender de clicks automáticos
-    // sobre la interfaz interna.
-    const editorHash = '#/collections/site/entries/contenido_principal';
-    if (window.location.hash !== editorHash) {
-      window.location.hash = editorHash;
+    // La ruta es la del archivo fijo real que Decap administra.
+    if (window.location.hash !== EDITOR_HASH) {
+      history.replaceState(null, '', `${window.location.pathname}${window.location.search}${EDITOR_HASH}`);
     }
 
-    window.dispatchEvent(new Event('resize'));
-    scheduleLocate(500);
-    scheduleLocate(1200);
+    try {
+      await loadDecap();
+
+      // Dejamos que Decap renderice completamente por su cuenta.
+      // No buscamos, ocultamos, clicamos ni reacomodamos sus campos.
+      window.dispatchEvent(new HashChangeEvent('hashchange'));
+      window.dispatchEvent(new Event('resize'));
+
+      window.setTimeout(() => {
+        cmsLoading?.classList.add('is-hidden');
+      }, 900);
+    } catch (error) {
+      console.error('IINTEGRA admin: no se pudo abrir el editor', error);
+      if (cmsLoading) {
+        cmsLoading.innerHTML = '<div><strong>No se pudo abrir el editor.</strong><small>Recarga la página e inténtalo otra vez.</small></div>';
+      }
+    }
   }
 
   function closeEditor() {
-    activeEditorSection = '';
-    activeEditorItem = '';
-    window.clearTimeout(locateTimer);
-    clearEditorFocus();
-    document.body.classList.remove('editor-mode');
+    editorSection = '';
+    editorItemTitle = '';
     editorArea.hidden = true;
     dashboardArea.hidden = false;
-    activateNav(currentView);
+
+    // Limpiamos la ruta de Decap sin recargar la página.
+    history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
     window.scrollTo({ top: 0, behavior: 'instant' });
     loadData(false);
   }
@@ -649,32 +508,12 @@
   refreshButton?.addEventListener('click', () => loadData(true));
   backButton?.addEventListener('click', closeEditor);
 
-  // Marca las secciones de Decap cuando el editor termine de renderizar.
-  if (root) {
-    const observer = new MutationObserver(() => {
-      ['Inicio', 'Misión', 'Visión', 'Carrusel principal', 'Trabajos realizados', 'Marcas que manejamos']
-        .forEach(label => {
-          const match = findSmallestTextElement(label);
-          const section = sectionContainer(match);
-          if (section) {
-            section.classList.add('iintegra-section');
-            section.dataset.iintegraSection = label;
-          }
-        });
 
-      if (document.body.classList.contains('editor-mode') && activeEditorSection) {
-        scheduleLocate(220);
-      }
-    });
-    observer.observe(root, { childList: true, subtree: true });
+  // Si el navegador vuelve a cargar mientras estaba en la ruta de edición,
+  // abrimos el editor sin manipular su interfaz interna.
+  if (window.location.hash.startsWith('#/collections/')) {
+    openEditor('Contenido del sitio');
   }
-
-
-  window.addEventListener('hashchange', () => {
-    if (document.body.classList.contains('editor-mode') && activeEditorSection) {
-      scheduleLocate(500);
-    }
-  });
 
   loadData(false);
 })();

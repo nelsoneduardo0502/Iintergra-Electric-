@@ -7,7 +7,7 @@
   <meta name="referrer" content="no-referrer" />
   <meta name="theme-color" content="#0b0d10" />
   <title>IINTEGRA ELECTRIC · Panel de administración</title>
-  <link rel="stylesheet" href="panel.css?v=147" />
+  <link rel="stylesheet" href="panel.css?v=148" />
 </head>
 <body>
   <div class="admin-shell">
@@ -88,7 +88,7 @@
             <div>
               <span class="eyebrow">EDITOR DE CONTENIDO</span>
               <h1 id="editorTitle">Editar contenido</h1>
-              <p>Realiza el cambio y usa el botón de guardar/publicar del editor.</p>
+              <p id="editorSubtitle">Edita la información y publica cuando termines.</p>
             </div>
           </div>
           <a class="primary-action" href="https://iintegraelectric.com/" target="_blank" rel="noopener noreferrer">
@@ -98,39 +98,28 @@
 
         <div class="editor-tip">
           <span class="tip-dot"></span>
-          <div><strong>Consejo:</strong> cambia solo lo necesario y verifica el sitio después de publicar.</div>
+          <div>
+            <strong id="editingNow">Edición segura.</strong>
+            <span> El formulario de publicación se mantiene intacto para evitar errores al guardar.</span>
+          </div>
         </div>
 
-        <div class="editor-layout">
-          <aside class="editor-preview-card" aria-label="Vista del contenido seleccionado">
-            <span class="editor-preview-kicker">VISTA ACTUAL</span>
-            <div id="editorPreviewMedia" class="editor-preview-media" hidden></div>
-            <div class="editor-preview-copy">
-              <span id="editorPreviewBadge" class="editor-preview-badge">Contenido</span>
-              <h2 id="editorPreviewHeading">Selecciona un contenido</h2>
-              <p id="editorPreviewText">Aquí verás una referencia del contenido que estás modificando.</p>
+        <section class="cms-card cms-card-stable" aria-label="Editor de contenido">
+          <div id="cmsLoading" class="cms-loading">
+            <span class="loading-spinner"></span>
+            <div>
+              <strong>Abriendo editor…</strong>
+              <small>Puede tardar unos segundos la primera vez.</small>
             </div>
-            <div class="editor-preview-note">
-              <span class="security-dot"></span>
-              <div><strong>Edición segura</strong><small>Diseño, SEO y código permanecen bloqueados.</small></div>
-            </div>
-          </aside>
-
-          <section class="cms-card" aria-label="Editor de contenido">
-            <div class="cms-card-title">
-              <div><span>FORMULARIO</span><strong id="cmsFormTitle">Editar contenido</strong></div>
-              <small>Guarda desde el botón de publicación del editor.</small>
-            </div>
-            <div id="nc-root"></div>
-          </section>
-        </div>
+          </div>
+          <div id="nc-root"></div>
+        </section>
       </section>
     </main>
   </div>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <script src="https://unpkg.com/decap-cms@3.15.1/dist/decap-cms.js"></script>
-  <script src="panel.js?v=147"></script>
+  <script src="panel.js?v=148"></script>
 </body>
 </html>

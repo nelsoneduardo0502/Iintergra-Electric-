@@ -1,0 +1,33 @@
+IINTEGRA ELECTRIC · V148 EDITOR ESTABLE
+
+Esta versión cambia la estrategia para dejar de pelear con el DOM interno de Decap.
+
+QUÉ CORRIGE
+- El dashboard bonito se conserva.
+- La barra lateral de IINTEGRA se conserva.
+- Al pulsar Editar, Decap se monta dentro de un contenedor propio.
+- Ya NO se ocultan, mueven, recorren, expanden ni estilizan campos internos de Decap.
+- Ya NO se fuerza el layout interno de Decap con CSS.
+- Se usa Decap CMS 3.17.0-beta.0 porque el backend turbo-github está en la versión beta.
+- Se conserva el login y la publicación real de Decap Turbo.
+
+REEMPLAZA SOLO
+- admin/index.html
+- admin/panel.css
+- admin/panel.js
+
+NO REEMPLACES
+- admin/config.yml
+- content/site.json
+- index.html de la página pública
+- styles.css
+- script.js
+- sitemap.xml
+- robots.txt
+- CNAME
+
+Después:
+1. Espera el deployment de GitHub Pages.
+2. Abre https://iintegraelectric.com/admin/
+3. Presiona Ctrl + F5.
+4. Prueba Editar.
