@@ -12,6 +12,11 @@
   const navButtons = [...document.querySelectorAll('.nav-item')];
   const root = document.getElementById('nc-root');
   const toast = document.getElementById('toast');
+  const previewMedia = document.getElementById('editorPreviewMedia');
+  const previewBadge = document.getElementById('editorPreviewBadge');
+  const previewHeading = document.getElementById('editorPreviewHeading');
+  const previewText = document.getElementById('editorPreviewText');
+  const cmsFormTitle = document.getElementById('cmsFormTitle');
 
   let siteData = null;
   let currentView = 'resumen';
@@ -478,18 +483,124 @@
     }, 350);
   }
 
+  function clearEditorFocus() {
+    if (!root) return;
+    root.querySelectorAll('.iintegra-section').forEach(section => {
+      section.classList.remove('iintegra-focus-target', 'iintegra-nonfocus-section');
+    });
+  }
+
+  function focusOnlySection(sectionLabel) {
+    if (!root) return;
+    const sections = [...root.querySelectorAll('.iintegra-section')];
+    if (!sections.length) return;
+    sections.forEach(section => {
+      const same = clean(section.dataset.iintegraSection) === clean(sectionLabel);
+      section.classList.toggle('iintegra-focus-target', same);
+      section.classList.toggle('iintegra-nonfocus-section', !same);
+    });
+  }
+
+  function setPreviewImage(path, alt) {
+    if (!previewMedia) return;
+    previewMedia.replaceChildren();
+    const src = sanitizeImagePath(path);
+    if (!src) {
+      previewMedia.hidden = true;
+      return;
+    }
+    const image = imgElement(path, alt, '');
+    previewMedia.append(image);
+    previewMedia.hidden = false;
+  }
+
+  function populateEditorPreview(sectionLabel, itemTitle = '') {
+    if (!siteData) return;
+    previewBadge.textContent = sectionLabel;
+    cmsFormTitle.textContent = itemTitle ? `Editar · ${itemTitle}` : `Editar · ${sectionLabel}`;
+    previewMedia.hidden = true;
+    previewMedia.replaceChildren();
+
+    if (sectionLabel === 'Inicio') {
+      previewHeading.textContent = 'CONTINUIDAD OPERATIVA GARANTIZADA.';
+      previewText.textContent = safeText(siteData?.hero?.description, 'Descripción principal del sitio.');
+      const slide = siteData?.heroSlides?.[0];
+      if (slide) setPreviewImage(slide.image, slide.alt);
+      return;
+    }
+
+    if (sectionLabel === 'Misión') {
+      previewHeading.textContent = safeText(siteData?.mission?.title, 'Misión');
+      previewText.textContent = safeText(siteData?.mission?.text, '');
+      return;
+    }
+
+    if (sectionLabel === 'Visión') {
+      previewHeading.textContent = safeText(siteData?.vision?.title, 'Visión');
+      previewText.textContent = safeText(siteData?.vision?.text, '');
+      return;
+    }
+
+    if (sectionLabel === 'Carrusel principal') {
+      const slide = (siteData?.heroSlides || []).find(item => clean(item.label) === clean(itemTitle)) || siteData?.heroSlides?.[0];
+      previewHeading.textContent = safeText(slide?.label, itemTitle || 'Imagen del carrusel');
+      previewText.textContent = safeText(slide?.alt, 'Imagen publicada en el carrusel principal.');
+      if (slide) setPreviewImage(slide.image, slide.alt);
+      return;
+    }
+
+    if (sectionLabel === 'Trabajos realizados') {
+      const project = (siteData?.projects || []).find(item => clean(item.title) === clean(itemTitle)) || siteData?.projects?.[0];
+      previewHeading.textContent = safeText(project?.title, itemTitle || 'Trabajo realizado');
+      previewText.textContent = [safeText(project?.category), safeText(project?.description)].filter(Boolean).join('\n\n');
+      if (project) setPreviewImage(project.image, project.alt);
+      return;
+    }
+
+    if (sectionLabel === 'Marcas que manejamos') {
+      const brand = (siteData?.brands || []).find(item => clean(item.name) === clean(itemTitle)) || siteData?.brands?.[0];
+      previewHeading.textContent = safeText(brand?.name, itemTitle || 'Marca');
+      previewText.textContent = safeText(brand?.category, 'Marca publicada en el sitio.');
+      return;
+    }
+
+    previewHeading.textContent = itemTitle || sectionLabel;
+    previewText.textContent = 'Edita únicamente los campos necesarios y publica cuando termines.';
+  }
+
   function openEditor(sectionLabel, itemTitle = '') {
+    document.body.classList.add('editor-mode');
     dashboardArea.hidden = true;
     editorArea.hidden = false;
     editorTitle.textContent = itemTitle ? `Editar · ${itemTitle}` : `Editar · ${sectionLabel}`;
+    populateEditorPreview(sectionLabel, itemTitle);
+
+    const viewBySection = {
+      'Inicio': 'inicio',
+      'Misión': 'mision',
+      'Visión': 'vision',
+      'Carrusel principal': 'carrusel',
+      'Trabajos realizados': 'trabajos',
+      'Marcas que manejamos': 'marcas'
+    };
+    const mappedView = viewBySection[sectionLabel];
+    if (mappedView) activateNav(mappedView);
+
+    clearEditorFocus();
     window.scrollTo({ top: 0, behavior: 'instant' });
     window.dispatchEvent(new Event('resize'));
-    window.setTimeout(() => locateEditor(sectionLabel, itemTitle), 350);
+    window.setTimeout(() => {
+      focusOnlySection(sectionLabel);
+      locateEditor(sectionLabel, itemTitle);
+    }, 450);
   }
 
   function closeEditor() {
+    clearEditorFocus();
+    document.body.classList.remove('editor-mode');
     editorArea.hidden = true;
     dashboardArea.hidden = false;
+    activateNav(currentView);
     window.scrollTo({ top: 0, behavior: 'instant' });
     loadData(false);
   }
@@ -524,6 +635,13 @@
             section.dataset.iintegraSection = label;
           }
         });
+
+      if (document.body.classList.contains('editor-mode')) {
+        const active = editorTitle.textContent.replace(/^Editar\s*·\s*/, '').trim();
+        const sectionMap = ['Inicio', 'Misión', 'Visión', 'Carrusel principal', 'Trabajos realizados', 'Marcas que manejamos'];
+        const detected = sectionMap.find(label => clean(active) === clean(label) || clean(active).includes(clean(label)));
+        if (detected) focusOnlySection(detected);
+      }
     });
     observer.observe(root, { childList: true, subtree: true });
   }

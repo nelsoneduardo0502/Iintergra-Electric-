@@ -1,0 +1,12 @@
+IINTEGRA ELECTRIC · V146 EDITOR INTEGRADO
+
+Reemplaza SOLO:
+- admin/index.html
+- admin/panel.css
+- admin/panel.js
+
+NO reemplaces admin/config.yml.
+
+V146 mantiene la barra lateral y el estilo del dashboard también al editar.
+Incluye una vista actual del contenido, un formulario en tarjeta y oculta las demás secciones del editor cuando Decap permite identificarlas.
+La autenticación y el guardado siguen siendo de Decap Turbo.

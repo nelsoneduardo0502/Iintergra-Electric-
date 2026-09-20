@@ -7,7 +7,7 @@
   <meta name="referrer" content="no-referrer" />
   <meta name="theme-color" content="#0b0d10" />
   <title>IINTEGRA ELECTRIC · Panel de administración</title>
-  <link rel="stylesheet" href="panel.css?v=144" />
+  <link rel="stylesheet" href="panel.css?v=146" />
 </head>
 <body>
   <div class="admin-shell">
@@ -101,9 +101,29 @@
           <div><strong>Consejo:</strong> cambia solo lo necesario y verifica el sitio después de publicar.</div>
         </div>
 
-        <section class="cms-card" aria-label="Editor de contenido">
-          <div id="nc-root"></div>
-        </section>
+        <div class="editor-layout">
+          <aside class="editor-preview-card" aria-label="Vista del contenido seleccionado">
+            <span class="editor-preview-kicker">VISTA ACTUAL</span>
+            <div id="editorPreviewMedia" class="editor-preview-media" hidden></div>
+            <div class="editor-preview-copy">
+              <span id="editorPreviewBadge" class="editor-preview-badge">Contenido</span>
+              <h2 id="editorPreviewHeading">Selecciona un contenido</h2>
+              <p id="editorPreviewText">Aquí verás una referencia del contenido que estás modificando.</p>
+            </div>
+            <div class="editor-preview-note">
+              <span class="security-dot"></span>
+              <div><strong>Edición segura</strong><small>Diseño, SEO y código permanecen bloqueados.</small></div>
+            </div>
+          </aside>
+
+          <section class="cms-card" aria-label="Editor de contenido">
+            <div class="cms-card-title">
+              <div><span>FORMULARIO</span><strong id="cmsFormTitle">Editar contenido</strong></div>
+              <small>Guarda desde el botón de publicación del editor.</small>
+            </div>
+            <div id="nc-root"></div>
+          </section>
+        </div>
       </section>
     </main>
   </div>
@@ -111,6 +131,6 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script src="https://unpkg.com/decap-cms@3.17.0-beta.0/dist/decap-cms.js"></script>
-  <script src="panel.js?v=144"></script>
+  <script src="panel.js?v=146"></script>
 </body>
 </html>
