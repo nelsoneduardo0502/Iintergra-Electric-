@@ -4375,3 +4375,77 @@ main section[id]{
     font-size:clamp(1.9rem, 7vw, 2.45rem) !important;
   }
 }
+
+
+/* =========================================================
+   V153 — AJUSTES FINALES SOLICITADOS
+   - separa flechas del carrusel principal sin romper estética
+   - corrige maquetación de tarjetas inferiores para que
+     los títulos largos no se corten y se vean como las de arriba
+========================================================= */
+
+/* HERO / trabajos realizados: controles separados y limpios */
+@media (min-width: 901px){
+  .hero-gallery .carousel{
+    position:relative;
+  }
+
+  .hero-gallery .carousel-arrow{
+    width:40px;
+    height:44px;
+    top:50%;
+    transform:translateY(-50%);
+  }
+
+  .hero-gallery .carousel-arrow.prev{
+    left:14px !important;
+    right:auto !important;
+  }
+
+  .hero-gallery .carousel-arrow.next{
+    left:60px !important;
+    right:auto !important;
+  }
+}
+
+/* Tarjetas de soluciones: mismas proporciones visuales y títulos completos */
+@media (min-width: 901px){
+  .solutions-grid .solution-card{
+    grid-template-columns:minmax(0, .9fr) minmax(0, 1.1fr) !important;
+    align-items:stretch;
+  }
+
+  .solution-card > .product-media,
+  .solution-card > .solution-copy{
+    min-width:0;
+  }
+
+  .solution-card > .solution-copy{
+    padding:30px 32px !important;
+  }
+
+  .solution-card > .solution-copy h3,
+  .solution-copy h3,
+  #transferencias .solution-copy h3,
+  #automatizacion .solution-copy h3{
+    max-width:none !important;
+    width:100%;
+    font-size:clamp(1.72rem, 1.95vw, 2.55rem) !important;
+    line-height:.98 !important;
+    letter-spacing:-.022em !important;
+    white-space:normal !important;
+    word-break:normal !important;
+    overflow-wrap:normal !important;
+    hyphens:none !important;
+    text-wrap:balance;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1180px){
+  .solution-card > .solution-copy h3,
+  .solution-copy h3,
+  #transferencias .solution-copy h3,
+  #automatizacion .solution-copy h3{
+    font-size:clamp(1.62rem, 1.8vw, 2.3rem) !important;
+  }
+}
