@@ -1,0 +1,28 @@
+IINTEGRA ELECTRIC · ENTREGA FINAL V150
+
+SUBE EL CONTENIDO DE ESTE ZIP A LA RAÍZ DEL REPOSITORIO Y REEMPLAZA
+LOS ARCHIVOS EXISTENTES CUANDO GITHUB LO PIDA.
+
+Archivos modificados:
+- index.html
+- styles.css
+- content/site.json
+- images/products/* (nuevas fotografías del cliente)
+- images/real/proyecto-finalizado-recorte.webp
+- images/real/prueba-aislamiento-recorte.webp
+
+No borres ningún otro archivo del repositorio.
+
+Cambios:
+- 10 fotografías nuevas sustituyen las imágenes de Distribución, CCM,
+  Medidores, Alumbrado y Transferencias.
+- Las 2 fotografías del área de pruebas se usan con recorte cerrado.
+- Se agregó CHINT como cuarta marca con representación tipográfica/cromática
+  propia, no como reproducción de logotipo oficial.
+- Se actualizó la nota legal de marcas.
+- Se cambió la versión de caché a V150 para que las fotos nuevas aparezcan de inmediato.
+
+Después de subir:
+1. Espera a que termine Pages build and deployment.
+2. Abre https://iintegraelectric.com/
+3. Haz Ctrl + F5.

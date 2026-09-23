@@ -14,17 +14,17 @@
     {
       "label": "TABLERO DE DISTRIBUCIÓN",
       "alt": "Tablero de distribución de baja tensión",
-      "image": "images/products/distribucion-01.webp?v=120"
+      "image": "images/products/distribucion-01.webp?v=150"
     },
     {
       "label": "CENTRO DE CONTROL DE MOTORES / CCM",
       "alt": "Centro de control de motores con elementos de maniobra y protección",
-      "image": "images/products/ccm-01.webp?v=120"
+      "image": "images/products/ccm-01.webp?v=150"
     },
     {
       "label": "MEDIDORES DIGITALES",
       "alt": "Medidores digitales para supervisión de variables eléctricas",
-      "image": "images/products/medidores-digitales-02.webp?v=120"
+      "image": "images/products/medidores-digitales-02.webp?v=150"
     },
     {
       "label": "CONTROL Y AUTOMATIZACIÓN",
@@ -47,8 +47,8 @@
       "category": "01 / ENTREGA FINAL",
       "title": "TABLERO FINALIZADO",
       "description": "Proyecto ensamblado y preparado para validación antes de entrega.",
-      "alt": "Tablero finalizado en área de pruebas",
-      "image": "images/real/proyecto-finalizado.webp"
+      "alt": "Tablero finalizado con encuadre cerrado sobre el equipo",
+      "image": "images/real/proyecto-finalizado-recorte.webp"
     },
     {
       "category": "02 / AUTOMATIZACIÓN",
@@ -61,8 +61,8 @@
       "category": "03 / VALIDACIÓN",
       "title": "PRUEBA DE AISLAMIENTO",
       "description": "Comprobación eléctrica previa a la liberación del tablero.",
-      "alt": "Prueba de aislamiento con equipo de medición",
-      "image": "images/real/prueba-aislamiento.webp"
+      "alt": "Prueba de aislamiento con encuadre cerrado sobre el tablero",
+      "image": "images/real/prueba-aislamiento-recorte.webp"
     },
     {
       "category": "04 / CONTROL",
