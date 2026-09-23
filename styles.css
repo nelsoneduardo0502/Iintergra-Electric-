@@ -4449,3 +4449,33 @@ main section[id]{
     font-size:clamp(1.62rem, 1.8vw, 2.3rem) !important;
   }
 }
+
+
+/* =========================================================
+   V154 — AIRE LATERAL EN TÍTULOS LARGOS
+   Corrige el título "CONTROL Y AUTOMATIZACIÓN" para que
+   no quede pegado al borde derecho de la tarjeta.
+========================================================= */
+
+@media (min-width: 901px){
+  #automatizacion .solution-copy{
+    padding-right:46px !important;
+  }
+
+  #automatizacion .solution-copy h3{
+    font-size:clamp(1.58rem, 1.72vw, 2.18rem) !important;
+    line-height:1 !important;
+    letter-spacing:-.02em !important;
+    max-width:100% !important;
+  }
+
+  #transferencias .solution-copy{
+    padding-right:42px !important;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1180px){
+  #automatizacion .solution-copy h3{
+    font-size:clamp(1.5rem, 1.6vw, 2rem) !important;
+  }
+}
