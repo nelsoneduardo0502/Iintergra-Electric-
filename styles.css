@@ -4256,3 +4256,122 @@ main section[id]{
     letter-spacing:.04em;
   }
 }
+
+
+/* =========================================================
+   V152 — CORRECCIONES DE MAQUETACIÓN REPORTADAS
+   - evita que el título del hero invada el carrusel
+   - asegura clic en la flecha izquierda del hero
+   - corrige recorte del título TRANSFERENCIA AUTOMÁTICA
+========================================================= */
+
+/* ---- HERO escritorio: separar mejor texto y carrusel ---- */
+@media (min-width: 1101px){
+  .hero-grid{
+    grid-template-columns:minmax(0, 1.08fr) minmax(430px, .92fr) !important;
+    gap:40px !important;
+    align-items:center;
+  }
+
+  .hero-copy{
+    min-width:0;
+    max-width:620px !important;
+    padding-right:12px;
+    position:relative;
+    z-index:1;
+  }
+
+  .hero-copy h1,
+  .hero-title{
+    max-width:10.2ch;
+    font-size:clamp(3.45rem, 5.45vw, 6rem) !important;
+    line-height:.9 !important;
+    letter-spacing:-.04em !important;
+  }
+
+  .hero-gallery{
+    position:relative;
+    z-index:6;
+  }
+
+  .carousel,
+  .carousel-arrow,
+  .carousel-dots,
+  .carousel-progress{
+    position:relative;
+    z-index:7;
+  }
+
+  .carousel-arrow.prev,
+  .carousel-arrow.next{
+    z-index:9;
+  }
+}
+
+/* Resolución intermedia donde se veía más forzado el cruce */
+@media (min-width: 901px) and (max-width: 1100px){
+  .hero-grid{
+    grid-template-columns:minmax(0, 1fr) minmax(350px, .9fr) !important;
+    gap:28px !important;
+  }
+
+  .hero-copy{
+    min-width:0;
+    max-width:560px !important;
+    position:relative;
+    z-index:1;
+  }
+
+  .hero-copy h1,
+  .hero-title{
+    max-width:9.8ch;
+    font-size:clamp(3.2rem, 5.4vw, 5.35rem) !important;
+    line-height:.91 !important;
+  }
+
+  .hero-gallery{
+    position:relative;
+    z-index:6;
+  }
+}
+
+/* ---- Soluciones: evitar que los títulos se corten dentro de la tarjeta ---- */
+.solutions-grid .solution-card{
+  grid-template-columns:minmax(0, .95fr) minmax(0, 1.05fr) !important;
+}
+
+.solution-card > .product-media,
+.solution-card > .solution-copy,
+.solution-card > div{
+  min-width:0;
+}
+
+.solution-card > .solution-copy h3,
+.solution-copy h3{
+  max-width:12ch;
+  font-size:clamp(2rem, 2.35vw, 3rem);
+  line-height:.95;
+  letter-spacing:-.03em;
+  text-wrap:balance;
+}
+
+#transferencias .solution-copy h3{
+  max-width:8.7ch !important;
+  font-size:clamp(1.95rem, 2.2vw, 2.85rem) !important;
+  line-height:.94 !important;
+}
+
+#automatizacion .solution-copy h3{
+  max-width:9.8ch;
+  font-size:clamp(1.95rem, 2.2vw, 2.85rem);
+}
+
+@media (max-width: 700px){
+  .solution-card > .solution-copy h3,
+  .solution-copy h3,
+  #transferencias .solution-copy h3,
+  #automatizacion .solution-copy h3{
+    max-width:none !important;
+    font-size:clamp(1.9rem, 7vw, 2.45rem) !important;
+  }
+}
