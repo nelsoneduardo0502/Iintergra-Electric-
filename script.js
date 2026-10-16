@@ -1,6 +1,6 @@
 "use strict";
 
-const WHATSAPP_FALLBACK = "523310659646";
+const WHATSAPP_FALLBACK = "523320428707";
 
 const catalog = [
   {
